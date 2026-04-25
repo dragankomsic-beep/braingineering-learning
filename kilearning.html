@@ -114,26 +114,25 @@ p+p{margin-top:10px}
 .ci{display:block;width:100%;max-width:380px;margin:0 auto 10px;padding:11px 14px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:14px;color:var(--c-primary);background:var(--c-white)}
 .ci:focus{outline:none;border-color:var(--c-accent)}
 
-/* Cert document */
-.cert-doc{background:white;border:1px solid #d0d4e0;padding:48px 44px;max-width:640px;margin:20px auto 0;position:relative}
-.cert-doc .c-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--c-primary)}
-.cert-doc .c-hdr-logo{display:flex;align-items:center;gap:8px}
-.cert-doc .c-hdr-contact{text-align:right;font-size:11px;line-height:1.6;color:var(--c-primary);opacity:.6}
-.cert-doc .c-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c-accent);margin-bottom:20px}
-.cert-doc .c-to{margin-bottom:24px;font-size:13px;line-height:1.7}
-.cert-doc .c-to .c-to-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-primary);opacity:.5;margin-bottom:4px}
-.cert-doc .c-name{font-size:20px;font-weight:700;color:var(--c-primary)}
-.cert-doc .c-role,.cert-doc .c-comp{font-size:14px;color:var(--c-primary);opacity:.7}
-.cert-doc .c-body{font-size:13.5px;line-height:1.75;color:var(--c-primary);margin:20px 0}
-.cert-doc .c-mods{margin:16px 0 24px;padding:0}
-.cert-doc .c-mods li{display:flex;gap:8px;font-size:13px;line-height:1.6;color:var(--c-primary);padding:4px 0}
-.cert-doc .c-mods li .cm-n{font-weight:700;min-width:20px;flex-shrink:0}
+/* Cert document — compact A4 */
+.cert-doc{background:white;border:1px solid #d0d4e0;padding:28px 32px 24px;max-width:640px;margin:20px auto 0;position:relative}
+.cert-doc .c-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--c-primary)}
+.cert-doc .c-hdr-logo{display:flex;align-items:center;gap:7px}
+.cert-doc .c-hdr-contact{text-align:right;font-size:9px;line-height:1.45;color:var(--c-primary);opacity:.55}
+.cert-doc .c-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c-accent);margin-bottom:12px}
+.cert-doc .c-to{margin-bottom:10px;font-size:11px;line-height:1.5}
+.cert-doc .c-to .c-to-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-primary);opacity:.5;margin-bottom:2px}
+.cert-doc .c-name{font-size:16px;font-weight:700;color:var(--c-primary)}
+.cert-doc .c-role,.cert-doc .c-comp{font-size:11px;color:var(--c-primary);opacity:.7}
+.cert-doc .c-body{font-size:10.5px;line-height:1.6;color:var(--c-primary);margin:10px 0}
+.cert-doc .c-mods{margin:6px 0 10px;padding:0}
+.cert-doc .c-mods li{display:flex;gap:5px;font-size:10px;line-height:1.5;color:var(--c-primary);padding:1.5px 0}
+.cert-doc .c-mods li .cm-n{font-weight:700;min-width:14px;flex-shrink:0}
 .cert-doc .c-mods li .cm-t{font-weight:700}
-.cert-doc .c-foot{margin-top:32px;padding-top:20px;border-top:1px solid #e0e3ed;display:flex;justify-content:space-between;align-items:flex-end}
-.cert-doc .c-foot-left{font-size:12px;line-height:1.6;color:var(--c-primary)}
-.cert-doc .c-foot-right{font-size:11px;text-align:right;color:var(--c-primary);opacity:.5;line-height:1.5}
-.cert-doc .c-legal{margin-top:20px;font-size:10.5px;color:var(--c-primary);opacity:.4;line-height:1.5;text-align:center}
-.cert-doc .c-accent-line{height:3px;background:var(--g-orange);margin-bottom:0;position:absolute;bottom:0;left:0;right:0}
+.cert-doc .c-foot{margin-top:14px;padding-top:12px;border-top:1px solid #e0e3ed;display:flex;justify-content:space-between;align-items:flex-end}
+.cert-doc .c-foot-left{font-size:10px;line-height:1.45;color:var(--c-primary)}
+.cert-doc .c-foot-right{font-size:9px;text-align:right;color:var(--c-primary);opacity:.5;line-height:1.35}
+.cert-doc .c-accent-line{height:3px;background:var(--g-orange);position:absolute;bottom:0;left:0;right:0}
 
 .ph{text-align:center;margin-top:14px;font-size:12px;color:var(--c-primary);opacity:.5}
 .ph i{margin-right:3px}
@@ -390,6 +389,7 @@ function rSum(m){
 function rFinish(){
   if(!allAnswered()){cMod=M.length-1;cStep=M[cMod].scenarios.length+1;go();return;}
   const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const SIG='<svg width="130" height="44" viewBox="0 0 130 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M6 8 L6 36" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M6 8 C8 7,14 6,20 10 C26 14,28 20,28 24 C28 28,26 33,20 36 C14 39,8 37,6 36" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 28 C32 26,34 30,38 28" stroke="#122D6E" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/><path d="M42 8 L42 36" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M42 24 C46 20,50 14,56 8" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M46 22 C50 26,54 32,60 36 C64 38,68 37,72 34" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M72 34 C78 30,84 28,92 30 C100 32,106 28,112 24" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M112 24 C116 22,120 26,118 28" stroke="#122D6E" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/><path d="M6 40 C20 42,60 42,90 38" stroke="#122D6E" stroke-width="0.7" fill="none" stroke-linecap="round" opacity="0.3"/></svg>';
   sc.innerHTML=`
   <div class="card-dk" style="text-align:center">
     <div style="font-size:40px;margin-bottom:10px"><i class="ri-trophy-line"></i></div>
@@ -398,9 +398,9 @@ function rFinish(){
   </div>
   <div class="card">
     <h2>Teilnahmezertifikat erstellen</h2>
-    <p style="margin-bottom:16px;font-size:14px">Geben Sie Ihre Daten ein. Sie können das Zertifikat anschließend über Strg+P / Cmd+P als PDF speichern.</p>
+    <p style="margin-bottom:16px;font-size:14px">Geben Sie Ihre Daten ein. Anschließend können Sie das Zertifikat über Strg+P / Cmd+P als PDF speichern.</p>
     <input type="text" id="cN" class="ci" placeholder="Vollständiger Name *">
-    <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, Sachbearbeiter, GF)">
+    <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, GF)">
     <input type="text" id="cC" class="ci" placeholder="Unternehmen">
     <div style="text-align:center;margin-top:14px">
       <button class="btn-p" onclick="genCert()"><i class="ri-file-text-line"></i> Zertifikat erstellen</button>
@@ -411,79 +411,55 @@ function rFinish(){
     <div class="cert-doc" id="cdoc">
       <div class="c-hdr">
         <div class="c-hdr-logo">
-          <div style="width:28px;height:28px;background:#FF5100;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <svg width="12" height="16" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg>
-          </div>
-          <span style="font-size:16px;font-weight:700;color:#122D6E">braingineering.</span>
+          <div style="width:22px;height:22px;background:#FF5100;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="9" height="12" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:13px;font-weight:700;color:#122D6E">braingineering.</span>
         </div>
-        <div class="c-hdr-contact">Braingineering GmbH<br>Modecenterstraße 20/1/193<br>1030 Wien, Österreich<br>office@braingineering.at<br>+43 676 393 0094</div>
+        <div class="c-hdr-contact">Braingineering GmbH | Modecenterstraße 20/1/193, 1030 Wien<br>office@braingineering.at | +43 676 393 0094</div>
       </div>
-
       <div class="c-title">Teilnahmezertifikat</div>
-      <div style="font-size:12px;color:#122D6E;opacity:.55;margin-top:-14px;margin-bottom:20px">KI-Kompetenz gemäß Artikel 4, Verordnung (EU) 2024/1689</div>
-
+      <div style="font-size:9.5px;color:#122D6E;opacity:.5;margin-top:-8px;margin-bottom:12px">KI-Kompetenz gem. Artikel 4, Verordnung (EU) 2024/1689</div>
       <div class="c-to">
         <div class="c-to-lbl">Ausgestellt für</div>
         <div class="c-name" id="cdN"></div>
         <div class="c-role" id="cdR"></div>
         <div class="c-comp" id="cdC"></div>
       </div>
-
-      <div class="c-body" id="cdBody">hat am <strong>${today}</strong> das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.</div>
-
-      <div style="margin:16px 0;padding:14px 18px;background:#F0F2F8;border-radius:8px;font-size:12.5px;line-height:1.7;color:#122D6E">
-        <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;opacity:.55">Format und Methodik</strong>
-        Die Kompetenzermittlung erfolgte als interaktives, szenariobasiertes E-Learning-Modul. In 18 realitätsnahen Entscheidungssituationen aus dem Arbeitsalltag von Ingenieurbüros wurde die teilnehmende Person mit typischen Anwendungsfällen konfrontiert und musste eigenständig Entscheidungen treffen. Zu jeder Entscheidung erfolgte eine unmittelbare fachliche Rückmeldung mit Erläuterung der korrekten Handlungsweise. Die Szenarien wurden <span id="cdRoleCtx">branchenspezifisch für Ingenieurbüros</span> konzipiert.
+      <div class="c-body">hat am <strong>${today}</strong> das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.</div>
+      <div style="margin:8px 0;padding:8px 12px;background:#F0F2F8;border-radius:5px;font-size:9.5px;line-height:1.55;color:#122D6E">
+        <strong style="font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px;opacity:.5">Format und Methodik</strong>
+        Interaktives, szenariobasiertes E-Learning. 18 realitätsnahe Entscheidungssituationen aus dem Arbeitsalltag von Ingenieurbüros. Eigenständige Entscheidungsfindung mit unmittelbarer fachlicher Rückmeldung zu jeder Antwort. Szenarien <span id="cdRoleCtx">branchenspezifisch für Ingenieurbüros</span> konzipiert.
       </div>
-
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.55;margin:20px 0 10px">Geschulte Inhalte (5 Module, 18 Szenarien)</div>
+      <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:10px 0 4px">Geschulte Inhalte (5 Module, 18 Szenarien)</div>
       <ol class="c-mods">
-        <li><span class="cm-n">1.</span><span><span class="cm-t">Was ist KI?</span> &mdash; Unterscheidung zwischen KI-Systemen (generative KI, analytische KI) und regelbasierter Automatisierung. Identifikation von KI-Anwendungen im eigenen Arbeitsumfeld.</span></li>
-        <li><span class="cm-n">2.</span><span><span class="cm-t">Chancen und Grenzen</span> &mdash; Kritische Bewertung von KI-Outputs. Erkennung von Halluzinationen (erfundene Normenverweise, fehlerhafte Zusammenfassungen). Prüfpflicht vor Weitergabe.</span></li>
-        <li><span class="cm-n">3.</span><span><span class="cm-t">Datenschutz und DSGVO</span> &mdash; Unterscheidung Konsumenten- vs. Business-Lizenzen. Kriterien für datenschutzkonforme Auswahl von KI-Tools. Umgang mit Firmen-, Projekt- und personenbezogenen Daten.</span></li>
-        <li><span class="cm-n">4.</span><span><span class="cm-t">EU AI Act</span> &mdash; Rechtliche Grundlagen der Verordnung (EU) 2024/1689. Risikoklassifizierung von KI-Systemen. Pflichten nach Artikel 4 (KI-Kompetenz). Dokumentationsanforderungen.</span></li>
-        <li><span class="cm-n">5.</span><span><span class="cm-t">Regeln für den Arbeitsalltag</span> &mdash; Anwendung in konkreten Bürosituationen: Onboarding, Umgang mit Zeitdruck, Prüfung von KI-Dokumenten, Bewertung von Browser-Plugins, Verhalten bei Unsicherheit.</span></li>
+        <li><span class="cm-n">1.</span><span><span class="cm-t">Was ist KI?</span> &mdash; Generative KI, analytische KI, regelbasierte Automatisierung. KI-Systeme im Arbeitsumfeld identifizieren.</span></li>
+        <li><span class="cm-n">2.</span><span><span class="cm-t">Chancen und Grenzen</span> &mdash; KI-Outputs kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.</span></li>
+        <li><span class="cm-n">3.</span><span><span class="cm-t">Datenschutz und DSGVO</span> &mdash; Konsumenten- vs. Business-Lizenzen. DSGVO-konforme Tool-Auswahl. Umgang mit Firmen- und Kundendaten.</span></li>
+        <li><span class="cm-n">4.</span><span><span class="cm-t">EU AI Act</span> &mdash; Verordnung (EU) 2024/1689. Risikoklassen. Art. 4 Pflichten. Dokumentationsanforderungen.</span></li>
+        <li><span class="cm-n">5.</span><span><span class="cm-t">Regeln für den Arbeitsalltag</span> &mdash; Onboarding, Zeitdruck, KI-Dokumente prüfen, Browser-Plugins bewerten, Verhalten bei Unsicherheit.</span></li>
       </ol>
-
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.55;margin:20px 0 10px">Im Rahmen der Schulung wurde insbesondere hingewiesen auf</div>
-      <div style="font-size:12.5px;line-height:1.7;color:#122D6E;margin-bottom:20px">
-        Die Verpflichtung, KI-generierte Ergebnisse vor beruflicher Verwendung eigenständig zu prüfen. Die Notwendigkeit, Firmendaten ausschließlich in datenschutzkonforme KI-Systeme einzugeben. Die Pflicht des Arbeitgebers zur Dokumentation von KI-Kompetenzmaßnahmen. Die Verantwortung jedes Mitarbeitenden für den korrekten Umgang mit KI-Werkzeugen im Arbeitsalltag.
+      <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:8px 0 3px">Insbesondere wurde hingewiesen auf</div>
+      <div style="font-size:9.5px;line-height:1.55;color:#122D6E;margin-bottom:8px">
+        Prüfpflicht bei KI-generierten Ergebnissen vor beruflicher Verwendung. Ausschließliche Nutzung DSGVO-konformer Systeme für Firmendaten. Dokumentationspflicht des Arbeitgebers gem. EU AI Act. Eigenverantwortung jedes Mitarbeitenden im Umgang mit KI-Werkzeugen.
       </div>
-
-      <div style="margin:20px 0;padding:14px 18px;border:1px solid #e0e3ed;border-radius:8px;font-size:12px;line-height:1.7;color:#122D6E">
-        <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;opacity:.55">Rechtsgrundlage</strong>
-        Artikel 4 der Verordnung (EU) 2024/1689 (EU AI Act), in Kraft seit 2. Februar 2025, verpflichtet Anbieter und Betreiber von KI-Systemen, nach besten Kräften sicherzustellen, dass ihr Personal über ein ausreichendes Maß an KI-Kompetenz verfügt (Bemühungspflicht). Dieses Zertifikat dokumentiert die Durchführung einer entsprechenden Maßnahme und ist Teil der Compliance-Dokumentation des Unternehmens.
+      <div style="margin:8px 0;padding:8px 12px;border:1px solid #e0e3ed;border-radius:5px;font-size:9px;line-height:1.55;color:#122D6E">
+        <strong style="font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:2px;opacity:.5">Rechtsgrundlage</strong>
+        Art. 4 der Verordnung (EU) 2024/1689 (EU AI Act), in Kraft seit 2.2.2025, verpflichtet Betreiber von KI-Systemen, nach besten Kräften sicherzustellen, dass ihr Personal über ausreichende KI-Kompetenz verfügt (Bemühungspflicht). Dieses Zertifikat dokumentiert die Durchführung einer entsprechenden Maßnahme.
       </div>
-
       <div class="c-foot">
         <div class="c-foot-left">
           <strong>Wien, ${today}</strong>
-          <div style="margin:14px 0 6px">
-            <svg width="150" height="52" viewBox="0 0 150 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
-              <path d="M6 40 C10 22, 14 10, 20 14 C26 18, 20 30, 25 34 C30 38, 34 16, 38 12 C42 8, 40 26, 44 30" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M48 18 C50 14, 56 12, 58 18 C60 24, 52 30, 56 32 C60 34, 64 22, 66 18" stroke="#122D6E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-              <path d="M72 32 C76 28, 80 24, 84 26 C88 28, 82 36, 86 34" stroke="#122D6E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-              <path d="M84 18 C85 16, 87 18, 86 20" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-              <path d="M92 22 C96 16, 104 14, 108 18 C112 22, 100 28, 104 32 C108 36, 116 22, 122 18 C128 14, 132 26, 136 30" stroke="#122D6E" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M94 38 C106 40, 124 38, 138 36" stroke="#122D6E" stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.35"/>
-            </svg>
-          </div>
-          <div style="font-size:12px;color:#122D6E;line-height:1.5"><strong>Dragan Komsic</strong><br>Geschäftsführer<br>Braingineering GmbH</div>
+          <div style="margin:8px 0 3px">${SIG}</div>
+          <div style="font-size:9.5px;color:#122D6E;line-height:1.4"><strong>Dragan Komsic</strong><br>Geschäftsführer, Braingineering GmbH</div>
         </div>
         <div class="c-foot-right">
-          <div style="margin-bottom:8px">
-            <div style="width:24px;height:24px;background:#FF5100;border-radius:5px;display:inline-flex;align-items:center;justify-content:center">
-              <svg width="10" height="14" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg>
-            </div>
-          </div>
-          Braingineering GmbH<br>FN 661950g<br>Handelsgericht Wien<br>UID: ATU81137629<br>braingineering.at
+          <div style="margin-bottom:4px"><div style="width:18px;height:18px;background:#FF5100;border-radius:4px;display:inline-flex;align-items:center;justify-content:center"><svg width="8" height="11" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div></div>
+          Braingineering GmbH<br>FN 661950g | HG Wien<br>UID: ATU81137629<br>braingineering.at
         </div>
       </div>
-
       <div class="c-accent-line"></div>
     </div>
   </div>
-  <div style="text-align:center;margin:24px 0 40px;font-size:12px;opacity:.4" class="no-print">Wir empfehlen, diese Schulung jährlich zu wiederholen.</div>`;
+  <div style="text-align:center;margin:20px 0 40px;font-size:12px;opacity:.4" class="no-print">Wir empfehlen, diese Schulung jährlich zu wiederholen.</div>`;
 }
 
 function pick(key,i){
