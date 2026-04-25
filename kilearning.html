@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KI-Awareness Schulung | Braingineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:root{--c-primary:#122D6E;--c-accent:#FF5100;--c-white:#FFFFFF;--c-surface:#F0F2F8;--g-blue:linear-gradient(135deg,#122D6E 0%,#1a3fa0 50%,#2255d4 100%);--g-orange:linear-gradient(135deg,#FF5100 0%,#e03d00 100%);--correct:#0a8754;--wrong:#c0392b;--radius:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--c-surface);color:var(--c-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* === SHELL === */
+.app{max-width:720px;margin:0 auto;padding:16px;min-height:100vh}
+
+/* === HEADER === */
+.hdr{display:flex;align-items:center;gap:10px;padding:12px 0 20px}
+.hdr-bolt{width:32px;height:32px;background:var(--c-accent);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr-txt{font-size:17px;font-weight:700;color:var(--c-primary)}
+
+/* === PROGRESS === */
+.prog-wrap{background:#d9dde8;border-radius:100px;height:6px;margin-bottom:6px;overflow:hidden}
+.prog-fill{height:100%;background:var(--g-orange);border-radius:100px;transition:width .5s ease;width:0%}
+.prog-lbl{font-size:12px;color:var(--c-primary);opacity:.5;margin-bottom:20px}
+
+/* === CARDS === */
+.card{background:var(--c-white);border-radius:var(--radius);padding:32px;box-shadow:0 2px 16px rgba(18,45,110,.06);margin-bottom:16px}
+.card-dk{background:var(--g-blue);border-radius:var(--radius);padding:32px;color:var(--c-white);margin-bottom:16px}
+.card-dk *{color:var(--c-white)}
+
+/* === MODULE NAV (scenario dots) === */
+.scn-nav{display:flex;align-items:center;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.scn-dot{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:1.5px solid rgba(18,45,110,.15);background:var(--c-white);color:var(--c-primary);cursor:default;transition:all .2s}
+.scn-dot.done{background:var(--correct);color:white;border-color:var(--correct);cursor:pointer}
+.scn-dot.active{border-color:var(--c-accent);background:#fff5f0;color:var(--c-accent)}
+.scn-dot.locked{opacity:.35;cursor:default}
+.scn-sep{font-size:11px;color:var(--c-primary);opacity:.3;margin:0 2px}
+
+/* === TYPOGRAPHY === */
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--c-accent);margin-bottom:10px}
+.card-dk .badge{color:rgba(255,255,255,.65)}
+h1{font-size:24px;font-weight:700;line-height:1.25;margin-bottom:14px}
+h2{font-size:20px;font-weight:700;line-height:1.3;margin-bottom:12px}
+p,li{font-size:15px;line-height:1.65}
+p+p{margin-top:10px}
+
+/* === SITUATION === */
+.situ{background:var(--c-surface);border-radius:10px;padding:18px 20px;margin:16px 0;border-left:3px solid var(--c-accent)}
+.situ .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-accent);margin-bottom:6px}
+.situ p{font-size:14px}
+.ai-out{background:#f8f8fc;border:1px solid #e0e3ed;border-radius:8px;padding:14px 16px;margin:10px 0;font-size:13.5px;font-style:italic;opacity:.85}
+
+/* === QUESTION === */
+.q-text{font-size:15px;font-weight:700;margin:16px 0 14px}
+
+/* === OPTIONS === */
+.opts{display:flex;flex-direction:column;gap:8px}
+.ob{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(18,45,110,.13);background:var(--c-white);cursor:pointer;transition:all .15s;text-align:left;font-family:'Manrope',sans-serif;font-size:14px;line-height:1.5;color:var(--c-primary);width:100%}
+.ob:hover:not(.dis){border-color:var(--c-accent);background:#fff8f5;transform:translateY(-1px)}
+.ob:active:not(.dis){transform:translateY(0)}
+.ob .lt{min-width:26px;height:26px;border-radius:7px;background:var(--c-surface);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;margin-top:1px}
+.ob.ok{border-color:var(--correct);background:#eafaf1}
+.ob.ok .lt{background:var(--correct);color:white}
+.ob.no{border-color:var(--wrong);background:#fdf0ee}
+.ob.no .lt{background:var(--wrong);color:white}
+.ob.dis{cursor:default;opacity:.45}
+.ob.ok.dis,.ob.no.dis{opacity:1}
+
+/* === FEEDBACK === */
+.fb{border-radius:10px;padding:18px 20px;margin-top:14px;font-size:14px;line-height:1.6}
+.fb.fb-ok{background:#eafaf1;border-left:3px solid var(--correct)}
+.fb.fb-no{background:#fdf0ee;border-left:3px solid var(--wrong)}
+.fb .ft{font-weight:700;margin-bottom:6px;font-size:13px}
+.fb.fb-ok .ft{color:var(--correct)}
+.fb.fb-no .ft{color:var(--wrong)}
+.fb p{font-size:13.5px}
+.fb .merke{margin-top:10px;padding:10px 14px;background:rgba(18,45,110,.05);border-radius:7px;font-size:13px;font-weight:700}
+
+/* === INFO EXPAND === */
+.ix{margin-top:12px}
+.ix-btn{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--c-accent);cursor:pointer;background:none;border:none;font-family:'Manrope',sans-serif;padding:0}
+.ix-btn i{transition:transform .2s}
+.ix-btn.open i{transform:rotate(180deg)}
+.ix-body{display:none;margin-top:8px;padding:14px 16px;background:var(--c-surface);border-radius:8px;font-size:13.5px;line-height:1.6}
+.ix-body.show{display:block}
+.ix-body h4{font-size:13.5px;font-weight:700;margin-bottom:4px}
+.ix-body p+h4{margin-top:10px}
+
+/* === WISSENSBLOCK === */
+.wb{background:var(--c-surface);border-radius:10px;padding:20px;margin:16px 0}
+.wb h4{font-size:14px;margin-bottom:8px}
+.wb p{font-size:13.5px}
+
+/* === BTN HELPERS === */
+.btn-p{background:#FF5100;color:#FFFFFF;border:none;border-radius:8px;padding:11px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:opacity .15s}
+.btn-p:hover{opacity:.9}
+.btn-p:disabled{opacity:.35;cursor:not-allowed}
+.btn-w{background:#FFFFFF;color:#122D6E;border:none;border-radius:8px;padding:11px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn-g{background:transparent;color:#122D6E;border:1.5px solid rgba(18,45,110,.25);border-radius:8px;padding:10px 20px;font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+
+/* === WELCOME === */
+.w-meta{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0}
+.w-meta .mi{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.75)}
+.w-meta .mi i{font-size:16px;opacity:.5}
+.ml{list-style:none;padding:0;margin:14px 0 0}
+.ml li{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.ml li:last-child{border:none}
+.ml .mn{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+
+/* === CERTIFICATE === */
+.cert-gate{display:none}
+.cert-gate.show{display:block}
+.ci{display:block;width:100%;max-width:380px;margin:0 auto 10px;padding:11px 14px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:14px;color:var(--c-primary);background:var(--c-white)}
+.ci:focus{outline:none;border-color:var(--c-accent)}
+
+/* Cert document */
+.cert-doc{background:white;border:1px solid #d0d4e0;padding:48px 44px;max-width:640px;margin:20px auto 0;position:relative}
+.cert-doc .c-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--c-primary)}
+.cert-doc .c-hdr-logo{display:flex;align-items:center;gap:8px}
+.cert-doc .c-hdr-contact{text-align:right;font-size:11px;line-height:1.6;color:var(--c-primary);opacity:.6}
+.cert-doc .c-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c-accent);margin-bottom:20px}
+.cert-doc .c-to{margin-bottom:24px;font-size:13px;line-height:1.7}
+.cert-doc .c-to .c-to-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--c-primary);opacity:.5;margin-bottom:4px}
+.cert-doc .c-name{font-size:20px;font-weight:700;color:var(--c-primary)}
+.cert-doc .c-role,.cert-doc .c-comp{font-size:14px;color:var(--c-primary);opacity:.7}
+.cert-doc .c-body{font-size:13.5px;line-height:1.75;color:var(--c-primary);margin:20px 0}
+.cert-doc .c-mods{margin:16px 0 24px;padding:0}
+.cert-doc .c-mods li{display:flex;gap:8px;font-size:13px;line-height:1.6;color:var(--c-primary);padding:4px 0}
+.cert-doc .c-mods li .cm-n{font-weight:700;min-width:20px;flex-shrink:0}
+.cert-doc .c-mods li .cm-t{font-weight:700}
+.cert-doc .c-foot{margin-top:32px;padding-top:20px;border-top:1px solid #e0e3ed;display:flex;justify-content:space-between;align-items:flex-end}
+.cert-doc .c-foot-left{font-size:12px;line-height:1.6;color:var(--c-primary)}
+.cert-doc .c-foot-right{font-size:11px;text-align:right;color:var(--c-primary);opacity:.5;line-height:1.5}
+.cert-doc .c-legal{margin-top:20px;font-size:10.5px;color:var(--c-primary);opacity:.4;line-height:1.5;text-align:center}
+.cert-doc .c-accent-line{height:3px;background:var(--g-orange);margin-bottom:0;position:absolute;bottom:0;left:0;right:0}
+
+.ph{text-align:center;margin-top:14px;font-size:12px;color:var(--c-primary);opacity:.5}
+.ph i{margin-right:3px}
+
+/* === PRINT === */
+@media print{
+  body{background:white}
+  .app{padding:0;max-width:100%}
+  .hdr,.prog-wrap,.prog-lbl,.ph,.no-print,.card-dk,.card,.scn-nav{display:none!important}
+  .cert-gate{display:block!important}
+  .cert-doc{border:none;box-shadow:none;padding:40px 36px;margin:0;max-width:100%}
+}
+
+/* === MOBILE === */
+@media(max-width:600px){
+  .app{padding:12px}
+  .card,.card-dk{padding:22px 18px}
+  h1{font-size:20px}
+  h2{font-size:18px}
+  p,li{font-size:14px}
+  .situ{padding:14px 16px}
+  .ob{padding:12px 14px;font-size:13px}
+  .ob .lt{min-width:24px;height:24px;font-size:11px}
+  .scn-dot{width:28px;height:28px;font-size:11px}
+  .btn-p,.btn-w{padding:10px 18px;font-size:13px}
+  .cert-doc{padding:28px 20px}
+  .cert-doc .c-hdr{flex-direction:column;gap:10px}
+  .cert-doc .c-hdr-contact{text-align:left}
+  .cert-doc .c-foot{flex-direction:column;gap:12px;align-items:flex-start}
+  .cert-doc .c-foot-right{text-align:left}
+  .cert-doc .c-name{font-size:18px}
+}
+@media(max-width:380px){
+  .card,.card-dk{padding:18px 14px}
+  h1{font-size:18px}
+  .cert-doc{padding:20px 14px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="hdr">
+    <div class="hdr-bolt"><svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div>
+    <span class="hdr-txt">braingineering.</span>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="pf"></div></div>
+  <div class="prog-lbl" id="pl">Willkommen</div>
+  <div id="sc"></div>
+</div>
+
+<script>
+const M=[
+{id:'m1',title:'Was ist KI?',icon:'ri-robot-2-line',desc:'Erkennen, was KI ist und was nicht',intro:{ey:'Modul 1 von 5',h:'Was ist Künstliche Intelligenz?',t:'Künstliche Intelligenz begegnet Ihnen im Arbeitsalltag häufiger, als Sie vielleicht denken. Manche Tools, die Sie täglich verwenden, nutzen KI im Hintergrund. Andere, die sich "intelligent" anfühlen, tun es nicht. In diesem Modul lernen Sie, den Unterschied zu erkennen.'},scenarios:[
+{sit:'Ihre Kollegin sagt: "Ich nutze gar keine KI bei der Arbeit." Sie arbeitet täglich mit Microsoft Outlook (mit Copilot-Funktionen), einer Excel-Tabelle mit WENN-Formeln, Google Maps für Baustellenanfahrten und einem Spamfilter.',q:'Welche dieser Tools nutzen KI?',opts:['Nur Microsoft Copilot','Copilot und der Spamfilter','Copilot, der Spamfilter und Google Maps','Alle vier, auch Excel-Formeln'],c:2,fb:{ok:'Genau. Microsoft Copilot ist generative KI. Der Spamfilter nutzt maschinelles Lernen. Google Maps verwendet KI für Routenberechnung und Verkehrsprognosen. Excel-Formeln hingegen sind regelbasierte Automatisierung: feste Regeln ohne zu "lernen".',no:['Nicht ganz. Auch der Spamfilter nutzt maschinelles Lernen und Google Maps verwendet KI für Verkehrsprognosen. Viele KI-Systeme arbeiten unsichtbar im Hintergrund.','Nicht ganz. Auch Google Maps verwendet KI für Verkehrsprognosen und Routenoptimierung.','Fast. Excel-Formeln sind keine KI. Sie folgen festen Regeln: WENN A > B, DANN C. Kein Lernen, keine Vorhersagen. Die anderen drei nutzen tatsächlich KI.']}},
+{sit:'Ihr Vorgesetzter fragt: "Was ist der Unterschied zwischen ChatGPT und der automatischen Kategorisierung in unserem Dokumentenmanagementsystem?"',q:'Was ist der wesentliche Unterschied?',opts:['ChatGPT ist teurer, das DMS günstiger','ChatGPT erzeugt neue Inhalte, das DMS sortiert bestehende nach gelernten Mustern','ChatGPT ist echte KI, das DMS ist nur Software','Kein wesentlicher Unterschied, beides ist KI'],c:1,fb:{ok:'Richtig. ChatGPT ist generative KI: Sie erzeugt neue Texte und Antworten. Das DMS nutzt analytische KI: Es erkennt Muster und sortiert. Generative KI kann "halluzinieren", analytische KI kann falsch einordnen, erfindet aber keine neuen Inhalte.',no:['Der Preis ist nicht der Unterschied. ChatGPT erzeugt neue Inhalte (generativ), das DMS sortiert bestehende (analytisch). Beides ist KI, mit unterschiedlichen Risiken.','Beides ist KI, nur unterschiedliche Arten. Die Unterscheidung beeinflusst, wie vorsichtig Sie mit dem Output umgehen müssen.','Beides ist KI, aber der Unterschied ist wichtig: Generative KI erzeugt neue Inhalte (Halluzinationsrisiko), analytische KI sortiert bestehende Daten.']}},
+{sit:'Ihre Geschäftsführung will eine Bestandsaufnahme: Welche KI-Systeme nutzt die Abteilung?',q:'Welche Tätigkeit nutzt KI?',opts:['Automatischer E-Mail-Versand jeden Montag um 8:00','Ein Tool, das aus einem Diktat ein strukturiertes Protokoll erstellt','Eine Excel-Pivot-Tabelle, die Projektkosten zusammenfasst','Ein Makro, das Dateinamen nach festem Schema umbenennt'],c:1,fb:{ok:'Genau. Sprache in strukturierten Text umwandeln erfordert Spracherkennung und Textverarbeitung (KI). Die anderen Beispiele sind regelbasierte Automatisierung ohne Lernfähigkeit. Für KI-Systeme gelten die Anforderungen des EU AI Act.',no:['Das ist regelbasierte Automatisierung. Die richtige Antwort: Sprache in strukturierten Text umwandeln erfordert KI.','Das ist regelbasierte Automatisierung. Die richtige Antwort: Sprache in strukturierten Text umwandeln erfordert KI.','Das ist ein festes Schema, keine Lernfähigkeit. Die richtige Antwort: Sprache in strukturierten Text umwandeln erfordert KI.']}}
+],summary:'<h4>Drei Arten von KI:</h4><p><strong>Generative KI</strong> erzeugt neue Inhalte (ChatGPT, Claude). Risiko: Halluzinationen.</p><p><strong>Analytische KI</strong> erkennt Muster (Spamfilter, DMS). Risiko: Fehlinterpretation.</p><p><strong>Regelbasierte Automatisierung</strong> ist keine KI (Excel-Formeln, Makros). Der EU AI Act betrifft nur echte KI-Systeme.</p>'},
+
+{id:'m2',title:'Chancen und Grenzen',icon:'ri-scales-3-line',desc:'KI-Outputs kritisch bewerten',intro:{ey:'Modul 2 von 5',h:'Chancen und Grenzen von KI',t:'KI-Tools können im Ingenieurbüro enorm viel Zeit sparen. Aber sie haben eine entscheidende Schwäche: Sie klingen immer überzeugend, auch wenn sie falsch liegen. In diesem Modul lernen Sie, wie Sie KI-Outputs richtig einschätzen.'},scenarios:[
+{sit:'Sie nutzen ein KI-Tool für eine Normenrecherche. Es liefert:',ai:'"Gemäß ÖNORM B 4700-2:2023, Abschnitt 7.3.2, beträgt die Mindestbewehrung 0,15% des Betonquerschnitts."',sitA:'Die Antwort klingt detailliert und überzeugend.',q:'Was tun Sie?',opts:['Direkt in meine Berechnung übernehmen','Die Normenstelle in der Originalnorm nachschlagen und prüfen','Einen Kollegen fragen, ob das stimmt'],c:1,fb:{ok:'Richtig. In diesem Fall existiert die ÖNORM B 4700-2:2023 gar nicht in dieser Form. Das Tool hat eine plausibel klingende, aber erfundene Norm generiert.',m:'KI-Tools kennen keine "Wahrheit". Je spezifischer die Angabe, desto höher das Halluzinationsrisiko.',no:['Gefährlich. KI-Tools können Normen und Zahlenwerte erfinden, die korrekt aussehen. In diesem Fall existiert die genannte ÖNORM nicht. Das ist ein Haftungsrisiko.','Besser als direkt übernehmen, aber Ihr Kollege könnte es auch plausibel finden. Die einzig sichere Prüfung ist der Abgleich mit der Originalnorm.']}},
+{sit:'Sie lassen ein 80-seitiges Gutachten zusammenfassen. Die KI schreibt, das Gebäude habe "keine wesentlichen Mängel". Sie erinnern sich vage an etwas über Fassadenrisse im Original.',q:'Wie gehen Sie vor?',opts:['Die Zusammenfassung passt, das Detail war unwichtig','Den Abschnitt im Original nachschlagen und korrigieren','Das KI-Tool nochmal fragen: "Gab es nicht Mängel?"'],c:1,fb:{ok:'Richtig. KI-Zusammenfassungen können Informationen weglassen oder anders gewichten. Die Originalquelle ist immer die verbindliche Referenz.',m:'KI-Zusammenfassungen sind Arbeitshilfen, keine Ersatzdokumente.',no:['Riskant. Eine KI-Zusammenfassung kann kritische Informationen weglassen. Wenn Sie das Gutachten weitergeben, tragen Sie die Verantwortung.','Das KI-Tool könnte den Mangel bestätigen, ihn aber falsch beschreiben. Die einzig sichere Methode ist der Abgleich mit dem Original.']}},
+{sit:'Ein Kollege hat mit KI einen Angebots-Entwurf erstellt. Der Text ist professionell, enthält aber Leistungspositionen, die Ihr Büro gar nicht anbietet.',q:'Wie bewerten Sie das?',opts:['Falsche Positionen rauslöschen und absenden','KI sollte nicht für Angebote verwendet werden','KI als Entwurfshilfe ist sinnvoll, aber der Output muss vollständig geprüft werden'],c:2,fb:{ok:'Genau. KI-Tools sind hervorragende Entwurfshelfer, kennen aber Ihr Büro nicht. Jeder Output, der das Büro verlässt, muss geprüft und freigegeben werden.',m:'KI erstellt den Entwurf, Sie tragen die Verantwortung.',no:['Die offensichtlichen Fehler zu korrigieren reicht nicht. Was ist mit subtileren Fehlern? Der gesamte Entwurf braucht eine vollständige Prüfung.','Zu pauschal. KI kann bei Angeboten erheblich Zeit sparen. Das Problem ist nicht das Tool, sondern der fehlende Prüfschritt.']}}
+],summary:'<h4>Drei Regeln für KI-Outputs:</h4><p><strong>1. Nie ungeprüft übernehmen.</strong> Besonders bei Normenverweisen, Zahlenwerten und fachlichen Details.</p><p><strong>2. KI ist Entwurfshilfe, nicht Endprodukt.</strong> Prüfung und Freigabe bleibt bei Ihnen.</p><p><strong>3. Im Zweifel: Originalquelle.</strong> "Die KI hat das geschrieben" ist kein Haftungsausschluss.</p>'},
+
+{id:'m3',title:'Datenschutz und DSGVO',icon:'ri-shield-check-line',desc:'Wissen, welche Daten in welches Tool dürfen',intro:{ey:'Modul 3 von 5',h:'Datenschutz und DSGVO',t:'Jedes Mal, wenn Sie Text in ein KI-Tool eingeben, werden Daten an einen Server übertragen. Wo steht dieser Server? Was passiert mit Ihren Daten? In diesem Modul lernen Sie, welche Tools sicher sind und welche nicht.'},scenarios:[
+{sit:'Freitagnachmittag, Deadline am Montag. Sie müssen ein 40-seitiges Leistungsverzeichnis zusammenfassen. Eine Kollegin sagt: "Kopier das in ChatGPT, geht in 2 Minuten." Sie hat einen privaten ChatGPT Plus-Account.',q:'Was tun Sie?',opts:['Gute Idee, Plus ist die Bezahlversion','Das LV enthält Kundendaten, das darf nicht in ChatGPT','Nur den Teil ohne Kundennamen reinkopieren'],c:1,fb:{ok:'Richtig. ChatGPT Plus ist eine Konsumenten-Lizenz. Daten auf US-Servern, kein DPA. Leistungsverzeichnisse enthalten Projektbezeichnungen, Kundennamen, Adressen und technische Details.',iT:'Konsumenten- vs. Business-Lizenzen',i:'<h4>Nicht DSGVO-konform für Firmendaten:</h4><p>ChatGPT Free/Plus/Pro, Google Gemini, Grok Free, Perplexity. Server in den USA, kein DPA.</p><h4>Bedingt DSGVO-konform:</h4><p>Microsoft Copilot über M365-Tenant (EU Data Boundary). ChatGPT Enterprise (EU-Datenresidenz, aber US-Jurisdiktion).</p><h4>Volle Kontrolle:</h4><p>Selbst gehostete Systeme. Alle Daten in der EU oder im eigenen Haus.</p>',no:['"Bezahlt" bedeutet nicht "DSGVO-konform". ChatGPT Plus ist eine Konsumenten-Lizenz mit US-Servern und ohne DPA.','Kaum durchführbar. Leistungsverzeichnisse enthalten fast immer indirekt zuordenbare Informationen: Projektstandorte, spezifische Anforderungen, Mengenangaben.']}},
+{sit:'Ein Kollege sagt: "Copilot und ChatGPT sind doch das Gleiche. Warum darf ich Copilot benutzen, aber ChatGPT nicht?"',q:'Was ist die korrekte Antwort?',opts:['Stimmt, beides verbieten','Ähnliche Technologie, aber grundlegend anderer Datenschutz. Copilot über M365-Tenant: EU-Server. ChatGPT: US-Server.','ChatGPT ist besser, Enterprise kaufen'],c:1,fb:{ok:'Exakt. Beide nutzen ähnliche Sprachmodelle. Aber Copilot über Ihren M365-Tenant verarbeitet Daten in der EU. ChatGPT Free/Plus hat diese Absicherung nicht.',m:'Das Problem ist nicht die Technologie, sondern wo die Daten verarbeitet werden.',no:['Copilot über M365-Tenant ist DSGVO-konform. Alles zu verbieten nimmt Ihnen einen erheblichen Produktivitätsvorteil.','ChatGPT Enterprise ist besser als die Konsumenten-Version, bleibt aber ein US-Anbieter unter US-Jurisdiktion (CLOUD Act).']}},
+{sit:'Sie wollen eine E-Mail an einen Kunden formulieren. In Ihren Stichpunkten: Kundenname, Gebäude, festgestellte Mängel.',q:'In welches Tool dürfen Sie die Stichpunkte eingeben?',opts:['ChatGPT Plus, ist ja nur eine E-Mail','Microsoft Copilot über den Firmen-Tenant oder selbst gehostetes System','Jedes Tool, solange der Kundenname fehlt'],c:1,fb:{ok:'Richtig. Auch E-Mails enthalten sensible Daten: Kundennamen, Adressen, Mängelbeschreibungen. Nur DSGVO-konforme Systeme verwenden.',no:['Auch "einfache" E-Mails können sensible Daten enthalten. Entscheidend ist der Input, nicht der Output.','Den Kundennamen wegzulassen hilft wenig, wenn Projektstandort und Mängel drin stehen. Personenbezogene Daten umfassen alles, was auf eine Person oder ein Projekt rückschließen lässt.']}},
+{sit:'Rein fachliche Recherche: aktuelle Rechtslage bei Flachdachabdichtungen. Keine Kundendaten, kein Projektbezug.',q:'Welches Tool dürfen Sie nutzen?',opts:['Jedes, auch ChatGPT Free, weil keine sensiblen Daten','Nur DSGVO-konforme Tools','Lieber gar kein KI-Tool'],c:0,fb:{ok:'Richtig. Ohne Firmen-, Projekt- oder personenbezogene Daten ist auch ein Tool mit US-Servern nutzbar. Aber: sobald Sie projektspezifische Details ergänzen, ändert sich die Lage.',m:'Die Frage ist nicht "welches Tool", sondern "welche Daten gebe ich ein".',no:['Zu streng. Bei allgemeinen Recherchen ohne Firmenbezug besteht kein Datenschutzproblem.','Unnötig. KI-Tools sind auch für allgemeine Recherche nützlich. Der Schlüssel: allgemeine Fragen sind unkritisch, Firmendaten nur in DSGVO-konforme Systeme.']}}
+],summary:'<h4>Die Datenschutz-Faustregel:</h4><p>"Würde ich das auf eine Postkarte schreiben?" Wenn nein: nur DSGVO-konforme Systeme.</p><p><strong>Unbedenklich:</strong> Allgemeine Fachfragen ohne Firmenbezug.</p><p><strong>Nur DSGVO-konform:</strong> Alles mit Kunden-, Projekt- oder Firmendaten.</p><p><strong>Nie in KI-Tools:</strong> Passwörter, Zugangsdaten, Personalakten.</p>'},
+
+{id:'m4',title:'EU AI Act',icon:'ri-government-line',desc:'Pflichten kennen, Risikoklassen verstehen',intro:{ey:'Modul 4 von 5',h:'EU AI Act: Was gilt für uns?',t:'Seit August 2024 gibt es in der EU ein Gesetz für Künstliche Intelligenz. Es betrifft nicht nur KI-Entwickler, sondern auch jedes Unternehmen, das KI-Tools einsetzt. In diesem Modul lernen Sie, was das für Ihr Büro bedeutet.'},scenarios:[
+{sit:'In einer Besprechung sagt jemand: "Der EU AI Act gilt erst ab August 2026, wir haben noch Zeit." Ein anderer widerspricht.',q:'Wer hat recht?',opts:['Der Erste. Gilt erst ab August 2026.','Der Zweite. Alles gilt seit Februar 2025.','Beide teilweise. KI-Kompetenz (Art. 4) seit Feb. 2025. Hochrisiko-Regeln ab Aug. 2026.'],c:2,fb:{ok:'Genau. Stufenweises Inkrafttreten. Die KI-Kompetenz gilt seit dem 2. Februar 2025. Hochrisiko-Regeln und Transparenzpflichten folgen ab August 2026.',iT:'Zeitplan EU AI Act',i:'<h4>Seit 2. Februar 2025:</h4><p>Verbotene KI-Praktiken und Pflicht zur KI-Kompetenz (Art. 4).</p><h4>Ab 2. August 2025:</h4><p>Regeln für KI-Modelle, Governance, nationale Aufsichtsbehörden.</p><h4>Ab 2. August 2026:</h4><p>Hochrisiko-KI-Regeln, Transparenzpflichten, aktive Durchsetzung.</p>',no:['Nicht ganz. Die KI-Kompetenz (Art. 4) gilt bereits seit Februar 2025.','Nicht ganz. Art. 4 gilt seit Februar 2025, aber Hochrisiko-Regeln und Transparenzpflichten erst ab August 2026.']}},
+{sit:'Ihr Büro nutzt: (1) ChatGPT für Textarbeit, (2) Microsoft Copilot für E-Mails, (3) ein Tool, das Bewerbungen vorsortiert.',q:'Welches System fällt unter Hochrisiko?',opts:['Alle drei','Nur das Bewerbungs-Tool, weil es über Beschäftigung entscheidet','Keines, Ingenieurbüros sind keine kritische Infrastruktur'],c:1,fb:{ok:'Richtig. KI im Bereich Personalauswahl fällt unter Hochrisiko (Anhang III). ChatGPT und Copilot für Büroarbeit: minimales Risiko. Die KI-Kompetenzpflicht gilt aber für alle.',iT:'Die vier Risikoklassen',i:'<h4>Verboten:</h4><p>Social Scoring, manipulative KI, biometrische Massenüberwachung.</p><h4>Hohes Risiko:</h4><p>KI in Beschäftigung, Bildung, Strafverfolgung, kritische Infrastruktur.</p><h4>Begrenztes Risiko:</h4><p>Transparenzpflichten (Chatbots, Deepfakes).</p><h4>Minimales Risiko:</h4><p>Meiste KI-Anwendungen. KI-Kompetenzpflicht gilt trotzdem.</p>',no:['Nicht alle KI-Systeme sind Hochrisiko. Die Einstufung hängt vom Einsatzbereich ab.','Die Branche ist nicht entscheidend. Personalauswahl per KI ist immer Hochrisiko.']}},
+{sit:'Ihre Geschäftsführung fragt: "Was müssen wir konkret tun für Artikel 4?"',q:'Die korrekte Antwort?',opts:['Offizielle KI-Zertifizierung für alle','Nachweisen, dass wir Maßnahmen ergriffen haben. Dokumentation ist entscheidend.','KI-Beauftragten ernennen und jährliche Prüfung'],c:1,fb:{ok:'Genau. Art. 4 ist eine Bemühungspflicht ("nach besten Kräften"). Keine vorgeschriebene Methode, keine Zertifizierung. Was zählt: Maßnahmen ergreifen und dokumentieren. Das Teilnahmezertifikat dieser Schulung ist Teil dieser Dokumentation.',m:'Nicht die Form zählt, sondern die Nachweisbarkeit.',no:['Art. 4 verlangt keine formelle Zertifizierung. Eine Schulung mit Teilnahmeprotokoll reicht als Nachweis.','Ein KI-Beauftragter kann sinnvoll sein, ist aber nicht vorgeschrieben. Art. 4 verlangt: Maßnahmen ergreifen und dokumentieren.']}}
+],summary:'<h4>Artikel 4 auf den Punkt:</h4><p><strong>Was:</strong> Ausreichende KI-Kompetenz bei allen, die mit KI arbeiten.</p><p><strong>Wie:</strong> Keine vorgeschriebene Methode. Dokumentation ist entscheidend.</p><p><strong>Seit wann:</strong> 2. Februar 2025.</p><p><strong>Sanktionen:</strong> Keine direkten Bußgelder, aber fehlende Schulung ist bei KI-Schäden ein Haftungsrisiko.</p>'},
+
+{id:'m5',title:'Regeln für den Arbeitsalltag',icon:'ri-todo-line',desc:'Sicher handeln in konkreten Bürosituationen',intro:{ey:'Modul 5 von 5',h:'Regeln für den Arbeitsalltag',t:'Jetzt wird es konkret. Fünf typische Situationen aus dem Ingenieurbüro. Entscheiden Sie, wie Sie vorgehen. Keine Fangfragen, nur Praxis.'},scenarios:[
+{sit:'Ein neuer Praktikant fragt: "Darf ich ChatGPT für die Arbeit benutzen?"',q:'Was antworten Sie?',opts:['"Ja klar, nutzen wir alle."','"Nein, KI ist bei uns verboten."','"Allgemeine Fragen ohne Firmenbezug: ja. Projekt- oder Kundendaten: nur zugelassene Tools. Ich zeig dir, welche."'],c:2,fb:{ok:'Perfekt. Klare, differenzierte Antwort: allgemeine Nutzung ja, Firmendaten nur in zugelassene Tools. Und Sie bieten an, die Tools zu zeigen.',no:['Zu pauschal. Ohne Unterscheidung könnte der Praktikant Kundendaten in ChatGPT eingeben.','Zu restriktiv. Pauschale Verbote führen oft zu heimlicher Nutzung ohne Datenschutz.']}},
+{sit:'19 Uhr, morgen Präsentation. In Ihren Stichpunkten: Projektname, Adresse, technische Details.',q:'Welches Tool für die Präsentationsstruktur?',opts:['ChatGPT, geht schnell','Copilot über Firmen-Tenant oder internes System','Alles händisch, kein Risiko'],c:1,fb:{ok:'Richtig. Projektbezogene Daten gehören nur in DSGVO-konforme Systeme. Die Alternative ist genauso schnell.',no:['Zeitdruck ist kein Datenschutz-Ausschlussgrund. Die DSGVO-konforme Alternative ist genauso schnell.','Nachvollziehbar, aber unnötig. Wenn ein DSGVO-konformes Tool verfügbar ist, nutzen Sie es.']}},
+{sit:'Sie haben per KI (zugelassenes Tool) ein Meeting-Protokoll erstellt. Es klingt professionell und vollständig.',q:'Was vor dem Versand an den Kunden?',opts:['Direkt absenden','Gegenlesen, ob alle Punkte stimmen, dann absenden','Komplett neu schreiben, KI-Texten nicht vertrauen'],c:1,fb:{ok:'Genau. KI als Entwurfshilfe, dann gegenlesen: Stimmen Fakten? Wurde etwas ergänzt oder ausgelassen?',no:['Riskant. KI kann Nuancen verändern, Punkte auslassen oder Details hinzufügen.','Zu aufwändig. Der KI-Entwurf ist eine solide Basis. Gegenlesen ist der effiziente Weg.']}},
+{sit:'Ein Kollege zeigt Ihnen ein Chrome-Plugin, das jeden markierten Text per KI zusammenfasst. Er nutzt es auch bei internen Dokumenten und Kunden-E-Mails.',q:'Wie bewerten Sie das?',opts:['Praktisch, will ich auch','Problematisch: das Plugin sendet Firmendaten an einen unbekannten Server','Kein Problem bei kurzen Texten'],c:1,fb:{ok:'Genau. Browser-Plugins, die Text an externe Server senden, sind ein oft unterschätztes Datenschutzrisiko.',m:'KI-Plugins unterliegen denselben Regeln wie jedes andere KI-Tool. Im Zweifel: IT fragen.',no:['Vorsicht. Klären Sie zuerst: Wo steht der Server? Gibt es einen DPA? Werden Daten gespeichert?','Die Textlänge ist nicht entscheidend. Auch ein Satz kann sensible Informationen enthalten.']}},
+{sit:'Ein Auftraggeber schickt eine große Excel-Datei mit Messdaten. Sie möchten KI zur Analyse nutzen, sind aber unsicher, ob die Daten sensibel sind.',q:'Was tun Sie?',opts:['Im Zweifel kein KI-Tool','Daten in ChatGPT, Messdaten sind keine persönlichen Daten','Beim Vorgesetzten oder der IT nachfragen'],c:2,fb:{ok:'Richtig. Bei Unsicherheit nachfragen. Messdaten können sensibel sein, wenn sie einem Gebäude oder Kunden zuordenbar sind.',m:'Es gibt keine dumme Frage beim Datenschutz. Nachfragen ist immer besser als ein Problem im Nachhinein.',no:['Nachvollziehbar, aber oft unnötig. Wenn ein freigegebenes Tool existiert, fragen Sie nach.','Messdaten können sensibel sein, wenn sie einem Projekt oder Kunden zuordenbar sind. "Keine persönlichen Daten" heißt nicht "darf in jedes Tool".']}}
+],summary:'<h4>Ihre Checkliste:</h4><p><strong>VOR der Nutzung:</strong> Enthält mein Input sensible Daten? Wenn ja: nur zugelassene Tools.</p><p><strong>WÄHREND:</strong> Keine Passwörter oder hochsensible Inhalte eingeben.</p><p><strong>NACH:</strong> Output prüfen, bevor er das Büro verlässt.</p><p><strong>BEI UNSICHERHEIT:</strong> Nachfragen.</p><p><strong>NEUE TOOLS:</strong> Keine Installation ohne Rücksprache.</p>'}
+];
+
+// State
+let cMod=-1,cStep=0,ans={},totalQ=0;
+M.forEach(m=>{totalQ+=m.scenarios.length});
+const $=id=>document.getElementById(id);
+const sc=$('sc'),pf=$('pf'),pl=$('pl');
+
+function updProg(){
+  let d=0;for(let k in ans)d++;
+  pf.style.width=Math.round(d/totalQ*100)+'%';
+  pl.textContent=cMod<0?'Willkommen':cMod>=M.length?'Abschluss':'Modul '+(cMod+1)+' von 5';
+}
+
+function allAnswered(){
+  let c=0;for(let k in ans)c++;return c>=totalQ;
+}
+
+function go(){
+  if(cMod<0)rWelcome();
+  else if(cMod>=M.length)rFinish();
+  else{const m=M[cMod];if(cStep===0)rIntro(m);else if(cStep<=m.scenarios.length)rScen(m,cStep-1);else rSum(m);}
+  updProg();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rWelcome(){
+  sc.innerHTML=`
+  <!-- HERO -->
+  <div class="card-dk" style="position:relative;overflow:hidden;padding:40px 32px 36px">
+    <div style="position:absolute;top:-60px;right:-60px;width:180px;height:180px;border-radius:50%;background:linear-gradient(135deg,#FF5100 0%,#e03d00 100%);opacity:.12"></div>
+    <div style="position:absolute;bottom:-40px;left:-40px;width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#FF5100 0%,#e03d00 100%);opacity:.08"></div>
+    <div style="position:relative;z-index:1">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border-radius:100px;padding:6px 14px 6px 8px;margin-bottom:18px">
+        <div style="width:22px;height:22px;background:#FF5100;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="10" height="13" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg>
+        </div>
+        <span style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.7)">Braingineering E-Learning</span>
+      </div>
+      <h1 style="font-size:26px;line-height:1.2;margin-bottom:10px">KI-Awareness Schulung</h1>
+      <p style="font-size:18px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:6px">KI-Kompetenz gemäß EU AI Act, Artikel 4</p>
+      <p style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:0">Interaktives E-Learning-Modul für Ingenieurbüros</p>
+    </div>
+  </div>
+
+  <!-- WHAT HAPPENS -->
+  <div class="card" style="border-left:3px solid #FF5100">
+    <h2 style="font-size:17px;margin-bottom:10px">Was erwartet Sie?</h2>
+    <p style="font-size:14px;line-height:1.7">Sie durchlaufen <strong>5 Module mit 18 realitätsnahen Szenarien</strong> aus dem Arbeitsalltag von Ingenieurbüros. In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung. Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-gamepad-line" style="color:#FF5100;font-size:15px"></i> Szenariobasiert</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-smartphone-line" style="color:#FF5100;font-size:15px"></i> Am Handy oder PC</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-file-shield-2-line" style="color:#FF5100;font-size:15px"></i> Zertifikat inkl.</div>
+    </div>
+  </div>
+
+  <!-- MODULES -->
+  <div class="card">
+    <h2 style="font-size:17px;margin-bottom:14px">Ihre 5 Module im Überblick</h2>
+    ${M.map((m,i)=>`
+    <div style="display:flex;gap:14px;padding:14px 0;${i<M.length-1?'border-bottom:1px solid #eceef4;':''}">
+      <div style="min-width:36px;height:36px;border-radius:9px;background:${i===0?'linear-gradient(135deg,#FF5100,#e03d00)':'#F0F2F8'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:${i===0?'white':'#122D6E'};flex-shrink:0">${i+1}</div>
+      <div>
+        <div style="font-weight:700;font-size:14px;color:#122D6E;margin-bottom:2px">${m.title}</div>
+        <div style="font-size:13px;color:#122D6E;opacity:.6">${m.desc}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+
+  <!-- CTA -->
+  <div style="text-align:center;padding:8px 0 20px">
+    <button class="btn-p" style="padding:14px 36px;font-size:15px;border-radius:10px" onclick="cMod=0;cStep=0;go()">
+      Jetzt starten <i class="ri-arrow-right-line"></i>
+    </button>
+    <p style="font-size:12px;color:#122D6E;opacity:.4;margin-top:10px">Alle Daten bleiben in Ihrem Browser. Es werden keine Eingaben übertragen.</p>
+  </div>`;
+}
+
+function rIntro(m){
+  sc.innerHTML=`<div class="card">
+    <div class="badge"><i class="${m.icon}"></i> ${m.intro.ey}</div>
+    <h1>${m.intro.h}</h1>
+    <p>${m.intro.t}</p>
+    <div style="margin-top:20px"><button class="btn-p" onclick="cStep++;go()">Weiter <i class="ri-arrow-right-line"></i></button></div>
+  </div>`;
+}
+
+function rScen(m,si){
+  const s=m.scenarios[si],key=m.id+'_'+si,wa=ans[key]!==undefined;
+  // Scenario nav
+  let nav='<div class="scn-nav">';
+  m.scenarios.forEach((sc2,i)=>{
+    const k2=m.id+'_'+i,done=ans[k2]!==undefined,act=i===si;
+    let cls='scn-dot';
+    if(act)cls+=' active';else if(done)cls+=' done';else cls+=' locked';
+    const click=done&&!act?`onclick="cStep=${i+1};go()"`:act?'':'';
+    nav+=`<div class="${cls}" ${click}>${i+1}</div>`;
+    if(i<m.scenarios.length-1)nav+='<span class="scn-sep">&middot;</span>';
+  });
+  nav+='</div>';
+
+  let sitH=`<p>${s.sit}</p>`;
+  if(s.ai)sitH+=`<div class="ai-out">${s.ai}</div>`;
+  if(s.sitA)sitH+=`<p>${s.sitA}</p>`;
+
+  let optsH=s.opts.map((o,i)=>{
+    const lt=String.fromCharCode(65+i);
+    let cl='ob';
+    if(wa){cl+=' dis';if(i===s.c)cl+=' ok';else if(i===ans[key])cl+=' no';}
+    return`<button class="${cl}" ${wa?'':`onclick="pick('${key}',${i})"`}><span class="lt">${lt}</span><span>${o}</span></button>`;
+  }).join('');
+
+  let fbH='';
+  if(wa){
+    const ok=ans[key]===s.c;
+    let txt='';
+    if(ok){
+      txt=`<p>${s.fb.ok}</p>`;
+      if(s.fb.m)txt+=`<div class="merke">${s.fb.m}</div>`;
+    }else{
+      const wi=ans[key]<s.c?ans[key]:ans[key]-1;
+      txt=`<p>${s.fb.no[ans[key]]||s.fb.no[0]}</p><p style="margin-top:8px;font-weight:700">Richtige Antwort: ${String.fromCharCode(65+s.c)}</p>`;
+      if(s.fb.m)txt+=`<div class="merke">${s.fb.m}</div>`;
+    }
+    let infoH='';
+    if(s.fb.i)infoH=`<div class="ix"><button class="ix-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')"><i class="ri-arrow-down-s-line"></i> ${s.fb.iT||'Mehr erfahren'}</button><div class="ix-body">${s.fb.i}</div></div>`;
+
+    // Next button logic
+    let nextBtn='';
+    const isLast=si===m.scenarios.length-1;
+    if(isLast){
+      nextBtn=`<button class="btn-p" onclick="cStep++;go()">Zusammenfassung <i class="ri-arrow-right-line"></i></button>`;
+    }else{
+      nextBtn=`<button class="btn-p" onclick="cStep++;go()">Nächstes Szenario <i class="ri-arrow-right-line"></i></button>`;
+    }
+
+    fbH=`<div class="fb ${ok?'fb-ok':'fb-no'}"><div class="ft">${ok?'<i class="ri-check-line"></i> Richtig!':'<i class="ri-close-line"></i> Nicht ganz.'}</div>${txt}${infoH}</div>
+    <div style="margin-top:16px;display:flex;justify-content:flex-end">${nextBtn}</div>`;
+  }
+
+  sc.innerHTML=`<div class="card">
+    ${nav}
+    <div class="badge"><i class="${m.icon}"></i> ${m.intro.ey} &mdash; Szenario ${si+1}/${m.scenarios.length}</div>
+    <div class="situ"><div class="lbl">Situation</div>${sitH}</div>
+    <div class="q-text">${s.q}</div>
+    <div class="opts">${optsH}</div>
+    ${fbH}
+  </div>`;
+}
+
+function rSum(m){
+  const isLastMod=cMod===M.length-1;
+  let nextBtn='';
+  if(isLastMod){
+    if(allAnswered()){
+      nextBtn=`<button class="btn-p" onclick="cMod++;go()">Zum Teilnahmezertifikat <i class="ri-arrow-right-line"></i></button>`;
+    }else{
+      nextBtn=`<button class="btn-p" disabled title="Bitte beantworten Sie zuerst alle Szenarien">Alle Szenarien beantworten <i class="ri-lock-line"></i></button>`;
+    }
+  }else{
+    nextBtn=`<button class="btn-p" onclick="cMod++;cStep=0;go()">Weiter zu Modul ${cMod+2} <i class="ri-arrow-right-line"></i></button>`;
+  }
+  sc.innerHTML=`<div class="card">
+    <div class="badge"><i class="${m.icon}"></i> ${m.intro.ey} &mdash; Zusammenfassung</div>
+    <h2>Das Wichtigste aus diesem Modul</h2>
+    <div class="wb">${m.summary}</div>
+    <div style="margin-top:16px;display:flex;justify-content:flex-end">${nextBtn}</div>
+  </div>`;
+}
+
+function rFinish(){
+  if(!allAnswered()){cMod=M.length-1;cStep=M[cMod].scenarios.length+1;go();return;}
+  const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  sc.innerHTML=`
+  <div class="card-dk" style="text-align:center">
+    <div style="font-size:40px;margin-bottom:10px"><i class="ri-trophy-line"></i></div>
+    <h1>Alle Module abgeschlossen!</h1>
+    <p>Sie haben alle 5 Module und 18 Szenarien erfolgreich durchgearbeitet.</p>
+  </div>
+  <div class="card">
+    <h2>Teilnahmezertifikat erstellen</h2>
+    <p style="margin-bottom:16px;font-size:14px">Geben Sie Ihre Daten ein. Sie können das Zertifikat anschließend über Strg+P / Cmd+P als PDF speichern.</p>
+    <input type="text" id="cN" class="ci" placeholder="Vollständiger Name *">
+    <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, Sachbearbeiter, GF)">
+    <input type="text" id="cC" class="ci" placeholder="Unternehmen">
+    <div style="text-align:center;margin-top:14px">
+      <button class="btn-p" onclick="genCert()"><i class="ri-file-text-line"></i> Zertifikat erstellen</button>
+    </div>
+  </div>
+  <div class="cert-gate" id="cg">
+    <div class="ph no-print"><i class="ri-printer-line"></i> <strong>Strg+P</strong> (Win) / <strong>Cmd+P</strong> (Mac) drücken, um als PDF zu speichern.</div>
+    <div class="cert-doc" id="cdoc">
+      <div class="c-hdr">
+        <div class="c-hdr-logo">
+          <div style="width:28px;height:28px;background:#FF5100;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="12" height="16" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg>
+          </div>
+          <span style="font-size:16px;font-weight:700;color:#122D6E">braingineering.</span>
+        </div>
+        <div class="c-hdr-contact">Braingineering GmbH<br>Modecenterstraße 20/1/193<br>1030 Wien, Österreich<br>office@braingineering.at<br>+43 676 393 0094</div>
+      </div>
+
+      <div class="c-title">Teilnahmezertifikat</div>
+      <div style="font-size:12px;color:#122D6E;opacity:.55;margin-top:-14px;margin-bottom:20px">KI-Kompetenz gemäß Artikel 4, Verordnung (EU) 2024/1689</div>
+
+      <div class="c-to">
+        <div class="c-to-lbl">Ausgestellt für</div>
+        <div class="c-name" id="cdN"></div>
+        <div class="c-role" id="cdR"></div>
+        <div class="c-comp" id="cdC"></div>
+      </div>
+
+      <div class="c-body" id="cdBody">hat am <strong>${today}</strong> das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.</div>
+
+      <div style="margin:16px 0;padding:14px 18px;background:#F0F2F8;border-radius:8px;font-size:12.5px;line-height:1.7;color:#122D6E">
+        <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;opacity:.55">Format und Methodik</strong>
+        Die Kompetenzermittlung erfolgte als interaktives, szenariobasiertes E-Learning-Modul. In 18 realitätsnahen Entscheidungssituationen aus dem Arbeitsalltag von Ingenieurbüros wurde die teilnehmende Person mit typischen Anwendungsfällen konfrontiert und musste eigenständig Entscheidungen treffen. Zu jeder Entscheidung erfolgte eine unmittelbare fachliche Rückmeldung mit Erläuterung der korrekten Handlungsweise. Die Szenarien wurden <span id="cdRoleCtx">branchenspezifisch für Ingenieurbüros</span> konzipiert.
+      </div>
+
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.55;margin:20px 0 10px">Geschulte Inhalte (5 Module, 18 Szenarien)</div>
+      <ol class="c-mods">
+        <li><span class="cm-n">1.</span><span><span class="cm-t">Was ist KI?</span> &mdash; Unterscheidung zwischen KI-Systemen (generative KI, analytische KI) und regelbasierter Automatisierung. Identifikation von KI-Anwendungen im eigenen Arbeitsumfeld.</span></li>
+        <li><span class="cm-n">2.</span><span><span class="cm-t">Chancen und Grenzen</span> &mdash; Kritische Bewertung von KI-Outputs. Erkennung von Halluzinationen (erfundene Normenverweise, fehlerhafte Zusammenfassungen). Prüfpflicht vor Weitergabe.</span></li>
+        <li><span class="cm-n">3.</span><span><span class="cm-t">Datenschutz und DSGVO</span> &mdash; Unterscheidung Konsumenten- vs. Business-Lizenzen. Kriterien für datenschutzkonforme Auswahl von KI-Tools. Umgang mit Firmen-, Projekt- und personenbezogenen Daten.</span></li>
+        <li><span class="cm-n">4.</span><span><span class="cm-t">EU AI Act</span> &mdash; Rechtliche Grundlagen der Verordnung (EU) 2024/1689. Risikoklassifizierung von KI-Systemen. Pflichten nach Artikel 4 (KI-Kompetenz). Dokumentationsanforderungen.</span></li>
+        <li><span class="cm-n">5.</span><span><span class="cm-t">Regeln für den Arbeitsalltag</span> &mdash; Anwendung in konkreten Bürosituationen: Onboarding, Umgang mit Zeitdruck, Prüfung von KI-Dokumenten, Bewertung von Browser-Plugins, Verhalten bei Unsicherheit.</span></li>
+      </ol>
+
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.55;margin:20px 0 10px">Im Rahmen der Schulung wurde insbesondere hingewiesen auf</div>
+      <div style="font-size:12.5px;line-height:1.7;color:#122D6E;margin-bottom:20px">
+        Die Verpflichtung, KI-generierte Ergebnisse vor beruflicher Verwendung eigenständig zu prüfen. Die Notwendigkeit, Firmendaten ausschließlich in datenschutzkonforme KI-Systeme einzugeben. Die Pflicht des Arbeitgebers zur Dokumentation von KI-Kompetenzmaßnahmen. Die Verantwortung jedes Mitarbeitenden für den korrekten Umgang mit KI-Werkzeugen im Arbeitsalltag.
+      </div>
+
+      <div style="margin:20px 0;padding:14px 18px;border:1px solid #e0e3ed;border-radius:8px;font-size:12px;line-height:1.7;color:#122D6E">
+        <strong style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:6px;opacity:.55">Rechtsgrundlage</strong>
+        Artikel 4 der Verordnung (EU) 2024/1689 (EU AI Act), in Kraft seit 2. Februar 2025, verpflichtet Anbieter und Betreiber von KI-Systemen, nach besten Kräften sicherzustellen, dass ihr Personal über ein ausreichendes Maß an KI-Kompetenz verfügt (Bemühungspflicht). Dieses Zertifikat dokumentiert die Durchführung einer entsprechenden Maßnahme und ist Teil der Compliance-Dokumentation des Unternehmens.
+      </div>
+
+      <div class="c-foot">
+        <div class="c-foot-left">
+          <strong>Wien, ${today}</strong>
+          <div style="margin:14px 0 6px">
+            <svg width="150" height="52" viewBox="0 0 150 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+              <path d="M6 40 C10 22, 14 10, 20 14 C26 18, 20 30, 25 34 C30 38, 34 16, 38 12 C42 8, 40 26, 44 30" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M48 18 C50 14, 56 12, 58 18 C60 24, 52 30, 56 32 C60 34, 64 22, 66 18" stroke="#122D6E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <path d="M72 32 C76 28, 80 24, 84 26 C88 28, 82 36, 86 34" stroke="#122D6E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <path d="M84 18 C85 16, 87 18, 86 20" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+              <path d="M92 22 C96 16, 104 14, 108 18 C112 22, 100 28, 104 32 C108 36, 116 22, 122 18 C128 14, 132 26, 136 30" stroke="#122D6E" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M94 38 C106 40, 124 38, 138 36" stroke="#122D6E" stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.35"/>
+            </svg>
+          </div>
+          <div style="font-size:12px;color:#122D6E;line-height:1.5"><strong>Dragan Komsic</strong><br>Geschäftsführer<br>Braingineering GmbH</div>
+        </div>
+        <div class="c-foot-right">
+          <div style="margin-bottom:8px">
+            <div style="width:24px;height:24px;background:#FF5100;border-radius:5px;display:inline-flex;align-items:center;justify-content:center">
+              <svg width="10" height="14" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          Braingineering GmbH<br>FN 661950g<br>Handelsgericht Wien<br>UID: ATU81137629<br>braingineering.at
+        </div>
+      </div>
+
+      <div class="c-accent-line"></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin:24px 0 40px;font-size:12px;opacity:.4" class="no-print">Wir empfehlen, diese Schulung jährlich zu wiederholen.</div>`;
+}
+
+function pick(key,i){
+  const ps=key.split('_'),mi=M.findIndex(m=>m.id===ps[0]),si=parseInt(ps[1]);
+  ans[key]=i;
+  go();
+  setTimeout(()=>{const f=document.querySelector('.fb');if(f)f.scrollIntoView({behavior:'smooth',block:'center'})},100);
+}
+
+function genCert(){
+  const n=$('cN').value.trim(),r=$('cR').value.trim(),c=$('cC').value.trim();
+  if(!n){$('cN').style.borderColor='#c0392b';$('cN').focus();return;}
+  $('cdN').textContent=n;
+  $('cdR').textContent=r||'';
+  $('cdR').style.display=r?'block':'none';
+  $('cdC').textContent=c||'';
+  $('cdC').style.display=c?'block':'none';
+  // Integrate role into methodology text
+  if(r){
+    $('cdRoleCtx').textContent='branchenspezifisch für Ingenieurbüros konzipiert und im Kontext der Rolle "'+r+'" durchgeführt';
+  }
+  $('cg').classList.add('show');
+  setTimeout(()=>$('cg').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+// Prevent URL deeplink to certificate - always start from beginning
+go();
+</script>
+</body>
+</html>
