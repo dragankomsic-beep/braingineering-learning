@@ -1,4 +1,4 @@
-import { put, head } from '@vercel/blob';
+import { put, list } from '@vercel/blob';
 
 const VALID_CODES = new Set([
   '22PZUC','2TUJKR','2YFAVX','34XV5B','3A4YSQ','3D6ZTX','3HD8ZD','3TMV5F','3TTE7V','49C7BZ',
@@ -27,64 +27,38 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { code, action } = req.body || {};
-  
-  if (!code || typeof code !== 'string') {
-    return res.status(400).json({ valid: false, error: 'Kein Code eingegeben.' });
-  }
-
-  const cleanCode = code.trim().toUpperCase();
-
-  // Check if code is in valid list
-  if (!VALID_CODES.has(cleanCode)) {
-    return res.status(200).json({ valid: false, error: 'Ungültiger Code.' });
-  }
-
-  const blobKey = `used-codes/${cleanCode}.json`;
-
   try {
-    // Check if already used
-    let isUsed = false;
-    try {
-      await head(blobKey);
-      isUsed = true;
-    } catch (e) {
-      // head throws when blob doesn't exist = not used
-      isUsed = false;
+    const { code, action } = req.body || {};
+    if (!code || typeof code !== 'string') {
+      return res.status(200).json({ valid: false, error: 'Kein Code eingegeben.' });
     }
 
+    const cleanCode = code.trim().toUpperCase();
+    if (!VALID_CODES.has(cleanCode)) {
+      return res.status(200).json({ valid: false, error: 'Ungültiger Code.' });
+    }
+
+    const prefix = 'used-codes/' + cleanCode;
+    const { blobs } = await list({ prefix });
+    const isUsed = blobs.length > 0;
+
     if (action === 'validate') {
-      if (isUsed) {
-        return res.status(200).json({ valid: false, error: 'Dieser Code wurde bereits verwendet.' });
-      }
+      if (isUsed) return res.status(200).json({ valid: false, error: 'Dieser Code wurde bereits verwendet.' });
       return res.status(200).json({ valid: true });
     }
 
     if (action === 'consume') {
-      if (isUsed) {
-        return res.status(200).json({ valid: false, error: 'Dieser Code wurde bereits verwendet.' });
-      }
-      
-      // Mark as used
-      await put(blobKey, JSON.stringify({
-        code: cleanCode,
-        usedAt: new Date().toISOString()
-      }), {
-        access: 'private',
-        contentType: 'application/json',
-        addRandomSuffix: false
-      });
-      
+      if (isUsed) return res.status(200).json({ valid: false, error: 'Dieser Code wurde bereits verwendet.' });
+      await put(prefix + '.json', JSON.stringify({ code: cleanCode, usedAt: new Date().toISOString() }), { access: 'private', contentType: 'application/json', addRandomSuffix: false });
       return res.status(200).json({ valid: true, consumed: true });
     }
 
-    return res.status(400).json({ error: 'Ungültige Aktion.' });
+    return res.status(200).json({ error: 'Ungueltige Aktion.' });
   } catch (err) {
-    console.error('API error:', err);
-    return res.status(500).json({ valid: false, error: 'Serverfehler. Bitte erneut versuchen.' });
+    console.error('validate error:', err.message, err.stack);
+    return res.status(200).json({ valid: false, error: 'Technischer Fehler: ' + err.message });
   }
 }
