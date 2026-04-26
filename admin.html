@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | KI-Awareness Codes</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#122D6E;--orange:#FF5100;--surface:#F0F2F8;--ok:#0a8754;--used:#c0392b}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Manrope',sans-serif;background:var(--surface);color:var(--navy);min-height:100vh;padding:20px}
+.wrap{max-width:800px;margin:0 auto}
+.card{background:white;border-radius:14px;padding:28px;box-shadow:0 2px 16px rgba(18,45,110,.06);margin-bottom:16px}
+h1{font-size:22px;margin-bottom:6px}
+h2{font-size:17px;margin-bottom:12px}
+p{font-size:14px;line-height:1.6}
+.hdr{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.hdr-bolt{width:32px;height:32px;background:var(--orange);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.hdr-txt{font-size:17px;font-weight:700}
+.btn{background:var(--orange);color:white;border:none;border-radius:8px;padding:11px 24px;font-family:'Manrope',sans-serif;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{opacity:.9}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.input{display:block;width:100%;max-width:300px;padding:11px 14px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:14px;color:var(--navy);margin-bottom:12px}
+.input:focus{outline:none;border-color:var(--orange)}
+.error{color:var(--used);font-size:13px;font-weight:700;margin-top:8px;display:none}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.stat{padding:14px 20px;border-radius:10px;background:var(--surface);flex:1;min-width:120px;text-align:center}
+.stat .num{font-size:28px;font-weight:700}
+.stat .lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;opacity:.5;margin-top:2px}
+.stat.free .num{color:var(--ok)}
+.stat.used .num{color:var(--used)}
+.filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.fbtn{padding:7px 14px;border-radius:8px;border:1.5px solid rgba(18,45,110,.12);background:white;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer}
+.fbtn.active{background:var(--navy);color:white;border-color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--navy);opacity:.5;border-bottom:2px solid var(--surface)}
+td{padding:8px 10px;border-bottom:1px solid var(--surface)}
+.code-cell{font-weight:700;font-size:14px;letter-spacing:.1em;font-family:'Courier New',monospace}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700}
+.badge.free{background:#eafaf1;color:var(--ok)}
+.badge.used{background:#fdf0ee;color:var(--used)}
+.copy-btn{background:none;border:1px solid rgba(18,45,110,.15);border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'Manrope',sans-serif;color:var(--navy)}
+.copy-btn:hover{background:var(--surface)}
+#dashboard{display:none}
+@media(max-width:600px){
+  .card{padding:18px}
+  .stats{flex-direction:column}
+  .stat{min-width:auto}
+  table{font-size:12px}
+  td,th{padding:6px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-bolt"><svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div>
+    <span class="hdr-txt">braingineering. Admin</span>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="card" id="loginCard">
+    <h1>Code-Verwaltung</h1>
+    <p style="margin-bottom:16px">Gib das Admin-Passwort ein, um die Code-Übersicht zu sehen.</p>
+    <input type="password" id="pw" class="input" placeholder="Passwort" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn" onclick="login()" id="loginBtn">Anmelden</button>
+    <div class="error" id="loginErr"></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <div class="card">
+      <h2>Übersicht</h2>
+      <div class="stats">
+        <div class="stat"><div class="num" id="sTotal">-</div><div class="lbl">Gesamt</div></div>
+        <div class="stat free"><div class="num" id="sFree">-</div><div class="lbl">Verfügbar</div></div>
+        <div class="stat used"><div class="num" id="sUsed">-</div><div class="lbl">Verbraucht</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Alle Codes</h2>
+      <div class="filters">
+        <button class="fbtn active" onclick="setFilter('all',this)">Alle</button>
+        <button class="fbtn" onclick="setFilter('free',this)">Verfügbar</button>
+        <button class="fbtn" onclick="setFilter('used',this)">Verbraucht</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>#</th><th>Code</th><th>Status</th><th>Verwendet am</th><th></th></tr></thead>
+          <tbody id="codeTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="text-align:center">
+      <button class="btn" onclick="exportFree()" style="background:var(--navy)">Verfügbare Codes kopieren</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let allCodes=[];
+let currentFilter='all';
+let adminPw='';
+
+function $(id){return document.getElementById(id);}
+
+async function login(){
+  const pw=$('pw').value.trim();
+  if(!pw){$('pw').style.borderColor='#c0392b';$('pw').focus();return;}
+  
+  $('loginBtn').disabled=true;
+  $('loginBtn').textContent='Laden...';
+  $('loginErr').style.display='none';
+
+  try{
+    const resp=await fetch('/api/admin',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({password:pw})
+    });
+    const data=await resp.json();
+    
+    if(data.error){
+      $('loginErr').textContent=data.error;
+      $('loginErr').style.display='block';
+      $('loginBtn').disabled=false;
+      $('loginBtn').textContent='Anmelden';
+      return;
+    }
+
+    adminPw=pw;
+    allCodes=data.codes;
+    $('sTotal').textContent=data.total;
+    $('sFree').textContent=data.freeCount;
+    $('sUsed').textContent=data.usedCount;
+    
+    $('loginCard').style.display='none';
+    $('dashboard').style.display='block';
+    renderTable();
+  }catch(e){
+    $('loginErr').textContent='Verbindungsfehler.';
+    $('loginErr').style.display='block';
+    $('loginBtn').disabled=false;
+    $('loginBtn').textContent='Anmelden';
+  }
+}
+
+function renderTable(){
+  const tbody=$('codeTable');
+  let filtered=allCodes;
+  if(currentFilter==='free')filtered=allCodes.filter(c=>!c.used);
+  if(currentFilter==='used')filtered=allCodes.filter(c=>c.used);
+
+  tbody.innerHTML=filtered.map((c,i)=>{
+    const date=c.usedAt?new Date(c.usedAt).toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+    const badge=c.used?'<span class="badge used">Verbraucht</span>':'<span class="badge free">Verfügbar</span>';
+    return `<tr>
+      <td>${i+1}</td>
+      <td class="code-cell">${c.code}</td>
+      <td>${badge}</td>
+      <td style="font-size:12px;opacity:.6">${date}</td>
+      <td><button class="copy-btn" onclick="copyCode('${c.code}',this)">Kopieren</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function copyCode(code,btn){
+  navigator.clipboard.writeText(code).then(()=>{
+    btn.textContent='Kopiert!';
+    setTimeout(()=>{btn.textContent='Kopieren'},1500);
+  });
+}
+
+function exportFree(){
+  const free=allCodes.filter(c=>!c.used).map(c=>c.code);
+  const text=free.join('\n');
+  navigator.clipboard.writeText(text).then(()=>{
+    alert(free.length+' verfügbare Codes in die Zwischenablage kopiert.');
+  });
+}
+</script>
+</body>
+</html>
