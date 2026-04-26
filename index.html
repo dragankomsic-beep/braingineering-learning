@@ -216,29 +216,66 @@ const M=[
 {sit:'Sie haben per KI (zugelassenes Tool) ein Meeting-Protokoll erstellt. Es klingt professionell und vollständig.',q:'Was vor dem Versand an den Kunden?',opts:['Direkt absenden','Gegenlesen, ob alle Punkte stimmen, dann absenden','Komplett neu schreiben, KI-Texten nicht vertrauen'],c:1,fb:{ok:'Genau. KI als Entwurfshilfe, dann gegenlesen: Stimmen Fakten? Wurde etwas ergänzt oder ausgelassen?',no:['Riskant. KI kann Nuancen verändern, Punkte auslassen oder Details hinzufügen.','Zu aufwändig. Der KI-Entwurf ist eine solide Basis. Gegenlesen ist der effiziente Weg.']}},
 {sit:'Ein Kollege zeigt Ihnen ein Chrome-Plugin, das jeden markierten Text per KI zusammenfasst. Er nutzt es auch bei internen Dokumenten und Kunden-E-Mails.',q:'Wie bewerten Sie das?',opts:['Praktisch, will ich auch','Problematisch: das Plugin sendet Firmendaten an einen unbekannten Server','Kein Problem bei kurzen Texten'],c:1,fb:{ok:'Genau. Browser-Plugins, die Text an externe Server senden, sind ein oft unterschätztes Datenschutzrisiko.',m:'KI-Plugins unterliegen denselben Regeln wie jedes andere KI-Tool. Im Zweifel: IT fragen.',no:['Vorsicht. Klären Sie zuerst: Wo steht der Server? Gibt es einen DPA? Werden Daten gespeichert?','Die Textlänge ist nicht entscheidend. Auch ein Satz kann sensible Informationen enthalten.']}},
 {sit:'Ein Auftraggeber schickt eine große Excel-Datei mit Messdaten. Sie möchten KI zur Analyse nutzen, sind aber unsicher, ob die Daten sensibel sind.',q:'Was tun Sie?',opts:['Im Zweifel kein KI-Tool','Daten in ChatGPT, Messdaten sind keine persönlichen Daten','Beim Vorgesetzten oder der IT nachfragen'],c:2,fb:{ok:'Richtig. Bei Unsicherheit nachfragen. Messdaten können sensibel sein, wenn sie einem Gebäude oder Kunden zuordenbar sind.',m:'Es gibt keine dumme Frage beim Datenschutz. Nachfragen ist immer besser als ein Problem im Nachhinein.',no:['Nachvollziehbar, aber oft unnötig. Wenn ein freigegebenes Tool existiert, fragen Sie nach.','Messdaten können sensibel sein, wenn sie einem Projekt oder Kunden zuordenbar sind. "Keine persönlichen Daten" heißt nicht "darf in jedes Tool".']}}
-],summary:'<h4>Ihre Checkliste:</h4><p><strong>VOR der Nutzung:</strong> Enthält mein Input sensible Daten? Wenn ja: nur zugelassene Tools.</p><p><strong>WÄHREND:</strong> Keine Passwörter oder hochsensible Inhalte eingeben.</p><p><strong>NACH:</strong> Output prüfen, bevor er das Büro verlässt.</p><p><strong>BEI UNSICHERHEIT:</strong> Nachfragen.</p><p><strong>NEUE TOOLS:</strong> Keine Installation ohne Rücksprache.</p>'}
+],summary:'<h4>Ihre Checkliste:</h4><p><strong>VOR der Nutzung:</strong> Enthält mein Input sensible Daten? Wenn ja: nur zugelassene Tools.</p><p><strong>WÄHREND:</strong> Keine Passwörter oder hochsensible Inhalte eingeben.</p><p><strong>NACH:</strong> Output prüfen, bevor er das Büro verlässt.</p><p><strong>BEI UNSICHERHEIT:</strong> Nachfragen.</p><p><strong>NEUE TOOLS:</strong> Keine Installation ohne Rücksprache.</p>'},
+
+{id:'m6',title:'KI-Governance für Entscheider',icon:'ri-user-settings-line',desc:'Haftung, Organisationspflichten, Dokumentation',intro:{ey:'Modul 6 von 7',h:'KI-Governance für Entscheider',t:'Wer KI im Unternehmen einführt, trägt Verantwortung: für Organisation, Dokumentation und Haftung. In diesem Modul lernen Sie, welche Pflichten auf Führungsebene bestehen und wie Sie sich absichern.'},scenarios:[
+{sit:'Ein Mitarbeiter hat mit ChatGPT Free eine fehlerhafte Normenrecherche durchgeführt und das Ergebnis ungeprüft in ein Gutachten übernommen. Der Kunde reklamiert. Es gab keine internen Regeln zum KI-Einsatz und keine Schulung.',q:'Wer trägt die Verantwortung?',opts:['Der Mitarbeiter allein','Das Unternehmen, weil keine Regeln und keine Schulung vorhanden waren','Niemand, KI-Fehler sind höhere Gewalt'],c:1,fb:{ok:'Richtig. Ohne dokumentierte Regeln und Schulung liegt ein Organisationsverschulden vor. Die Geschäftsführung ist verantwortlich für angemessene organisatorische Maßnahmen. Der Mitarbeiter hat zwar den Fehler gemacht, aber das Unternehmen hat ihn nicht in die Lage versetzt, richtig zu handeln.',m:'Organisationsverschulden entsteht, wenn zumutbare Maßnahmen (Schulung, Richtlinien, Prüfprozesse) nicht ergriffen wurden.',no:['Der Mitarbeiter trägt eine Mitverantwortung, aber ohne Schulung und Regeln trifft das Unternehmen das Organisationsverschulden. Die Frage eines Richters wäre: "Wurde der Mitarbeiter geschult? Gab es Richtlinien?"','KI-Fehler sind keine höhere Gewalt. KI-Tools sind Werkzeuge, deren Einsatz organisiert werden muss. Wer sie ohne Regeln einsetzt, haftet für die Folgen.']}},
+{sit:'Ihr Büro nutzt seit einem Jahr verschiedene KI-Tools (Copilot, ChatGPT Enterprise, ein internes System). Ein Prüfer fragt: "Können Sie mir Ihre KI-Dokumentation zeigen?"',q:'Was sollten Sie vorweisen können?',opts:['Eine Liste der genutzten Tools reicht','Schulungsnachweise, interne Richtlinien, Tool-Inventar und Verantwortlichkeiten','Eine ISO-Zertifizierung für KI-Management'],c:1,fb:{ok:'Richtig. Eine vollständige KI-Dokumentation umfasst: welche Tools im Einsatz sind, wer sie nutzen darf, welche Regeln gelten, wer geschult wurde (Nachweise), und wer für die KI-Governance verantwortlich ist. Das muss kein 100-seitiges Dokument sein, aber es muss existieren und aktuell sein.',iT:'Was gehört in die KI-Dokumentation?',i:'<h4>Tool-Inventar:</h4><p>Welche KI-Systeme werden eingesetzt? (Name, Anbieter, Zweck, Risikoklasse)</p><h4>Nutzungsrichtlinie:</h4><p>Wer darf was? Welche Daten in welches Tool? Was ist verboten?</p><h4>Schulungsnachweise:</h4><p>Wer wurde wann geschult? (Teilnahmezertifikate wie dieses hier)</p><h4>Verantwortlichkeiten:</h4><p>Wer ist Ansprechpartner für KI-Fragen? Wer gibt neue Tools frei?</p>',no:['Eine Tool-Liste ist ein Anfang, aber nicht ausreichend. Art. 4 verlangt nachweisbare Maßnahmen zur KI-Kompetenz, nicht nur eine Inventarliste.','Eine ISO 42001-Zertifizierung ist empfehlenswert für KI-Entwickler, aber nicht vorgeschrieben für Betreiber. Art. 4 verlangt angemessene Maßnahmen und Dokumentation, keine formelle Zertifizierung.']}},
+{sit:'Sie planen, ein neues KI-Tool für die automatische Angebotserstellung einzuführen. Ihr IT-Leiter sagt: "Einfach installieren, die Mitarbeiter lernen das schon."',q:'Was fehlt bei diesem Vorgehen?',opts:['Nichts, Learning by Doing ist der beste Ansatz','Eine Risikoeinschätzung, Nutzungsregeln, Schulung der betroffenen Mitarbeiter und Dokumentation','Eine externe Beratung durch einen KI-Experten'],c:1,fb:{ok:'Richtig. Vor der Einführung eines neuen KI-Tools sollten Sie prüfen: Welche Daten fließen in das Tool? Ist es DSGVO-konform? Welche Risikoklasse hat es? Dann: Nutzungsregeln definieren, betroffene Mitarbeiter schulen, alles dokumentieren. "Learning by Doing" ist bei KI ein Haftungsrisiko.',m:'Neue KI-Tools brauchen einen Freigabeprozess: Risikobewertung, Datenschutzprüfung, Nutzungsregeln, Schulung, Dokumentation.',no:['Learning by Doing funktioniert bei vielen Dingen, aber bei KI entstehen ohne Regeln schnell Datenschutz- und Haftungsprobleme. Die Einführung braucht Struktur.','Externe Beratung kann sinnvoll sein, ist aber nicht vorgeschrieben. Die Verantwortung bleibt beim Unternehmen, unabhängig davon, ob extern beraten wird.']}}
+],summary:'<h4>Ihre Governance-Checkliste:</h4><p><strong>Dokumentation:</strong> Tool-Inventar, Nutzungsrichtlinie, Schulungsnachweise, Verantwortlichkeiten.</p><p><strong>Vor jeder Tool-Einführung:</strong> Risikobewertung, Datenschutzprüfung, Nutzungsregeln, Schulung.</p><p><strong>Haftung:</strong> Ohne Schulung und Regeln liegt bei KI-Schäden Organisationsverschulden vor.</p><p><strong>Regelmäßig:</strong> Schulungen auffrischen (mind. jährlich), Dokumentation aktuell halten.</p>'},
+
+{id:'m7',title:'KI-Systeme sicher betreiben',icon:'ri-settings-4-line',desc:'Tool-Auswahl, Datenflüsse, Monitoring',intro:{ey:'Modul 7 von 7',h:'KI-Systeme sicher betreiben',t:'Wer KI-Tools auswählt, einrichtet oder administriert, muss verstehen, wie Daten fließen, welche Risiken bestehen und wie man den sicheren Betrieb gewährleistet. In diesem Modul lernen Sie die technischen und organisatorischen Grundlagen.'},scenarios:[
+{sit:'Ihr Büro evaluiert drei KI-Tools für die interne Nutzung: (A) ein US-Cloud-Produkt mit starken Features, (B) ein EU-gehostetes Produkt mit gutem Datenschutz, (C) eine selbst gehostete Open-Source-Lösung.',q:'Nach welchen Kriterien sollten Sie die Entscheidung treffen?',opts:['Nur nach Features und Preis','Datenschutz (Serverstandort, DPA), Risikoklasse, Integration, dann Features und Preis','Immer die selbst gehostete Lösung, nur so ist man sicher'],c:1,fb:{ok:'Richtig. Die Reihenfolge ist: Ist es datenschutzkonform (Serverstandort, DPA, DSGVO)? Welche Risikoklasse hat der Einsatzzweck? Lässt es sich in bestehende Systeme integrieren? Erst dann: Features und Preis. Das beste Tool nützt nichts, wenn es nicht DSGVO-konform betrieben werden kann.',m:'Datenschutz und Compliance sind Voraussetzungen, nicht optionale Features.',no:['Features und Preis sind wichtig, aber nachgelagert. Ohne DSGVO-Konformität ist das Tool für Firmendaten nicht einsetzbar, egal wie gut die Features sind.','Self-Hosting gibt maximale Kontrolle, ist aber nicht immer nötig und oft aufwändiger. Ein EU-gehostetes Tool mit DPA kann ebenso DSGVO-konform sein. Die Entscheidung hängt vom konkreten Einsatzzweck ab.']}},
+{sit:'Sie haben ein neues KI-Tool eingeführt. Nach zwei Wochen stellen Sie fest, dass einige Mitarbeiter das Tool für Zwecke nutzen, die nicht vorgesehen waren, z.B. um Kundendaten zu analysieren, obwohl es nur für interne Textarbeit freigegeben wurde.',q:'Was tun Sie?',opts:['Tolerieren, die Mitarbeiter sind produktiver','Sofort die zweckfremde Nutzung unterbinden, Regeln klarstellen, ggf. technisch einschränken','Das Tool komplett abschalten, bis alles geregelt ist'],c:1,fb:{ok:'Richtig. Zweckfremde Nutzung ist ein Datenschutzrisiko. Klare Kommunikation der erlaubten Nutzung, ggf. technische Einschränkungen (Zugriffsrechte, Datenfilter) und Dokumentation der Maßnahme. Kein Vorwurf an die Mitarbeiter, aber klare Regeln.',m:'KI-Tools brauchen klare Nutzungsgrenzen. Was nicht explizit erlaubt ist, sollte nicht angenommen werden.',no:['Produktivität ist kein Argument, wenn Datenschutzregeln verletzt werden. Kundendaten in einem Tool, das nicht dafür freigegeben wurde, ist ein DSGVO-Verstoß.','Komplett abschalten ist eine Überreaktion. Besser: Regeln klarstellen, zweckfremde Nutzung stoppen, ggf. technisch einschränken. Das Tool selbst ist nicht das Problem.']}},
+{sit:'Ein Mitarbeiter möchte ein kostenloses KI-Plugin in seinem Browser installieren, das Texte automatisch übersetzt. Das Plugin stammt von einem unbekannten Anbieter.',q:'Wie gehen Sie damit um?',opts:['Erlauben, kostenlose Tools sparen Lizenzkosten','Vor der Installation prüfen: Wer ist der Anbieter? Wo werden Daten verarbeitet? Gibt es einen DPA? Erst nach Freigabe installieren.','Generell alle Plugins verbieten'],c:1,fb:{ok:'Richtig. Browser-Plugins, die Text verarbeiten, übertragen Daten an externe Server. Vor der Installation muss geprüft werden: Wer betreibt den Server? In welchem Land? Gibt es einen Datenverarbeitungsvertrag? Wird der Text gespeichert oder für Training verwendet? Erst nach positiver Prüfung freigeben.',iT:'Freigabeprozess für neue KI-Tools',i:'<h4>Prüfschritte:</h4><p>1. Anbieter identifizieren (Land, Rechtsform, Reputation)</p><p>2. Datenverarbeitung klären (Serverstandort, Speicherung, Training-Nutzung)</p><p>3. DPA prüfen (Datenverarbeitungsvertrag vorhanden?)</p><p>4. Risikoklasse bestimmen (für welche Daten wird es verwendet?)</p><p>5. Nutzungsregeln definieren und kommunizieren</p><p>6. Freigabe dokumentieren</p>',no:['Kostenlos bedeutet oft: Sie bezahlen mit Ihren Daten. Viele kostenlose Plugins übertragen Texte an Server in unbekannten Ländern, ohne DPA und ohne Löschgarantie.','Ein generelles Plugin-Verbot ist schwer durchzusetzen und verhindert auch nützliche, sichere Tools. Besser: ein Freigabeprozess, der sichere Tools erlaubt und unsichere blockiert.']}}
+],summary:'<h4>Ihre Betriebscheckliste:</h4><p><strong>Tool-Auswahl:</strong> Datenschutz und Compliance vor Features. Serverstandort, DPA, Risikoklasse prüfen.</p><p><strong>Freigabeprozess:</strong> Kein neues KI-Tool ohne Prüfung und dokumentierte Freigabe.</p><p><strong>Monitoring:</strong> Regelmäßig prüfen, ob Tools wie vorgesehen genutzt werden.</p><p><strong>Plugins/Erweiterungen:</strong> Gleiche Regeln wie für jedes andere KI-Tool. Im Zweifel: erst prüfen, dann freigeben.</p>'}
 ];
+
+// Roles and module filtering
+const ROLES = [
+  {id:'anwender',label:'KI-Anwender',desc:'Ich nutze KI-Tools in meiner täglichen Arbeit.',mods:['m1','m2','m3','m4','m5']},
+  {id:'fuehrung',label:'KI-Anwender + Führungsverantwortung',desc:'Ich treffe Entscheidungen über den KI-Einsatz im Unternehmen.',mods:['m1','m2','m3','m4','m5','m6']},
+  {id:'technik',label:'KI-Anwender + technische Verantwortung',desc:'Ich wähle KI-Tools aus, administriere oder integriere sie.',mods:['m1','m2','m3','m4','m5','m7']}
+];
+
+let selectedRole = null;
+let activeModules = []; // filtered M based on role
 
 // State
 let cMod=-1,cStep=0,ans={},totalQ=0;
-M.forEach(m=>{totalQ+=m.scenarios.length});
 const $=id=>document.getElementById(id);
-const sc=$('sc'),pf=$('pf'),pl=$('pl');
+let sc,pf,pl;
+
+function initDom(){sc=$('sc');pf=$('pf');pl=$('pl');}
+
+function getActiveModules(){
+  if(!selectedRole) return M.slice(0,5);
+  const r = ROLES.find(r=>r.id===selectedRole);
+  return M.filter(m=>r.mods.includes(m.id));
+}
+
+function recalcTotal(){
+  activeModules = getActiveModules();
+  totalQ=0;
+  activeModules.forEach(m=>{totalQ+=m.scenarios.length});
+}
 
 function updProg(){
   let d=0;for(let k in ans)d++;
-  pf.style.width=Math.round(d/totalQ*100)+'%';
-  pl.textContent=cMod<0?'Willkommen':cMod>=M.length?'Abschluss':'Modul '+(cMod+1)+' von 5';
+  pf.style.width=totalQ?Math.round(d/totalQ*100)+'%':'0%';
+  pl.textContent=cMod<0?'Willkommen':cMod>=activeModules.length?'Abschluss':'Modul '+(cMod+1)+' von '+activeModules.length;
 }
 
 function allAnswered(){
-  let c=0;for(let k in ans)c++;return c>=totalQ;
+  let needed=0,have=0;
+  activeModules.forEach(m=>{m.scenarios.forEach((_,i)=>{needed++;if(ans[m.id+'_'+i]!==undefined)have++;});});
+  return have>=needed;
 }
 
 function go(){
   if(cMod<0)rWelcome();
-  else if(cMod>=M.length)rFinish();
-  else{const m=M[cMod];if(cStep===0)rIntro(m);else if(cStep<=m.scenarios.length)rScen(m,cStep-1);else rSum(m);}
+  else if(cMod>=activeModules.length)rFinish();
+  else{const m=activeModules[cMod];if(cStep===0)rIntro(m);else if(cStep<=m.scenarios.length)rScen(m,cStep-1);else rSum(m);}
   updProg();window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -264,7 +301,7 @@ function rWelcome(){
   <!-- WHAT HAPPENS -->
   <div class="card" style="border-left:3px solid #FF5100">
     <h2 style="font-size:17px;margin-bottom:10px">Was erwartet Sie?</h2>
-    <p style="font-size:14px;line-height:1.7">Sie durchlaufen <strong>5 Module mit 18 realitätsnahen Szenarien</strong> aus dem Arbeitsalltag von Ingenieurbüros. In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung. Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4.</p>
+    <p style="font-size:14px;line-height:1.7">Sie durchlaufen <strong>mehrere Module mit realitätsnahen Szenarien</strong> aus dem Arbeitsalltag von Ingenieurbüros. In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung. Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4.</p>
     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
       <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-gamepad-line" style="color:#FF5100;font-size:15px"></i> Szenariobasiert</div>
       <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-smartphone-line" style="color:#FF5100;font-size:15px"></i> Am Handy oder PC</div>
@@ -272,31 +309,55 @@ function rWelcome(){
     </div>
   </div>
 
-  <!-- MODULES -->
-  <div class="card">
-    <h2 style="font-size:17px;margin-bottom:14px">Ihre 5 Module im Überblick</h2>
-    ${M.map((m,i)=>`
-    <div style="display:flex;gap:14px;padding:14px 0;${i<M.length-1?'border-bottom:1px solid #eceef4;':''}">
-      <div style="min-width:36px;height:36px;border-radius:9px;background:${i===0?'linear-gradient(135deg,#FF5100,#e03d00)':'#F0F2F8'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:${i===0?'white':'#122D6E'};flex-shrink:0">${i+1}</div>
-      <div>
-        <div style="font-weight:700;font-size:14px;color:#122D6E;margin-bottom:2px">${m.title}</div>
-        <div style="font-size:13px;color:#122D6E;opacity:.6">${m.desc}</div>
-      </div>
-    </div>`).join('')}
+  <!-- CTA + CODE GATE -->
+  <div class="card" id="codeCard">
+    <h2 style="font-size:17px;margin-bottom:10px">Schulung starten</h2>
+    <p style="font-size:14px;line-height:1.6;margin-bottom:16px">Geben Sie Ihren persönlichen Zugangscode ein, um die Schulung zu starten. Sie haben Ihren Code von Braingineering oder Ihrem Arbeitgeber erhalten.</p>
+    <div style="display:flex;gap:8px;max-width:360px;margin:0 auto">
+      <input type="text" id="codeInput" maxlength="6" placeholder="6-stelliger Code" style="flex:1;padding:12px 16px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;letter-spacing:.15em;text-align:center;color:#122D6E;background:white;text-transform:uppercase" onkeydown="if(event.key==='Enter')validateCode()">
+      <button class="btn-p" onclick="validateCode()" id="codeBtn" style="padding:12px 20px;white-space:nowrap">
+        <i class="ri-arrow-right-line"></i>
+      </button>
+    </div>
+    <div id="codeError" style="display:none;text-align:center;margin-top:10px;font-size:13px;color:#c0392b;font-weight:700"></div>
+    <div id="codeLoading" style="display:none;text-align:center;margin-top:10px;font-size:13px;color:#122D6E;opacity:.6">Code wird geprüft...</div>
   </div>
+  <p style="text-align:center;font-size:12px;color:#122D6E;opacity:.35;margin-top:4px;padding-bottom:20px">Jeder Code ist einmalig verwendbar.</p>`;
+}
 
-  <!-- CTA -->
-  <div style="text-align:center;padding:8px 0 20px">
-    <button class="btn-p" style="padding:14px 36px;font-size:15px;border-radius:10px" onclick="cMod=0;cStep=0;go()">
-      Jetzt starten <i class="ri-arrow-right-line"></i>
-    </button>
-    <p style="font-size:12px;color:#122D6E;opacity:.4;margin-top:10px">Alle Daten bleiben in Ihrem Browser. Es werden keine Eingaben übertragen.</p>
+function rRoleSelect(){
+  sc.innerHTML=`
+  <div class="card-dk" style="text-align:center">
+    <div style="font-size:36px;margin-bottom:8px"><i class="ri-user-line"></i></div>
+    <h1 style="font-size:22px">Welche Beschreibung passt am besten zu Ihnen?</h1>
+    <p style="font-size:14px;opacity:.7">Basierend auf Ihrer Auswahl werden die Module zusammengestellt. Alle Rollen durchlaufen die Kernmodule 1-5. Zusätzliche Module werden je nach Verantwortungsbereich ergänzt.</p>
+  </div>
+  ${ROLES.map(r=>{
+    const mods=M.filter(m=>r.mods.includes(m.id));
+    const scCount=mods.reduce((a,m)=>a+m.scenarios.length,0);
+    return `
+  <div class="card" style="cursor:pointer;border:1.5px solid rgba(18,45,110,.1);transition:all .15s" onclick="selectRole('${r.id}')" onmouseover="this.style.borderColor='#FF5100';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(18,45,110,.1)';this.style.transform='none'">
+    <h2 style="font-size:16px;margin-bottom:6px">${r.label}</h2>
+    <p style="font-size:14px;opacity:.7;margin-bottom:12px">${r.desc}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      ${mods.map(m=>`<span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#F0F2F8;color:#122D6E">${m.title}</span>`).join('')}
+    </div>
+    <div style="font-size:12px;color:#122D6E;opacity:.5;margin-top:10px">${mods.length} Module, ${scCount} Szenarien</div>
   </div>`;
+  }).join('')}`;
+}
+
+function selectRole(roleId){
+  selectedRole=roleId;
+  recalcTotal();
+  cMod=0;cStep=0;
+  go();
 }
 
 function rIntro(m){
+  const modNum=cMod+1, modTotal=activeModules.length;
   sc.innerHTML=`<div class="card">
-    <div class="badge"><i class="${m.icon}"></i> ${m.intro.ey}</div>
+    <div class="badge"><i class="${m.icon}"></i> Modul ${modNum} von ${modTotal}</div>
     <h1>${m.intro.h}</h1>
     <p>${m.intro.t}</p>
     <div style="margin-top:20px"><button class="btn-p" onclick="cStep++;go()">Weiter <i class="ri-arrow-right-line"></i></button></div>
@@ -358,7 +419,7 @@ function rScen(m,si){
 
   sc.innerHTML=`<div class="card">
     ${nav}
-    <div class="badge"><i class="${m.icon}"></i> ${m.intro.ey} &mdash; Szenario ${si+1}/${m.scenarios.length}</div>
+    <div class="badge"><i class="${m.icon}"></i> Modul ${cMod+1} von ${activeModules.length} &mdash; Szenario ${si+1}/${m.scenarios.length}</div>
     <div class="situ"><div class="lbl">Situation</div>${sitH}</div>
     <div class="q-text">${s.q}</div>
     <div class="opts">${optsH}</div>
@@ -367,7 +428,7 @@ function rScen(m,si){
 }
 
 function rSum(m){
-  const isLastMod=cMod===M.length-1;
+  const isLastMod=cMod===activeModules.length-1;
   let nextBtn='';
   if(isLastMod){
     if(allAnswered()){
@@ -379,7 +440,7 @@ function rSum(m){
     nextBtn=`<button class="btn-p" onclick="cMod++;cStep=0;go()">Weiter zu Modul ${cMod+2} <i class="ri-arrow-right-line"></i></button>`;
   }
   sc.innerHTML=`<div class="card">
-    <div class="badge"><i class="${m.icon}"></i> ${m.intro.ey} &mdash; Zusammenfassung</div>
+    <div class="badge"><i class="${m.icon}"></i> Modul ${cMod+1} von ${activeModules.length} &mdash; Zusammenfassung</div>
     <h2>Das Wichtigste aus diesem Modul</h2>
     <div class="wb">${m.summary}</div>
     <div style="margin-top:16px;display:flex;justify-content:flex-end">${nextBtn}</div>
@@ -387,20 +448,32 @@ function rSum(m){
 }
 
 function rFinish(){
-  if(!allAnswered()){cMod=M.length-1;cStep=M[cMod].scenarios.length+1;go();return;}
+  if(!allAnswered()){cMod=activeModules.length-1;cStep=activeModules[cMod].scenarios.length+1;go();return;}
   const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const SIG='<svg width="130" height="44" viewBox="0 0 130 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M6 8 L6 36" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M6 8 C8 7,14 6,20 10 C26 14,28 20,28 24 C28 28,26 33,20 36 C14 39,8 37,6 36" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M28 28 C32 26,34 30,38 28" stroke="#122D6E" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/><path d="M42 8 L42 36" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M42 24 C46 20,50 14,56 8" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M46 22 C50 26,54 32,60 36 C64 38,68 37,72 34" stroke="#122D6E" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M72 34 C78 30,84 28,92 30 C100 32,106 28,112 24" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M112 24 C116 22,120 26,118 28" stroke="#122D6E" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/><path d="M6 40 C20 42,60 42,90 38" stroke="#122D6E" stroke-width="0.7" fill="none" stroke-linecap="round" opacity="0.3"/></svg>';
+  const SIG='<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M15 48 C18 42,22 30,28 22 C34 14,38 12,36 18 C34 24,26 34,20 38 C14 42,18 36,24 30 C30 24,36 20,32 28 C28 36,22 42,18 44" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 38 C24 34,30 28,38 22 C46 16,54 10,60 8 C66 6,62 12,56 18 C50 24,42 32,48 28 C54 24,62 16,68 12" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M56 18 C52 24,46 32,40 38 C34 44,30 46,28 44" stroke="#122D6E" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.8"/><path d="M68 12 C72 10,78 14,82 18 C86 22,84 28,78 32 C72 36,66 34,68 28 C70 22,76 18,82 20" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M82 20 C86 22,90 18,94 14 C98 10,102 12,100 18 C98 24,92 30,88 34 C84 38,80 42,82 40 C84 38,90 32,96 28 C102 24,106 26,104 30" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 50 C44 48,62 44,80 42 C90 41,98 42,104 40" stroke="#122D6E" stroke-width="0.7" fill="none" stroke-linecap="round" opacity="0.25"/></svg>';
+  const modDescs={
+    m1:'Generative KI, analytische KI, regelbasierte Automatisierung. KI-Systeme im Arbeitsumfeld identifizieren.',
+    m2:'KI-Outputs kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.',
+    m3:'Konsumenten- vs. Business-Lizenzen. DSGVO-konforme Tool-Auswahl. Umgang mit Firmen- und Kundendaten.',
+    m4:'Verordnung (EU) 2024/1689. Risikoklassen. Art. 4 Pflichten. Dokumentationsanforderungen.',
+    m5:'Onboarding, Zeitdruck, KI-Dokumente prüfen, Browser-Plugins bewerten, Verhalten bei Unsicherheit.',
+    m6:'Organisationsverschulden, KI-Dokumentation, Haftung, Freigabeprozesse für neue KI-Tools.',
+    m7:'Tool-Auswahl und Datenschutzprüfung, Datenflüsse, Monitoring, Freigabeprozess für Plugins und Erweiterungen.'
+  };
+  const roleLbl=selectedRole?ROLES.find(r=>r.id===selectedRole).label:'KI-Anwender';
+  const scCount=activeModules.reduce((a,m)=>a+m.scenarios.length,0);
+  const modsHtml=activeModules.map((m,i)=>`<li><span class="cm-n">${i+1}.</span><span><span class="cm-t">${m.title}</span> &mdash; ${modDescs[m.id]||m.desc}</span></li>`).join('');
   sc.innerHTML=`
   <div class="card-dk" style="text-align:center">
     <div style="font-size:40px;margin-bottom:10px"><i class="ri-trophy-line"></i></div>
     <h1>Alle Module abgeschlossen!</h1>
-    <p>Sie haben alle 5 Module und 18 Szenarien erfolgreich durchgearbeitet.</p>
+    <p>Sie haben alle ${activeModules.length} Module und ${scCount} Szenarien erfolgreich durchgearbeitet.</p>
   </div>
   <div class="card">
     <h2>Teilnahmezertifikat erstellen</h2>
     <p style="margin-bottom:16px;font-size:14px">Geben Sie Ihre Daten ein. Anschließend können Sie das Zertifikat über Strg+P / Cmd+P als PDF speichern.</p>
     <input type="text" id="cN" class="ci" placeholder="Vollständiger Name *">
-    <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, GF)">
+    <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, GF)" value="${roleLbl}">
     <input type="text" id="cC" class="ci" placeholder="Unternehmen">
     <div style="text-align:center;margin-top:14px">
       <button class="btn-p" onclick="genCert()"><i class="ri-file-text-line"></i> Zertifikat erstellen</button>
@@ -427,16 +500,10 @@ function rFinish(){
       <div class="c-body">hat am <strong>${today}</strong> das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.</div>
       <div style="margin:8px 0;padding:8px 12px;background:#F0F2F8;border-radius:5px;font-size:9.5px;line-height:1.55;color:#122D6E">
         <strong style="font-size:8.5px;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px;opacity:.5">Format und Methodik</strong>
-        Interaktives, szenariobasiertes E-Learning. 18 realitätsnahe Entscheidungssituationen aus dem Arbeitsalltag von Ingenieurbüros. Eigenständige Entscheidungsfindung mit unmittelbarer fachlicher Rückmeldung zu jeder Antwort. Szenarien <span id="cdRoleCtx">branchenspezifisch für Ingenieurbüros</span> konzipiert.
+        Interaktives, szenariobasiertes E-Learning. ${scCount} realitätsnahe Entscheidungssituationen aus dem Arbeitsalltag von Ingenieurbüros. Eigenständige Entscheidungsfindung mit unmittelbarer fachlicher Rückmeldung zu jeder Antwort. Szenarien <span id="cdRoleCtx">branchenspezifisch für Ingenieurbüros</span> konzipiert. Kompetenzprofil: ${roleLbl}.
       </div>
-      <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:10px 0 4px">Geschulte Inhalte (5 Module, 18 Szenarien)</div>
-      <ol class="c-mods">
-        <li><span class="cm-n">1.</span><span><span class="cm-t">Was ist KI?</span> &mdash; Generative KI, analytische KI, regelbasierte Automatisierung. KI-Systeme im Arbeitsumfeld identifizieren.</span></li>
-        <li><span class="cm-n">2.</span><span><span class="cm-t">Chancen und Grenzen</span> &mdash; KI-Outputs kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.</span></li>
-        <li><span class="cm-n">3.</span><span><span class="cm-t">Datenschutz und DSGVO</span> &mdash; Konsumenten- vs. Business-Lizenzen. DSGVO-konforme Tool-Auswahl. Umgang mit Firmen- und Kundendaten.</span></li>
-        <li><span class="cm-n">4.</span><span><span class="cm-t">EU AI Act</span> &mdash; Verordnung (EU) 2024/1689. Risikoklassen. Art. 4 Pflichten. Dokumentationsanforderungen.</span></li>
-        <li><span class="cm-n">5.</span><span><span class="cm-t">Regeln für den Arbeitsalltag</span> &mdash; Onboarding, Zeitdruck, KI-Dokumente prüfen, Browser-Plugins bewerten, Verhalten bei Unsicherheit.</span></li>
-      </ol>
+      <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:10px 0 4px">Geschulte Inhalte (${activeModules.length} Module, ${scCount} Szenarien)</div>
+      <ol class="c-mods">${modsHtml}</ol>
       <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:8px 0 3px">Insbesondere wurde hingewiesen auf</div>
       <div style="font-size:9.5px;line-height:1.55;color:#122D6E;margin-bottom:8px">
         Prüfpflicht bei KI-generierten Ergebnissen vor beruflicher Verwendung. Ausschließliche Nutzung DSGVO-konformer Systeme für Firmendaten. Dokumentationspflicht des Arbeitgebers gem. EU AI Act. Eigenverantwortung jedes Mitarbeitenden im Umgang mit KI-Werkzeugen.
@@ -485,7 +552,60 @@ function genCert(){
   setTimeout(()=>$('cg').scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
 
-// Prevent URL deeplink to certificate - always start from beginning
+// Code validation
+let codeValidated = false;
+
+async function validateCode() {
+  const input = $('codeInput');
+  const errEl = $('codeError');
+  const loadEl = $('codeLoading');
+  const code = input.value.trim().toUpperCase();
+  
+  errEl.style.display = 'none';
+  
+  if (!code || code.length < 6) {
+    errEl.textContent = 'Bitte geben Sie einen 6-stelligen Code ein.';
+    errEl.style.display = 'block';
+    input.style.borderColor = '#c0392b';
+    input.focus();
+    return;
+  }
+  
+  loadEl.style.display = 'block';
+  $('codeBtn').disabled = true;
+  
+  try {
+    const resp = await fetch('/api/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code, action: 'consume' })
+    });
+    const data = await resp.json();
+    
+    loadEl.style.display = 'none';
+    $('codeBtn').disabled = false;
+    
+    if (data.valid) {
+      codeValidated = true;
+      rRoleSelect();
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else {
+      errEl.textContent = data.error || 'Ungültiger Code.';
+      errEl.style.display = 'block';
+      input.style.borderColor = '#c0392b';
+      input.focus();
+    }
+  } catch (e) {
+    loadEl.style.display = 'none';
+    $('codeBtn').disabled = false;
+    errEl.textContent = 'Verbindungsfehler. Bitte versuchen Sie es erneut.';
+    errEl.style.display = 'block';
+  }
+}
+
+// Init
+initDom();
+recalcTotal();
 go();
 </script>
 </body>
