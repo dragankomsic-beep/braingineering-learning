@@ -6,7 +6,6 @@
 <title>KI-Awareness Schulung | Braingineering</title>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <style>
 :root{--c-primary:#122D6E;--c-accent:#FF5100;--c-white:#FFFFFF;--c-surface:#F0F2F8;--g-blue:linear-gradient(135deg,#122D6E 0%,#1a3fa0 50%,#2255d4 100%);--g-orange:linear-gradient(135deg,#FF5100 0%,#e03d00 100%);--correct:#0a8754;--wrong:#c0392b;--radius:14px}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -184,6 +183,7 @@ p+p{margin-top:10px}
   <div id="sc"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const M=[
 {id:'m1',title:'Was ist KI?',icon:'ri-robot-2-line',desc:'Erkennen, was KI ist und was nicht',intro:{ey:'Modul 1 von 5',h:'Was ist Künstliche Intelligenz?',t:'Künstliche Intelligenz begegnet Ihnen im Arbeitsalltag häufiger, als Sie vielleicht denken. Manche Tools, die Sie täglich verwenden, nutzen KI im Hintergrund. Andere, die sich "intelligent" anfühlen, tun es nicht. In diesem Modul lernen Sie, den Unterschied zu erkennen.'},scenarios:[
@@ -540,6 +540,7 @@ function pick(key,i){
 function genCert(){
   const n=$('cN').value.trim(),r=$('cR').value.trim(),c=$('cC').value.trim();
   if(!n){$('cN').style.borderColor='#c0392b';$('cN').focus();return;}
+  if(!window.jspdf){alert('PDF-Bibliothek konnte nicht geladen werden. Bitte Seite neu laden.');return;}
 
   const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
   const {jsPDF}=window.jspdf;
