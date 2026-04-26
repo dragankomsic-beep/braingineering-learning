@@ -183,6 +183,7 @@ p+p{margin-top:10px}
   <div id="sc"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const M=[
@@ -540,189 +541,70 @@ function pick(key,i){
 function genCert(){
   const n=$('cN').value.trim(),r=$('cR').value.trim(),c=$('cC').value.trim();
   if(!n){$('cN').style.borderColor='#c0392b';$('cN').focus();return;}
-  if(!window.jspdf){alert('PDF-Bibliothek konnte nicht geladen werden. Bitte Seite neu laden.');return;}
+  if(!window.jspdf||!window.html2canvas){alert('PDF-Bibliothek konnte nicht geladen werden. Bitte Seite neu laden.');return;}
 
-  const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF({unit:'mm',format:'a4'});
-  const pw=210,ph=297;
-  const ml=24,mr=24,cw=pw-ml-mr;
-  const navy='#122D6E',orange='#FF5100',grey='#8890A5';
-  let y=20;
-
-  // Helper functions
-  function setFont(size,style='normal',color=navy){doc.setFontSize(size);doc.setFont('helvetica',style);doc.setTextColor(color);}
-  function drawLine(y1,c=navy){doc.setDrawColor(c);doc.setLineWidth(0.4);doc.line(ml,y1,pw-mr,y1);}
-  function wrapText(text,x,yy,maxW,lineH){
-    const lines=doc.splitTextToSize(text,maxW);
-    lines.forEach(l=>{doc.text(l,x,yy);yy+=lineH;});
-    return yy;
-  }
-
-  // === TOP ACCENT BAR ===
-  doc.setFillColor(orange);
-  doc.rect(0,0,pw,3,'F');
-
-  // === HEADER ===
-  y=12;
-  // Logo bolt (orange square)
-  doc.setFillColor(orange);
-  doc.roundedRect(ml,y-4,7,7,1.5,1.5,'F');
-  // Bolt icon (simplified)
-  doc.setFillColor('#FFFFFF');
-  doc.setDrawColor('#FFFFFF');
-  doc.setLineWidth(0.6);
-  doc.line(ml+4.2,y-2.5,ml+2.5,y+0.5);
-  doc.line(ml+2.5,y+0.5,ml+4,y+0.5);
-  doc.line(ml+4,y+0.5,ml+2.8,y+2.5);
-
-  setFont(11,'bold');
-  doc.text('braingineering.',ml+9,y+1);
-
-  // Contact right
-  setFont(7,'normal',grey);
-  doc.text('Braingineering GmbH | Modecenterstraße 20/1/193, 1030 Wien',pw-mr,y-1,{align:'right'});
-  doc.text('office@braingineering.at | +43 676 393 0094',pw-mr,y+2.5,{align:'right'});
-
-  y+=8;
-  doc.setDrawColor(navy);doc.setLineWidth(0.6);doc.line(ml,y,pw-mr,y);
-
-  // === TITLE ===
-  y+=10;
-  setFont(9,'bold',orange);
-  doc.text('TEILNAHMEZERTIFIKAT',ml,y);
-  y+=5;
-  setFont(7,'normal',grey);
-  doc.text('KI-Kompetenz gem. Artikel 4, Verordnung (EU) 2024/1689',ml,y);
-
-  // === RECIPIENT ===
-  y+=10;
-  setFont(7,'bold',grey);
-  doc.text('AUSGESTELLT FÜR',ml,y);
-  y+=6;
-  setFont(14,'bold',navy);
-  doc.text(n,ml,y);
-  if(r){y+=5.5;setFont(9,'normal',navy);doc.text(r,ml,y);}
-  if(c){y+=5;setFont(9,'normal',grey);doc.text(c,ml,y);}
-
-  // === BODY ===
-  y+=10;
-  setFont(9,'normal',navy);
-  doc.text('hat am '+today+' das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.',ml,y);
-
-  // === METHOD BOX ===
-  y+=10;
-  doc.setFillColor('#F0F2F8');
-  doc.roundedRect(ml,y-4,cw,20,2,2,'F');
-  setFont(7,'bold',grey);
-  doc.text('FORMAT UND METHODIK',ml+4,y);
-  y+=4;
-  setFont(8,'normal',navy);
-  const roleLbl=selectedRole?ROLES.find(rx=>rx.id===selectedRole).label:'KI-Anwender';
-  const scCount=activeModules.reduce((a,m)=>a+m.scenarios.length,0);
-  const methText='Interaktives, szenariobasiertes E-Learning. '+scCount+' realitätsnahe Entscheidungssituationen aus dem Arbeitsalltag von Ingenieurbüros. Eigenständige Entscheidungsfindung mit unmittelbarer fachlicher Rückmeldung. Kompetenzprofil: '+roleLbl+'.';
-  y=wrapText(methText,ml+4,y,cw-8,4);
-
-  // === MODULES ===
-  y+=6;
-  setFont(7,'bold',grey);
-  doc.text('GESCHULTE INHALTE ('+activeModules.length+' MODULE, '+scCount+' SZENARIEN)',ml,y);
-  y+=5;
-
-  const modDescs={
-    m1:'Generative KI, analytische KI, regelbasierte Automatisierung. KI im Arbeitsumfeld identifizieren.',
-    m2:'KI-Outputs kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.',
-    m3:'Konsumenten- vs. Business-Lizenzen. DSGVO-konforme Tool-Auswahl. Umgang mit Firmendaten.',
-    m4:'Verordnung (EU) 2024/1689. Risikoklassen. Art. 4 Pflichten. Dokumentation.',
-    m5:'Onboarding, Zeitdruck, KI-Dokumente prüfen, Browser-Plugins, Verhalten bei Unsicherheit.',
-    m6:'Organisationsverschulden, KI-Dokumentation, Haftung, Freigabeprozesse für neue KI-Tools.',
-    m7:'Tool-Auswahl, Datenflüsse, Monitoring, Freigabeprozess für Plugins und Erweiterungen.'
-  };
-
-  activeModules.forEach((m,i)=>{
-    setFont(8,'bold',navy);
-    doc.text((i+1)+'. '+m.title,ml+2,y);
-    setFont(8,'normal',grey);
-    const desc=modDescs[m.id]||m.desc;
-    y=wrapText('    '+desc,ml+2,y+4,cw-6,3.8);
-    y+=2;
-  });
-
-  // === HINGEWIESEN AUF ===
-  y+=3;
-  setFont(7,'bold',grey);
-  doc.text('INSBESONDERE WURDE HINGEWIESEN AUF',ml,y);
-  y+=5;
-  setFont(8,'normal',navy);
-  y=wrapText('Prüfpflicht bei KI-generierten Ergebnissen vor beruflicher Verwendung. Ausschließliche Nutzung DSGVO-konformer Systeme für Firmendaten. Dokumentationspflicht des Arbeitgebers gem. EU AI Act. Eigenverantwortung jedes Mitarbeitenden.',ml,y,cw,4);
-
-  // === RECHTSGRUNDLAGE BOX ===
-  y+=6;
-  doc.setDrawColor('#D0D4E0');doc.setLineWidth(0.3);
-  doc.roundedRect(ml,y-4,cw,18,2,2,'S');
-  setFont(7,'bold',grey);
-  doc.text('RECHTSGRUNDLAGE',ml+4,y);
-  y+=4;
-  setFont(7.5,'normal',navy);
-  y=wrapText('Art. 4 der Verordnung (EU) 2024/1689 (EU AI Act), in Kraft seit 2.2.2025, verpflichtet Betreiber von KI-Systemen, nach besten Kräften sicherzustellen, dass ihr Personal über ausreichende KI-Kompetenz verfügt (Bemühungspflicht). Dieses Zertifikat dokumentiert die Durchführung einer entsprechenden Maßnahme.',ml+4,y,cw-8,3.8);
-
-  // === FOOTER / SIGNATURE ===
-  y=Math.max(y+10,240);
-  drawLine(y);
-  y+=6;
-
-  // Left: signature
-  setFont(9,'bold',navy);
-  doc.text('Wien, '+today,ml,y);
-  y+=6;
-
-  // Signature SVG approximation as curves
-  doc.setDrawColor(navy);doc.setLineWidth(0.35);
-  // D
-  doc.line(ml,y,ml,y+8);
-  doc.setLineWidth(0.3);
-  // D curve (approximate with bezier)
-  const dx=ml;
-  doc.line(dx,y,dx+5,y-0.5);doc.line(dx+5,y-0.5,dx+8,y+2);doc.line(dx+8,y+2,dx+8,y+5);doc.line(dx+8,y+5,dx+5,y+8);doc.line(dx+5,y+8,dx,y+8);
-  // K
-  const kx=ml+12;
-  doc.line(kx,y,kx,y+8);
-  doc.line(kx,y+4,kx+6,y);
-  doc.line(kx+2,y+3.5,kx+7,y+8);
-  // Flourish
-  doc.setLineWidth(0.2);
-  doc.line(kx+7,y+8,kx+16,y+5);doc.line(kx+16,y+5,kx+20,y+6);
-
-  y+=12;
-  setFont(9,'bold',navy);
-  doc.text('Dragan Komsic',ml,y);
-  y+=4;
-  setFont(8,'normal',grey);
-  doc.text('Geschäftsführer, Braingineering GmbH',ml,y);
-
-  // Right: company info
-  const rx=pw-mr;
-  setFont(7.5,'normal',grey);
-  doc.text('Braingineering GmbH',rx,y-12,{align:'right'});
-  doc.text('FN 661950g | HG Wien',rx,y-8.5,{align:'right'});
-  doc.text('UID: ATU81137629',rx,y-5,{align:'right'});
-  doc.text('braingineering.at',rx,y-1.5,{align:'right'});
-
-  // === BOTTOM ACCENT BAR ===
-  doc.setFillColor(orange);
-  doc.rect(0,ph-3,pw,3,'F');
-
-  // Save
-  const safeName=n.replace(/[^a-zA-Z0-9]/g,'_');
-  doc.save('KI-Awareness-Zertifikat_'+safeName+'.pdf');
-
-  // Also show the HTML cert for reference
+  // Fill the HTML certificate first
   $('cdN').textContent=n;
   $('cdR').textContent=r||'';$('cdR').style.display=r?'block':'none';
   $('cdC').textContent=c||'';$('cdC').style.display=c?'block':'none';
   if(r&&$('cdRoleCtx'))$('cdRoleCtx').textContent='branchenspezifisch für Ingenieurbüros konzipiert und im Kontext der Rolle "'+r+'" durchgeführt';
   $('cg').classList.add('show');
-  setTimeout(()=>$('cg').scrollIntoView({behavior:'smooth',block:'start'}),100);
+
+  // Show loading state
+  const btn=document.querySelector('.btn-p[onclick="genCert()"]');
+  const origText=btn.innerHTML;
+  btn.innerHTML='<i class="ri-loader-4-line"></i> PDF wird erstellt...';
+  btn.disabled=true;
+
+  // Wait for DOM to render, then capture
+  setTimeout(()=>{
+    const certEl=$('cdoc');
+    html2canvas(certEl,{
+      scale:2,
+      useCORS:true,
+      backgroundColor:'#ffffff',
+      logging:false
+    }).then(canvas=>{
+      const {jsPDF}=window.jspdf;
+      const imgData=canvas.toDataURL('image/png');
+      
+      // A4 dimensions in mm
+      const pdfW=210;
+      const pdfH=297;
+      
+      // Calculate image dimensions to fit A4 with margins
+      const marginX=10;
+      const maxW=pdfW-marginX*2;
+      const imgAspect=canvas.height/canvas.width;
+      const imgW=maxW;
+      const imgH=imgW*imgAspect;
+      
+      // If image is taller than A4, scale down
+      const maxH=pdfH-20;
+      let finalW=imgW,finalH=imgH;
+      if(imgH>maxH){
+        finalH=maxH;
+        finalW=finalH/imgAspect;
+      }
+      
+      const doc=new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+      const x=(pdfW-finalW)/2;
+      const y=10;
+      doc.addImage(imgData,'PNG',x,y,finalW,finalH);
+      
+      const safeName=n.replace(/[^a-zA-Z0-9]/g,'_');
+      doc.save('KI-Awareness-Zertifikat_'+safeName+'.pdf');
+      
+      btn.innerHTML=origText;
+      btn.disabled=false;
+      setTimeout(()=>$('cg').scrollIntoView({behavior:'smooth',block:'start'}),100);
+    }).catch(err=>{
+      console.error('PDF error:',err);
+      alert('PDF konnte nicht erstellt werden: '+err.message);
+      btn.innerHTML=origText;
+      btn.disabled=false;
+    });
+  },300);
 }
 
 // Code validation
