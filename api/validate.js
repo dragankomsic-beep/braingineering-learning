@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
     if (action === 'consume') {
       if (isUsed) return res.status(200).json({ valid: false, error: 'Dieser Code wurde bereits verwendet.' });
-      await put(prefix + '.json', JSON.stringify({ code: cleanCode, usedAt: new Date().toISOString() }), { access: 'private', contentType: 'application/json', addRandomSuffix: false });
+      await put(prefix + '.json', JSON.stringify({ code: cleanCode, usedAt: new Date().toISOString() }), { access: 'public', contentType: 'application/json', addRandomSuffix: false });
       return res.status(200).json({ valid: true, consumed: true });
     }
 
