@@ -115,7 +115,7 @@ p+p{margin-top:10px}
 .ci:focus{outline:none;border-color:var(--c-accent)}
 
 /* Cert document — compact A4 */
-.cert-doc{background:white;border:none;padding:28px 32px 24px;max-width:640px;margin:20px auto 0;position:relative}
+.cert-doc{background:white;border:1px solid #d0d4e0;padding:28px 32px 24px;max-width:640px;margin:20px auto 0;position:relative}
 .cert-doc .c-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--c-primary)}
 .cert-doc .c-hdr-logo{display:flex;align-items:center;gap:7px}
 .cert-doc .c-hdr-contact{text-align:right;font-size:9px;line-height:1.45;color:var(--c-primary);opacity:.55}
@@ -171,18 +171,17 @@ p+p{margin-top:10px}
   .cert-doc{padding:20px 14px}
 }
 
-.lang-btn.active{background:var(--c-primary)!important;color:white!important}
-.lang-btn:not(.active){background:white!important;color:var(--c-primary)!important}
-.lang-btn:hover:not(.active){background:#F0F2F8!important}
+.lang-toggle{position:absolute;right:20px;top:50%;transform:translateY(-50%);display:flex;border-radius:8px;overflow:hidden;border:1.5px solid rgba(18,45,110,.12)}
+.lang-btn{padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:all .15s}
+.lang-btn.active{background:var(--c-primary);color:white}
+.lang-btn:not(.active){background:white;color:var(--c-primary)}
+.lang-btn:hover:not(.active){background:#F0F2F8}
 </style>
 </head>
 <body>
 <div class="app" id="app">
-  <div class="hdr">
-  <div class="lang-toggle" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);display:flex;gap:0;border-radius:8px;overflow:hidden;border:1.5px solid rgba(18,45,110,.12)">
-    <button class="lang-btn active" data-lang="de" onclick="switchLang('de')" style="padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;border:none;background:var(--c-primary);color:white;transition:all .15s">DE</button>
-    <button class="lang-btn" data-lang="en" onclick="switchLang('en')" style="padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;border:none;background:white;color:var(--c-primary);transition:all .15s">EN</button>
-  </div>
+  <div class="hdr" style="position:relative">
+  <div class="lang-toggle"><button class="lang-btn active" data-lang="de" onclick="switchLang('de')">DE</button><button class="lang-btn" data-lang="en" onclick="switchLang('en')">EN</button></div>
     <div class="hdr-bolt"><svg width="14" height="18" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div>
     <span class="hdr-txt">braingineering.</span>
   </div>
@@ -195,19 +194,19 @@ p+p{margin-top:10px}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 const M=[
-{id:'m1',title:'Was ist KI?',icon:'ri-robot-2-line',desc:'Erkennen, was KI ist und was nicht',intro:{ey:'Modul 1 von 5',h:'Was ist Künstliche Intelligenz?',t:'Künstliche Intelligenz begegnet Ihnen im Arbeitsalltag häufiger, als Sie vielleicht denken. Manche Tools, die Sie täglich verwenden, nutzen KI im ${isEN ? 'Background' : 'Hintergrund'}. Andere, die sich "intelligent" anfühlen, tun es nicht. In diesem Modul lernen Sie, den Unterschied zu erkennen.'},scenarios:[
-{sit:'Ihre Kollegin sagt: "Ich nutze gar keine KI bei der Arbeit." Sie arbeitet täglich mit Microsoft Outlook (mit Copilot-Funktionen), einer Excel-Tabelle mit WENN-Formeln, Google Maps für Baustellenanfahrten und einem Spamfilter.',q:'Welche dieser Tools nutzen KI?',opts:['Nur Microsoft Copilot','Copilot und der Spamfilter','Copilot, der Spamfilter und Google Maps','Alle vier, auch Excel-Formeln'],c:2,fb:{ok:'Genau. Microsoft Copilot ist generative KI. Der Spamfilter nutzt maschinelles Lernen. Google Maps verwendet maschinelles Lernen für Verkehrsprognosen (die Routenberechnung selbst nutzt klassische Algorithmen). Excel-Formeln hingegen sind regelbasierte Automatisierung: feste Regeln ohne zu "lernen".',no:['Nicht ganz. Auch der Spamfilter nutzt maschinelles Lernen und Google Maps verwendet KI für Verkehrsprognosen. Viele KI-Systeme arbeiten unsichtbar im ${isEN ? 'Background' : 'Hintergrund'}.','Nicht ganz. Auch Google Maps verwendet KI für Verkehrsprognosen und Routenoptimierung.','Fast. Excel-Formeln sind keine KI. Sie folgen festen Regeln: WENN A > B, DANN C. Kein Lernen, keine Vorhersagen. Die anderen drei nutzen tatsächlich KI.']}},
+{id:'m1',title:'Was ist KI?',icon:'ri-robot-2-line',desc:'Erkennen, was KI ist und was nicht',intro:{ey:'Modul 1 von 5',h:'Was ist Künstliche Intelligenz?',t:'Künstliche Intelligenz begegnet Ihnen im Arbeitsalltag häufiger, als Sie vielleicht denken. Manche Tools, die Sie täglich verwenden, nutzen KI im Hintergrund. Andere, die sich "intelligent" anfühlen, tun es nicht. In diesem Modul lernen Sie, den Unterschied zu erkennen.'},scenarios:[
+{sit:'Ihre Kollegin sagt: "Ich nutze gar keine KI bei der Arbeit." Sie arbeitet täglich mit Microsoft Outlook (mit Copilot-Funktionen), einer Excel-Tabelle mit WENN-Formeln, Google Maps für Baustellenanfahrten und einem Spamfilter.',q:'Welche dieser Tools nutzen KI?',opts:['Nur Microsoft Copilot','Copilot und der Spamfilter','Copilot, der Spamfilter und Google Maps','Alle vier, auch Excel-Formeln'],c:2,fb:{ok:'Genau. Microsoft Copilot ist generative KI. Der Spamfilter nutzt maschinelles Lernen. Google Maps verwendet maschinelles Lernen für Verkehrsprognosen (die Routenberechnung selbst nutzt klassische Algorithmen). Excel-Formeln hingegen sind regelbasierte Automatisierung: feste Regeln ohne zu "lernen".',no:['Nicht ganz. Auch der Spamfilter nutzt maschinelles Lernen und Google Maps verwendet KI für Verkehrsprognosen. Viele KI-Systeme arbeiten unsichtbar im Hintergrund.','Nicht ganz. Auch Google Maps verwendet KI für Verkehrsprognosen und Routenoptimierung.','Fast. Excel-Formeln sind keine KI. Sie folgen festen Regeln: WENN A > B, DANN C. Kein Lernen, keine Vorhersagen. Die anderen drei nutzen tatsächlich KI.']}},
 {sit:'Ihr Vorgesetzter fragt: "Was ist der Unterschied zwischen ChatGPT und der automatischen Kategorisierung in unserem Dokumentenmanagementsystem?"',q:'Was ist der wesentliche Unterschied?',opts:['ChatGPT ist ein externer Dienst, das DMS ein internes System. Anderer Preis, andere Kategorie.','ChatGPT erzeugt neue Inhalte, das DMS sortiert bestehende nach gelernten Mustern','ChatGPT ist echte KI, das DMS ist nur Software','Kein wesentlicher Unterschied, beides ist KI'],c:1,fb:{ok:'Richtig. ChatGPT ist generative KI: Sie erzeugt neue Texte und Antworten. Das DMS nutzt analytische KI: Es erkennt Muster und sortiert. Generative KI kann "halluzinieren", analytische KI kann falsch einordnen, erfindet aber keine neuen Inhalte.',no:['Der Preis ist nicht der Unterschied. ChatGPT erzeugt neue Inhalte (generativ), das DMS sortiert bestehende (analytisch). Beides ist KI, mit unterschiedlichen Risiken.','Beides ist KI, nur unterschiedliche Arten. Die Unterscheidung beeinflusst, wie vorsichtig Sie mit dem Output umgehen müssen.','Beides ist KI, aber der Unterschied ist wichtig: Generative KI erzeugt neue Inhalte (Halluzinationsrisiko), analytische KI sortiert bestehende Daten.']}},
 {sit:'Ihre Geschäftsführung will eine Bestandsaufnahme: Welche KI-Systeme nutzt die Abteilung?',q:'Welche Tätigkeit nutzt KI?',opts:['Automatischer E-Mail-Versand jeden Montag um 8:00','Ein Tool, das aus einem Diktat ein strukturiertes Protokoll erstellt','Eine Excel-Pivot-Tabelle, die Projektkosten zusammenfasst','Ein Makro, das Dateinamen nach festem Schema umbenennt'],c:1,fb:{ok:'Genau. Sprache in strukturierten Text umwandeln erfordert Spracherkennung und Textverarbeitung (KI). Die anderen Beispiele sind regelbasierte Automatisierung ohne Lernfähigkeit. Für KI-Systeme gelten die Anforderungen des EU AI Act.',no:['Das ist regelbasierte Automatisierung. Die richtige Antwort: Sprache in strukturierten Text umwandeln erfordert KI.','Das ist regelbasierte Automatisierung. Die richtige Antwort: Sprache in strukturierten Text umwandeln erfordert KI.','Das ist ein festes Schema, keine Lernfähigkeit. Die richtige Antwort: Sprache in strukturierten Text umwandeln erfordert KI.']}}
 ,
 {sit:'Ein Kollege lässt eine KI-Zusammenfassung über Messwerte aus einem Prüfbericht erstellen. Die KI schreibt: "Alle Messwerte liegen im Normbereich." Im Original stehen 47 Einzelmessungen.',q:'Können Sie der Zusammenfassung vertrauen?',opts:['Ja, KI ist besonders gut im Umgang mit Zahlen und Tabellen','Nicht ohne Stichprobe. KI kann einzelne Ausreißer übersehen.','Nur wenn man die KI explizit nach Ausreißern fragt'],c:1,fb:{ok:'Richtig. KI-Sprachmodelle arbeiten textbasiert. Sie lesen Zahlen als Wörter, nicht als mathematische Werte. Ein Messwert knapp über der Norm kann in einer Zusammenfassung untergehen. Bei sicherheitsrelevanten Daten immer eine Stichprobe machen.',m:'KI ist stark bei Textzusammenfassungen, aber nicht zuverlässig bei der Interpretation von Messwerten und Zahlentabellen.',no:['KI-Sprachmodelle rechnen nicht. Sie verarbeiten Zahlen als Text und können Ausreißer oder Grenzwertüberschreitungen übersehen.','Auch mit gezielter Nachfrage kann die KI Zahlenwerte falsch einordnen. Die Stichprobe im Original bleibt unverzichtbar.']}}
 ],summary:'<h4>Drei Arten von KI:</h4><p><strong>Generative KI</strong> erzeugt neue Inhalte (ChatGPT, Claude). Risiko: Halluzinationen, auch bei Rechtstexten und Normenverweisen.</p><p><strong>Analytische KI</strong> erkennt Muster (Spamfilter, DMS). Risiko: Fehlinterpretation.</p><p><strong>Regelbasierte Automatisierung</strong> ist keine KI (Excel-Formeln, Makros). Der EU AI Act betrifft nur echte KI-Systeme.</p>'},
 
-{id:'m2',title:'Chancen und Grenzen',icon:'ri-scales-3-line',desc:'${isEN ? 'AI output' : 'KI-Output'}s kritisch bewerten',intro:{ey:'Modul 2 von 5',h:'Chancen und Grenzen von KI',t:'KI-Tools können im Ingenieurbüro enorm viel Zeit sparen. Aber sie haben eine entscheidende Schwäche: Sie klingen immer überzeugend, auch wenn sie falsch liegen. In diesem Modul lernen Sie, wie Sie ${isEN ? 'AI output' : 'KI-Output'}s richtig einschätzen.'},scenarios:[
+{id:'m2',title:'Chancen und Grenzen',icon:'ri-scales-3-line',desc:'KI-Outputs kritisch bewerten',intro:{ey:'Modul 2 von 5',h:'Chancen und Grenzen von KI',t:'KI-Tools können im Ingenieurbüro enorm viel Zeit sparen. Aber sie haben eine entscheidende Schwäche: Sie klingen immer überzeugend, auch wenn sie falsch liegen. In diesem Modul lernen Sie, wie Sie KI-Outputs richtig einschätzen.'},scenarios:[
 {sit:'Sie nutzen ein KI-Tool für eine Normenrecherche. Es liefert:',ai:'"Gemäß ÖNORM B 4700-2:2023, Abschnitt 7.3.2, beträgt die Mindestbewehrung 0,15% des Betonquerschnitts."',sitA:'Die Antwort klingt detailliert und überzeugend.',q:'Was tun Sie?',opts:['Direkt in meine Berechnung übernehmen','Die Normenstelle in der Originalnorm nachschlagen und prüfen','Einen erfahrenen Kollegen fragen, der sich mit der Norm auskennt, und dessen Einschätzung übernehmen'],c:1,fb:{ok:'Richtig. In diesem Fall existiert die ÖNORM B 4700-2:2023 gar nicht in dieser Form. Das Tool hat eine plausibel klingende, aber erfundene Norm generiert.',m:'KI-Tools kennen keine "Wahrheit". Je spezifischer die Angabe, desto höher das Halluzinationsrisiko.',no:['Gefährlich. KI-Tools können Normen und Zahlenwerte erfinden, die korrekt aussehen. In diesem Fall existiert die genannte ÖNORM nicht. Das ist ein Haftungsrisiko.','Besser als direkt übernehmen, aber Ihr Kollege könnte es auch plausibel finden. Die einzig sichere Prüfung ist der Abgleich mit der Originalnorm.']}},
 {sit:'Sie lassen ein 80-seitiges Gutachten zusammenfassen. Die KI schreibt, das Gebäude habe "keine wesentlichen Mängel". Sie erinnern sich vage an etwas über Fassadenrisse im Original.',q:'Wie gehen Sie vor?',opts:['Die Zusammenfassung passt, das Detail war unwichtig','Den Abschnitt im Original nachschlagen und korrigieren','Das KI-Tool nochmal fragen: "Gab es nicht Mängel?"'],c:1,fb:{ok:'Richtig. KI-Zusammenfassungen können Informationen weglassen oder anders gewichten. Die Originalquelle ist immer die verbindliche Referenz.',m:'KI-Zusammenfassungen sind Arbeitshilfen, keine Ersatzdokumente. Je länger der Originaltext, desto eher gehen Details verloren.',no:['Riskant. Eine KI-Zusammenfassung kann kritische Informationen weglassen. Wenn Sie das Gutachten weitergeben, tragen Sie die Verantwortung.','Das KI-Tool könnte den Mangel bestätigen, ihn aber falsch beschreiben. Die einzig sichere Methode ist der Abgleich mit dem Original.']}},
 {sit:'Ein Kollege hat mit KI einen Angebots-Entwurf erstellt. Der Text ist professionell, enthält aber Leistungspositionen, die Ihr Büro gar nicht anbietet.',q:'Wie bewerten Sie das?',opts:['Die offensichtlich falschen Positionen rauslöschen und das Leistungsverzeichnis direkt absenden','KI sollte nicht für Angebote verwendet werden','KI als Entwurfshilfe ist sinnvoll, aber der Output muss vollständig geprüft werden'],c:2,fb:{ok:'Genau. KI-Tools sind hervorragende Entwurfshelfer, kennen aber Ihr Büro nicht. Jeder Output, der das Büro verlässt, muss geprüft und freigegeben werden.',m:'KI erstellt den Entwurf, Sie tragen die Verantwortung.',no:['Die offensichtlichen Fehler zu korrigieren reicht nicht. Was ist mit subtileren Fehlern? Der gesamte Entwurf braucht eine vollständige Prüfung.','Zu pauschal. KI kann bei Angeboten erheblich Zeit sparen. Das Problem ist nicht das Tool, sondern der fehlende Prüfschritt.']}}
-],summary:'<h4>Drei Regeln für ${isEN ? 'AI output' : 'KI-Output'}s:</h4><p><strong>1. Nie ungeprüft übernehmen.</strong> Besonders bei Normenverweisen, Zahlenwerten und fachlichen Details.</p><p><strong>2. KI ist Entwurfshilfe, nicht Endprodukt.</strong> Prüfung und Freigabe bleibt bei Ihnen.</p><p><strong>3. Im Zweifel: Originalquelle.</strong> "Die KI hat das geschrieben" ist kein Haftungsausschluss.</p>'},
+],summary:'<h4>Drei Regeln für KI-Outputs:</h4><p><strong>1. Nie ungeprüft übernehmen.</strong> Besonders bei Normenverweisen, Zahlenwerten und fachlichen Details.</p><p><strong>2. KI ist Entwurfshilfe, nicht Endprodukt.</strong> Prüfung und Freigabe bleibt bei Ihnen.</p><p><strong>3. Im Zweifel: Originalquelle.</strong> "Die KI hat das geschrieben" ist kein Haftungsausschluss.</p>'},
 
 {id:'m3',title:'Datenschutz und DSGVO',icon:'ri-shield-check-line',desc:'Wissen, welche Daten in welches Tool dürfen',intro:{ey:'Modul 3 von 5',h:'Datenschutz und DSGVO',t:'Jedes Mal, wenn Sie Text in ein KI-Tool eingeben, werden Daten an einen Server übertragen. Wo steht dieser Server? Was passiert mit Ihren Daten? In diesem Modul lernen Sie, welche Tools sicher sind und welche nicht.'},scenarios:[
 {sit:'Freitagnachmittag, Deadline am Montag. Sie müssen ein 40-seitiges Leistungsverzeichnis zusammenfassen. Eine Kollegin sagt: "Kopier das in ChatGPT, geht in 2 Minuten." Sie hat einen privaten ChatGPT Plus-Account.',q:'Was tun Sie?',opts:['Gute Idee, Plus ist die Bezahlversion','Das LV enthält Kundendaten, das darf nicht in ChatGPT','Nur den Teil ohne Kundennamen reinkopieren'],c:1,fb:{ok:'Richtig. ChatGPT Plus ist eine Konsumenten-Lizenz. Daten auf US-Servern, kein DPA (Datenverarbeitungsvertrag). Leistungsverzeichnisse enthalten Projektbezeichnungen, Kundennamen, Adressen und technische Details.',iT:'Konsumenten- vs. Business-Lizenzen',i:'<h4>Nicht DSGVO-konform für Firmendaten:</h4><p>ChatGPT Free/Plus/Pro, Google Gemini, Grok Free, Perplexity. Server in den USA, kein DPA.</p><h4>Bedingt DSGVO-konform:</h4><p>Microsoft Copilot über M365-Tenant (EU Data Boundary). ChatGPT Enterprise (EU-Datenresidenz, aber US-Jurisdiktion).</p><h4>Volle Kontrolle:</h4><p>Selbst gehostete Systeme. Alle Daten in der EU oder im eigenen Haus.</p>',no:['"Bezahlt" bedeutet nicht "DSGVO-konform". ChatGPT Plus ist eine Konsumenten-Lizenz mit US-Servern und ohne DPA.','Kaum durchführbar. Leistungsverzeichnisse enthalten fast immer indirekt zuordenbare Informationen: Projektstandorte, spezifische Anforderungen, Mengenangaben.']}},
@@ -253,195 +252,107 @@ const ROLES = [
 ];
 
 
-const EN = {
-  // UI strings
-  ui: {
-    welcome_badge: 'BRAINGINEERING E-LEARNING',
-    welcome_h: 'AI Awareness Training',
-    welcome_sub: 'AI Competence per EU AI Act, Article 4',
-    welcome_desc: 'Interactive E-Learning module for engineering offices',
-    welcome_what: 'What to expect?',
-    welcome_what_text: 'You will work through multiple modules with <strong>realistic scenarios from everyday engineering office work</strong>. In each scenario, you make a decision and receive immediate expert feedback. At the end, you receive a <strong>participation certificate</strong> as compliance documentation per EU AI Act, Article 4.',
-    welcome_tags: ['Scenario-based', 'Mobile or desktop', 'Certificate incl.'],
-    welcome_start: 'Start training',
-    welcome_code_label: 'Enter your personal access code to start the training. You received your code from Braingineering or your employer.',
-    welcome_code_placeholder: '6-DIGIT CODE',
-    welcome_code_each: 'Each code can only be used once.',
-    welcome_code_checking: 'Verifying code...',
-    role_h: 'Which description fits you best?',
-    role_sub: 'Based on your selection, the modules will be assembled. All roles go through core modules 1-5. Additional modules are added depending on your area of responsibility.',
-    role_modules: 'modules',
-    role_scenarios: 'scenarios',
-    role_back: '← Back',
-    intro_of: 'of',
-    scenario_lbl: 'Scenario',
-    scenario_ai: 'AI output',
-    scenario_after: 'After review:',
-    fb_correct: 'Correct!',
-    fb_wrong: 'Not quite.',
-    fb_remember: 'Remember:',
-    fb_info: 'Background',
-    fb_next: 'Next scenario',
-    fb_next_module: 'To module summary',
-    summary_title: 'Module summary',
-    summary_next: 'Next module',
-    summary_next_cert: 'To certificate',
-    cert_congrats_h: 'All modules completed!',
-    cert_congrats_p: 'You have successfully completed all {mods} modules and {sc} scenarios.',
-    cert_h: 'Create participation certificate',
-    cert_desc: 'Enter your details. Your certificate will be created as a PDF and downloaded automatically.',
-    cert_name: 'Full name *',
-    cert_role: 'Role in the company (e.g. Project Manager, CEO)',
-    cert_company: 'Company',
-    cert_download: 'Download certificate as PDF',
-    cert_downloaded: 'Your certificate has been downloaded as PDF. Below you can see a preview.',
-    cert_repeat: 'We recommend repeating this training annually.',
-    progress: 'Progress',
-    loading: 'PDF is being created...',
-    error_code_invalid: 'Invalid code. Please check and try again.',
-    error_code_used: 'This code has already been used.',
-    error_code_server: 'Server error. Please try again later.'
-  },
+// ===== BILINGUAL SUPPORT =====
+let currentLang = 'de';
 
-  // Roles
+const EN = {
   roles: {
     anwender: {label:'AI User', desc:'I use AI tools in my daily work.'},
     fuehrung: {label:'AI User + Management', desc:'I make decisions about AI adoption in the company.'},
     technik: {label:'AI User + Technical Responsibility', desc:'I select, administer, or integrate AI tools.'}
   },
-
-  // Modules
   modules: {
     m1: {
-      title: 'What is AI?',
-      desc: 'Identify what is AI and what is not',
-      intro: {ey:'Module 1 of 5', h:'What is Artificial Intelligence?', t:'You encounter artificial intelligence in your daily work more often than you might think. Some tools you use every day rely on AI in the background. Others that feel "intelligent" do not. In this module, you will learn to tell the difference.'},
-      summary: '<h4>Three types of AI:</h4><p><strong>Generative AI</strong> creates new content (ChatGPT, Claude). Risk: hallucinations, including legal texts and standards references.</p><p><strong>Analytical AI</strong> recognizes patterns (spam filters, DMS). Risk: misclassification.</p><p><strong>Rule-based automation</strong> is not AI (Excel formulas, macros). The EU AI Act only applies to actual AI systems.</p>',
-      scenarios: [
-        {sit:'Your colleague says: "I don\'t use any AI at work." She works daily with Microsoft Outlook (with Copilot features), an Excel spreadsheet with IF formulas, Google Maps for construction site navigation, and a spam filter.',q:'Which of these tools use AI?',opts:['Only Microsoft Copilot','Copilot and the spam filter','Copilot, the spam filter, and Google Maps','All four, including Excel formulas'],c:2,fb:{ok:'Correct. Microsoft Copilot is generative AI. The spam filter uses machine learning. Google Maps uses machine learning for traffic predictions (the routing itself uses classical algorithms). Excel formulas, however, are rule-based automation: fixed rules without "learning".',no:['Not quite. The spam filter also uses machine learning, and Google Maps uses ML for traffic predictions. Many AI systems work invisibly in the background.','Not quite. Google Maps also uses machine learning for traffic predictions and route optimization.','Close. Excel formulas are not AI. They follow fixed rules: IF A > B, THEN C. No learning, no predictions. The other three do actually use AI technologies.']}},
-        {sit:'Your supervisor asks: "What\'s the difference between ChatGPT and the automatic categorization in our document management system?"',q:'What is the key difference?',opts:['ChatGPT is an external service, the DMS is an internal system. Different price, different category.','ChatGPT generates new content, the DMS sorts existing content by learned patterns','ChatGPT is real AI, the DMS is just software','No significant difference, both are AI'],c:1,fb:{ok:'Correct. ChatGPT is generative AI: it creates new texts and answers. The DMS uses analytical AI: it recognizes patterns and sorts. Generative AI can "hallucinate," analytical AI can misclassify but does not invent new content.',no:['Price is not the difference. ChatGPT creates new content (generative), the DMS sorts existing content (analytical). Both are AI, with different risks.','Both are AI, just different types. The distinction affects how carefully you need to handle the output.','Both are AI, but the difference matters: generative AI creates new content (hallucination risk), analytical AI sorts existing data.']}},
-        {sit:'Your management wants an inventory: Which AI systems does the department use?',q:'Which activity uses AI?',opts:['Automatic email dispatch every Monday at 8:00','A tool that creates a structured protocol from a dictation','An Excel pivot table that summarizes project costs','A macro that renames files according to a fixed pattern'],c:1,fb:{ok:'Correct. Converting speech into structured text requires speech recognition and text processing (AI). The other examples are rule-based automation without learning capability. The EU AI Act requirements apply to AI systems.',no:['That is rule-based automation. The correct answer: converting speech into structured text requires AI.','That is rule-based automation. The correct answer: converting speech into structured text requires AI.','That is a fixed pattern, no learning capability. The correct answer: converting speech into structured text requires AI.']}},
-        {sit:'A colleague has an AI create a summary of measurement values from an inspection report. The AI writes: "All measured values are within the standard range." The original contains 47 individual measurements.',q:'Can you trust the summary?',opts:['Yes, AI is particularly good with numbers and tables','Not without spot-checking. AI can overlook individual outliers.','Only if you explicitly ask the AI about outliers'],c:1,fb:{ok:'Correct. AI language models work text-based. They read numbers as words, not as mathematical values. A measurement just above the threshold can be lost in a summary. Always spot-check safety-relevant data.',m:'AI is strong at text summarization but not reliable for interpreting measurement values and numerical tables.',no:['AI language models do not calculate. They process numbers as text and can miss outliers or threshold violations.','Even with targeted follow-up questions, the AI can misinterpret numerical values. Spot-checking the original remains essential.']}}
+      title:'What is AI?', desc:'Identify what is AI and what is not',
+      intro:{ey:'Module 1 of 5',h:'What is Artificial Intelligence?',t:'You encounter AI in your daily work more often than you might think. Some tools you use every day rely on AI in the background. Others that feel "intelligent" do not. In this module, you will learn to tell the difference.'},
+      summary:'<h4>Three types of AI:</h4><p><strong>Generative AI</strong> creates new content (ChatGPT, Claude). Risk: hallucinations, including legal texts and standards.</p><p><strong>Analytical AI</strong> recognizes patterns (spam filters, DMS). Risk: misclassification.</p><p><strong>Rule-based automation</strong> is not AI (Excel formulas, macros). The EU AI Act only applies to actual AI systems.</p>',
+      scenarios:[
+        {sit:'Your colleague says: "I don\'t use any AI at work." She works daily with Microsoft Outlook (with Copilot features), an Excel spreadsheet with IF formulas, Google Maps for site navigation, and a spam filter.',q:'Which of these tools use AI?',opts:['Only Microsoft Copilot','Copilot and the spam filter','Copilot, the spam filter, and Google Maps','All four, including Excel formulas'],fb:{ok:'Correct. Microsoft Copilot is generative AI. The spam filter uses machine learning. Google Maps uses ML for traffic predictions (routing itself uses classical algorithms). Excel formulas are rule-based automation: fixed rules without "learning".',no:['Not quite. The spam filter also uses machine learning, and Google Maps uses ML for traffic predictions.','Not quite. Google Maps also uses ML for traffic predictions and route optimization.','Close. Excel formulas are not AI. They follow fixed rules: IF A>B, THEN C. No learning. The other three do use AI.']}},
+        {sit:'Your supervisor asks: "What\'s the difference between ChatGPT and the automatic categorization in our document management system?"',q:'What is the key difference?',opts:['ChatGPT is an external service, the DMS is internal. Different price, different category.','ChatGPT generates new content, the DMS sorts existing content by learned patterns','ChatGPT is real AI, the DMS is just software','No significant difference, both are AI'],fb:{ok:'Correct. ChatGPT is generative AI: creates new texts. The DMS uses analytical AI: recognizes patterns and sorts. Generative AI can "hallucinate," analytical AI can misclassify but doesn\'t invent content.',no:['Price is not the difference. ChatGPT creates new content (generative), the DMS sorts existing (analytical). Both are AI, with different risks.','Both are AI, just different types. The distinction affects how carefully you handle the output.','Both are AI, but the difference matters: generative AI creates new content (hallucination risk), analytical AI sorts existing data.']}},
+        {sit:'Management wants an inventory: Which AI systems does the department use?',q:'Which activity uses AI?',opts:['Automatic email dispatch every Monday at 8:00','A tool that creates a structured protocol from a dictation','An Excel pivot table summarizing project costs','A macro that renames files by fixed pattern'],fb:{ok:'Correct. Converting speech into structured text requires speech recognition and text processing (AI). The others are rule-based automation without learning.',no:['Rule-based automation. Converting speech to structured text requires AI.','Rule-based automation. Converting speech to structured text requires AI.','Fixed pattern, no learning. Converting speech to structured text requires AI.']}},
+        {sit:'A colleague has AI summarize measurement values from an inspection report. The AI writes: "All values are within the standard range." The original contains 47 individual measurements.',q:'Can you trust the summary?',opts:['Yes, AI is particularly good with numbers and tables','Not without spot-checking. AI can overlook individual outliers.','Only if you explicitly ask the AI about outliers'],fb:{ok:'Correct. AI language models are text-based. They read numbers as words, not mathematical values. A value just above threshold can be lost in a summary. Always spot-check safety-relevant data.',m:'AI is strong at text summaries but not reliable for interpreting measurement values.',no:['AI language models don\'t calculate. They process numbers as text and can miss outliers.','Even with targeted follow-up, AI can misinterpret numbers. Spot-checking the original remains essential.']}}
       ]
     },
     m2: {
-      title: 'Opportunities and Limits',
-      desc: 'Critically evaluate AI outputs',
-      intro: {ey:'Module 2 of 5', h:'Opportunities and Limits of AI', t:'AI tools can save enormous amounts of time in engineering offices. But they have a critical weakness: they always sound convincing, even when they are wrong. In this module, you will learn how to properly assess AI outputs.'},
-      summary: '<h4>Three rules for AI outputs:</h4><p><strong>1. Never use unchecked.</strong> Especially for standards references, numerical values, and technical details.</p><p><strong>2. AI is a drafting aid, not a final product.</strong> Review and approval remain with you.</p><p><strong>3. When in doubt: original source.</strong> "The AI wrote that" is not a liability disclaimer.</p>',
-      scenarios: [
-        {sit:'You use an AI tool for a standards research. It returns:',ai:'"According to ÖNORM B 4700-2:2023, Section 7.3.2, the minimum reinforcement is 0.15% of the concrete cross-section."',sitA:'The answer sounds detailed and convincing.',q:'What do you do?',opts:['Use it directly in my calculation','Look up the referenced section in the original standard and verify','Ask an experienced colleague who knows the standard and accept their assessment'],c:1,fb:{ok:'Correct. In this case, ÖNORM B 4700-2:2023 does not actually exist in this form. The tool generated a plausible-sounding but fabricated standard.',m:'AI tools do not know "truth." The more specific the citation, the higher the hallucination risk.',no:['Dangerous. AI tools can fabricate standards and numerical values that look correct. In this case, the referenced ÖNORM does not exist. This is a liability risk.','Better than using it directly, but your colleague might also find it plausible. The only safe check is comparison with the original standard.']}},
-        {sit:'You have an 80-page expert report summarized by AI. The AI writes that the building has "no significant defects." You vaguely remember something about facade cracks in the original.',q:'How do you proceed?',opts:['The summary is fine, the detail was unimportant','Look up the section in the original and correct it','Ask the AI tool again: "Weren\'t there any defects?"'],c:1,fb:{ok:'Correct. AI summaries can omit or reweight information. The original source is always the authoritative reference.',m:'AI summaries are working aids, not substitute documents. The longer the original text, the more likely details are lost.',no:['Risky. An AI summary can omit critical information. If you forward the report, you bear the responsibility.','The AI tool might confirm the defect but describe it incorrectly. The only safe method is checking against the original.']}},
-        {sit:'A colleague created a proposal draft using AI. The text is professional but contains service items that your office does not offer.',q:'How do you evaluate this?',opts:['Delete the obviously wrong items and send the document directly','AI should not be used for proposals','AI as a drafting aid is useful, but the output must be fully reviewed'],c:2,fb:{ok:'Exactly. AI tools are excellent drafting assistants but do not know your office. Any output leaving the office must be reviewed and approved.',m:'AI creates the draft, you bear the responsibility.',no:['Just correcting the obvious errors is not enough. What about subtler mistakes? The entire draft needs a complete review.','Too broad. AI can save considerable time with proposals. The problem is not the tool, but the missing review step.']}}
+      title:'Opportunities and Limits', desc:'Critically evaluate AI outputs',
+      intro:{ey:'Module 2 of 5',h:'Opportunities and Limits of AI',t:'AI tools can save enormous time in engineering offices. But they have a critical weakness: they always sound convincing, even when wrong. In this module, you learn how to properly assess AI outputs.'},
+      summary:'<h4>Three rules for AI outputs:</h4><p><strong>1. Never use unchecked.</strong> Especially standards references, numbers, and technical details.</p><p><strong>2. AI is a drafting aid, not a final product.</strong> Review and approval remain with you.</p><p><strong>3. When in doubt: original source.</strong> "The AI wrote that" is not a liability disclaimer.</p>',
+      scenarios:[
+        {sit:'You use an AI tool for standards research. It returns:',ai:'"According to ÖNORM B 4700-2:2023, Section 7.3.2, the minimum reinforcement is 0.15% of the concrete cross-section."',sitA:'The answer sounds detailed and convincing.',q:'What do you do?',opts:['Use directly in my calculation','Look up the section in the original standard and verify','Ask an experienced colleague who knows the standard and accept their assessment'],fb:{ok:'Correct. In this case, ÖNORM B 4700-2:2023 does not exist in this form. The tool generated a plausible but fabricated standard.',m:'AI tools don\'t know "truth." The more specific the citation, the higher the hallucination risk.',no:['Dangerous. AI can fabricate standards that look correct. In this case, the ÖNORM doesn\'t exist. Liability risk.','Better than direct use, but your colleague might also find it plausible. Only safe check: compare with the original.']}},
+        {sit:'You have an 80-page expert report summarized by AI. It says "no significant defects." You vaguely remember something about facade cracks in the original.',q:'How do you proceed?',opts:['The summary is fine, the detail was unimportant','Look up the section in the original and correct it','Ask the AI again: "Weren\'t there defects?"'],fb:{ok:'Correct. AI summaries can omit or reweight information. The original is always the authoritative reference.',m:'AI summaries are working aids, not substitute documents. The longer the original, the more likely details are lost.',no:['Risky. An AI summary can omit critical info. If you forward the report, you bear responsibility.','The AI might confirm but misdescribe the defect. Only safe method: check the original.']}},
+        {sit:'A colleague created a proposal draft using AI. Professional text, but contains services your office doesn\'t offer.',q:'How do you evaluate this?',opts:['Delete the obviously wrong items and send directly','AI should not be used for proposals','AI as drafting aid is useful, but output must be fully reviewed'],fb:{ok:'Exactly. AI tools are excellent drafting aids but don\'t know your office. Any output leaving the office must be reviewed and approved.',m:'AI creates the draft, you bear the responsibility.',no:['Correcting obvious errors isn\'t enough. What about subtler mistakes? Full review needed.','Too broad. AI saves considerable time with proposals. The problem isn\'t the tool, but the missing review.']}}
       ]
     },
     m3: {
-      title: 'Data Protection and GDPR',
-      desc: 'Know which data goes into which tool',
-      intro: {ey:'Module 3 of 5', h:'Data Protection and GDPR', t:'Every time you enter text into an AI tool, data is transmitted to a server. Where is that server? What happens to your data? In this module, you will learn which tools are safe and which are not.'},
-      summary: '<h4>The data protection rule of thumb:</h4><p>"Would I write this on a postcard?" If not: only GDPR-compliant systems.</p><p><strong>Safe:</strong> General technical questions without company reference.</p><p><strong>GDPR-compliant only:</strong> Anything with client, project, or company data.</p><p><strong>Never in AI tools:</strong> Passwords, access credentials, personnel files.</p>',
-      scenarios: [
-        {sit:'Friday afternoon, deadline on Monday. You need to summarize a 40-page bill of quantities. A colleague says: "Just copy it into ChatGPT, takes 2 minutes." She has a private ChatGPT Plus account.',q:'What do you do?',opts:['Good idea, Plus is the paid version','The BoQ contains client data, this must not go into ChatGPT','Just copy the part without client names'],c:1,fb:{ok:'Correct. ChatGPT Plus is a consumer license. Data on US servers, no DPA (Data Processing Agreement). Bills of quantities contain project names, client names, addresses, and technical details.',iT:'Consumer vs. Business Licenses',i:'<h4>Not GDPR-compliant for company data:</h4><p>ChatGPT Free/Plus/Pro, Google Gemini, Grok Free, Perplexity. US servers, no DPA.</p><h4>Conditionally GDPR-compliant:</h4><p>Microsoft Copilot via M365 tenant (EU Data Boundary). ChatGPT Enterprise (EU data residency, but US jurisdiction).</p><h4>Full control:</h4><p>Self-hosted systems. All data in the EU or in-house.</p>',no:['"Paid" does not mean "GDPR-compliant." ChatGPT Plus is a consumer license with US servers and no DPA.','Hardly feasible. Bills of quantities almost always contain indirectly identifiable information: project locations, specific requirements, quantities.']}},
-        {sit:'A colleague says: "Copilot and ChatGPT are the same thing. Why can I use Copilot but not ChatGPT?"',q:'What is the correct answer?',opts:['True, both use AI models and should be banned in the office. Too risky.','Similar technology, different data protection. Copilot: EU. ChatGPT Free: US.','ChatGPT has better models. Best to buy Enterprise, then everything is covered.'],c:1,fb:{ok:'Exactly. Both use similar language models. But Copilot via your M365 tenant processes data in the EU. ChatGPT Free/Plus does not have this safeguard.',m:'The problem is not the technology, but where the data is processed.',no:['Copilot via M365 tenant is GDPR-compliant. Banning everything removes a significant productivity advantage.','ChatGPT Enterprise is better than the consumer version, but remains a US provider under US jurisdiction (CLOUD Act).']}},
-        {sit:'You want to draft an email to a client. Your notes include: client name, building, identified defects.',q:'Which tool may you use for the notes?',opts:['ChatGPT Plus, the paid version is GDPR-compliant enough','Microsoft Copilot via company tenant or self-hosted system','Any tool, as long as the client name is removed'],c:1,fb:{ok:'Correct. Even emails contain sensitive data: client names, addresses, defect descriptions. Only GDPR-compliant systems.',no:['Even "simple" emails can contain sensitive data. What matters is the input, not the output.','Removing the client name helps little if project location and defects remain. Personal data includes anything that can be traced back to a person or project.']}},
-        {sit:'Purely technical research: current legal situation for flat roof sealing. No client data, no project reference.',q:'Which tool may you use?',opts:['Any tool, including ChatGPT Free, because no sensitive data','Only GDPR-compliant tools','Better not to use any AI tool, the risk is too high for technical questions'],c:0,fb:{ok:'Correct. Without company, project, or personal data, even a tool with US servers is usable. But: as soon as you add project-specific details, the situation changes.',m:'The question is not "which tool" but "what data am I entering."',no:['Too strict. For general research without company reference, there is no data protection issue.','Unnecessary. AI tools are also useful for general research. The key: general questions are uncritical, company data only in GDPR-compliant systems.']}},
-        {sit:'A colleague needs to search a standards database. She heard AI can automate this. She gives the AI the database link and her login credentials: "Search there for requirements for shallow foundations."',q:'What is the problem?',opts:['No problem, the AI can work more efficiently and find results faster','The login credentials were shared with an external service. Passwords never belong in an AI tool.','Only problematic if it\'s a US tool. With EU-hosted tools it would be fine.'],c:1,fb:{ok:'Correct. Passwords and access credentials never belong in any AI tool. The AI stores or processes the text, and potentially the credentials. This is a security risk regardless of server location.',m:'Passwords, API keys, and access credentials: never enter into any AI tool. Neither ChatGPT, nor Copilot, nor self-hosted systems.',no:['Login credentials in an AI tool are always a security risk. The data can be stored, logged, or processed in plain text.','Even with EU-hosted tools, no passwords may be entered. It is not about the server location, but that credentials never belong in text input fields.']}}
+      title:'Data Protection and GDPR', desc:'Know which data goes into which tool',
+      intro:{ey:'Module 3 of 5',h:'Data Protection and GDPR',t:'Every time you enter text into an AI tool, data is transmitted to a server. Where is that server? What happens to your data? In this module, you learn which tools are safe and which are not.'},
+      summary:'<h4>The data protection rule of thumb:</h4><p>"Would I write this on a postcard?" If not: only GDPR-compliant systems.</p><p><strong>Safe:</strong> General technical questions without company reference.</p><p><strong>GDPR-compliant only:</strong> Anything with client, project, or company data.</p><p><strong>Never in AI tools:</strong> Passwords, access credentials, personnel files.</p>',
+      scenarios:[
+        {sit:'Friday afternoon, deadline Monday. You need to summarize a 40-page bill of quantities. A colleague says: "Copy it into ChatGPT, takes 2 minutes." She has a private ChatGPT Plus account.',q:'What do you do?',opts:['Good idea, Plus is the paid version','The BoQ contains client data, this must not go into ChatGPT','Just copy the part without client names'],fb:{ok:'Correct. ChatGPT Plus is a consumer license. Data on US servers, no DPA (Data Processing Agreement). Bills of quantities contain project names, client names, addresses.',iT:'Consumer vs. Business Licenses',i:'<h4>Not GDPR-compliant for company data:</h4><p>ChatGPT Free/Plus/Pro, Google Gemini, Grok Free, Perplexity. US servers, no DPA.</p><h4>Conditionally GDPR-compliant:</h4><p>Microsoft Copilot via M365 tenant (EU Data Boundary). ChatGPT Enterprise (EU data residency, but US jurisdiction).</p><h4>Full control:</h4><p>Self-hosted systems. All data in the EU or in-house.</p>',no:['"Paid" does not mean "GDPR-compliant." ChatGPT Plus is a consumer license with US servers and no DPA.','Hardly feasible. Bills of quantities almost always contain indirectly identifiable information.']}},
+        {sit:'A colleague says: "Copilot and ChatGPT are the same thing. Why can I use Copilot but not ChatGPT?"',q:'What is the correct answer?',opts:['True, both use AI models and should be banned. Too risky.','Similar technology, different data protection. Copilot: EU. ChatGPT Free: US.','ChatGPT has better models. Best to buy Enterprise, then everything is covered.'],fb:{ok:'Exactly. Both use similar language models. But Copilot via M365 tenant processes data in the EU. ChatGPT Free/Plus does not.',m:'The problem is not the technology, but where data is processed.',no:['Copilot via M365 is GDPR-compliant. Banning everything removes a significant productivity advantage.','ChatGPT Enterprise is better than consumer version but remains US provider under US jurisdiction (CLOUD Act).']}},
+        {sit:'You want to draft an email to a client. Your notes: client name, building, identified defects.',q:'Which tool may you use?',opts:['ChatGPT Plus, the paid version is GDPR-compliant enough','Microsoft Copilot via company tenant or self-hosted system','Any tool, as long as the client name is removed'],fb:{ok:'Correct. Even emails contain sensitive data: client names, addresses, defect descriptions. Only GDPR-compliant systems.',no:['Even "simple" emails can contain sensitive data. What matters is the input, not the output.','Removing the client name helps little if project location and defects remain.']}},
+        {sit:'Purely technical research: current legal situation for flat roof sealing. No client data, no project reference.',q:'Which tool may you use?',opts:['Any tool, including ChatGPT Free, because no sensitive data','Only GDPR-compliant tools','Better not use any AI tool, the risk is too high'],fb:{ok:'Correct. Without company, project, or personal data, even a US-server tool is usable. But: as soon as you add project details, the situation changes.',m:'The question is not "which tool" but "what data am I entering."',no:['Too strict. For general research without company reference, no data protection issue.','Unnecessary. AI tools are useful for general research. General questions are uncritical, company data only in GDPR-compliant systems.']}},
+        {sit:'A colleague gives an AI her database login credentials: "Search for requirements for shallow foundations."',q:'What is the problem?',opts:['No problem, AI can work more efficiently this way','Login credentials were shared with an external service. Passwords never belong in AI tools.','Only problematic if it\'s a US tool. EU-hosted would be fine.'],fb:{ok:'Correct. Passwords and credentials never belong in any AI tool. Security risk regardless of server location.',m:'Passwords, API keys, credentials: never enter into any AI tool.',no:['Login credentials in AI tools are always a security risk. Data can be stored or logged.','Even with EU tools, no passwords. It\'s not about server location but that credentials never belong in text inputs.']}}
       ]
     },
     m4: {
-      title: 'EU AI Act',
-      desc: 'Know obligations, understand risk classes',
-      intro: {ey:'Module 4 of 5', h:'EU AI Act: What applies to us?', t:'Since August 2024, there is an EU law for artificial intelligence. It affects not only AI developers, but also every company that uses AI tools. In this module, you will learn what this means for your office.'},
-      summary: '<h4>Article 4 in a nutshell:</h4><p><strong>What:</strong> Sufficient AI competence for everyone working with AI.</p><p><strong>How:</strong> No prescribed method. Documentation is key.</p><p><strong>Since when:</strong> February 2, 2025.</p><p><strong>Penalties:</strong> No direct fines, but lack of training is a liability risk in case of AI-related damage.</p>',
-      scenarios: [
-        {sit:'In a meeting, someone says: "The EU AI Act only applies from August 2026, we still have time." Another disagrees.',q:'Who is right?',opts:['The first one is right. Nothing applies before August 2026, this has often been misreported.','The second one is right. Since February 2025, the entire AI Act is fully in effect.','Both partially. Training obligation since Feb. 2025, high-risk rules from Aug. 2026.'],c:2,fb:{ok:'Correct. Phased implementation. AI competence has been mandatory since February 2, 2025. High-risk rules and transparency obligations follow from August 2026.',iT:'EU AI Act Timeline',i:'<h4>Since February 2, 2025:</h4><p>Prohibited AI practices and AI competence obligation (Art. 4).</p><h4>From August 2, 2025:</h4><p>Rules for AI models, governance, national supervisory authorities.</p><h4>From August 2, 2026:</h4><p>High-risk AI rules, transparency obligations, active enforcement.</p>',no:['Not quite. AI competence (Art. 4) has been in effect since February 2025.','Not quite. Art. 4 has been in effect since February 2025, but high-risk rules and transparency obligations only from August 2026.']}},
-        {sit:'Three AI systems are in use: (A) an AI that automatically pre-sorts job applications, (B) ChatGPT for internal text work, (C) an AI-assisted time tracking tool.',q:'Which one is a high-risk AI system per EU AI Act?',opts:['All three tools, because they all use AI and are therefore automatically high-risk','Only the application tool, because it makes decisions about employment','ChatGPT, because it\'s the most powerful'],c:1,fb:{ok:'Correct. AI systems that make or prepare decisions about employment, recruitment, or HR matters are classified as high-risk. ChatGPT for text work and time tracking are minimal risk.',m:'High-risk = impact on fundamental rights. Employment, education, law enforcement. Not: how powerful the AI is.',no:['Not all AI is high-risk. The classification depends on the use case, not the technology.','ChatGPT for text work is minimal risk. The power of the model is irrelevant for the risk classification.']}},
-        {sit:'Your CEO asks: "What exactly do we need to do for Article 4?"',q:'The correct answer?',opts:['An official AI certification for all employees at an accredited body','Demonstrate that we have taken measures. Documentation is key.','Appoint an AI officer who tests and certifies all employees annually'],c:1,fb:{ok:'Exactly. Art. 4 is a best-effort obligation. No prescribed method, no certification. What counts: take measures and document them. The participation certificate from this training is part of that documentation.',m:'Not the form matters, but the verifiability.',no:['Art. 4 does not require formal certification. A training with participation records suffices as proof.','An AI officer can be useful but is not required. Art. 4 requires: take measures and document them.']}}
+      title:'EU AI Act', desc:'Know obligations, understand risk classes',
+      intro:{ey:'Module 4 of 5',h:'EU AI Act: What applies to us?',t:'Since August 2024, there is an EU law for artificial intelligence. It affects not only AI developers but every company using AI tools. In this module, you learn what this means for your office.'},
+      summary:'<h4>Article 4 in a nutshell:</h4><p><strong>What:</strong> Sufficient AI competence for everyone working with AI.</p><p><strong>How:</strong> No prescribed method. Documentation is key.</p><p><strong>Since when:</strong> February 2, 2025.</p><p><strong>Penalties:</strong> No direct fines, but lack of training is a liability risk.</p>',
+      scenarios:[
+        {sit:'In a meeting: "The EU AI Act only applies from August 2026, we have time." Another disagrees.',q:'Who is right?',opts:['The first one. Nothing applies before August 2026.','The second one. Since February 2025, the entire Act is fully in effect.','Both partially. Training since Feb. 2025, high-risk from Aug. 2026.'],fb:{ok:'Correct. Phased implementation. AI competence mandatory since February 2, 2025. High-risk rules follow from August 2026.',iT:'EU AI Act Timeline',i:'<h4>Since February 2, 2025:</h4><p>Prohibited AI practices and AI competence obligation (Art. 4).</p><h4>From August 2, 2025:</h4><p>Rules for AI models, governance, national authorities.</p><h4>From August 2, 2026:</h4><p>High-risk AI rules, transparency obligations, active enforcement.</p>',no:['Not quite. AI competence (Art. 4) has been in effect since February 2025.','Not quite. Art. 4 since February 2025, but high-risk rules only from August 2026.']}},
+        {sit:'Three AI systems in use: (A) AI pre-sorting job applications, (B) ChatGPT for internal text, (C) AI-assisted time tracking.',q:'Which is high-risk per EU AI Act?',opts:['All three, because they all use AI','Only the application tool, because it decides about employment','ChatGPT, because it\'s the most powerful'],fb:{ok:'Correct. AI making decisions about employment/recruitment is high-risk. ChatGPT for text and time tracking are minimal risk.',m:'High-risk = impact on fundamental rights. Employment, education, law enforcement.',no:['Not all AI is high-risk. Classification depends on use case, not technology.','ChatGPT for text is minimal risk. Model power is irrelevant for classification.']}},
+        {sit:'CEO asks: "What exactly do we need to do for Article 4?"',q:'The correct answer?',opts:['Official AI certification for all employees at an accredited body','Demonstrate that we took measures. Documentation is key.','Appoint an AI officer who tests all employees annually'],fb:{ok:'Exactly. Art. 4 is a best-effort obligation. No prescribed method, no certification. What counts: take measures and document them.',m:'Not the form matters, but verifiability.',no:['Art. 4 doesn\'t require formal certification. Training with participation records suffices.','An AI officer can be useful but isn\'t required. Art. 4 requires: take measures and document.']}}
       ]
     },
     m5: {
-      title: 'Rules for the Workplace',
-      desc: 'Act safely in concrete office situations',
-      intro: {ey:'Module 5 of 5', h:'Rules for the Workplace', t:'Now it gets concrete. Five typical situations from engineering offices. Decide how you proceed. No trick questions, just practice.'},
-      summary: '<h4>Five practical rules:</h4><p><strong>1. Postcard rule:</strong> Would I write this on a postcard? If not → only GDPR-compliant tool.</p><p><strong>2. AI is a draft.</strong> Everything leaving the office must be reviewed.</p><p><strong>3. Standards always verify in original.</strong> AI can fabricate plausible references.</p><p><strong>4. Uncertainty → ask.</strong> Better one question too many than one data breach.</p><p><strong>5. Document everything.</strong> Tool usage, training, rules.</p>',
-      scenarios: [
-        {sit:'New colleague, first week. A trainee asks: "Can I use AI tools for my work?"',q:'Your answer?',opts:['Yes, AI tools are very helpful. ChatGPT, Copilot, everything is allowed. Just try it out.','No, AI tools are completely banned at our office. Too many privacy risks.','Depends. General questions yes, company data only in approved tools. I\'ll show you which ones.'],c:2,fb:{ok:'Correct. Clear guidance instead of blanket ban or blanket approval. The new colleague needs to know: what is allowed, what is not, and where to find the rules.',m:'Onboarding includes AI rules. Don\'t assume everyone knows what is allowed.',no:['Too broad. Without guidance, the trainee might enter client data into ChatGPT Free. Blanket approval is risky.','Too strict. AI tools are useful productivity aids. A blanket ban prevents progress without eliminating risk.']}},
-        {sit:'Deadline pressure. A colleague summarizes a building protocol with AI and forwards it directly to the client.',q:'What is the problem?',opts:['No problem, saves time and the AI is good at summaries','Protocol must be reviewed before sending, AI can omit critical details','Only problematic if the AI is not GDPR-compliant'],c:1,fb:{ok:'Correct. AI summaries can omit, distort, or invent details. Everything going to a client must be reviewed. Deadline pressure does not justify omitting the review step.',m:'Deadline pressure does not suspend the review obligation.',no:['Time saving is not an argument if quality and accuracy suffer. AI summaries can omit critical details.','GDPR compliance is one aspect, but not the only one. Even with a GDPR-compliant tool, the content must be reviewed before sending.']}},
-        {sit:'A protocol needs to be quickly summarized and sent.',q:'What is the safest tool for this?',opts:['ChatGPT Free, it\'s the fastest and freely available','Copilot via company tenant or internal system','Any tool, the protocol contains no personal data'],c:1,fb:{ok:'Correct. Protocols typically contain project data, names, dates, decisions. Only GDPR-compliant systems.',no:['ChatGPT Free stores data on US servers without DPA. Protocols contain project data.','Even if protocols contain no obvious personal data, they typically include project references, locations, and internal decisions.']}},
-        {sit:'AI creates an email draft for a client. The text is good, ready to send.',q:'What do you do?',opts:['Send directly','Review whether all points are correct, then send','Have a colleague also check it, AI texts are always wrong'],c:1,fb:{ok:'Correct. AI drafts are starting points, not final products. Check: Are all facts correct? Is the tone appropriate? Are there hallucinated details?',m:'Every document leaving the office carries your name, not the AI\'s.',no:['Risky. AI drafts can contain subtle errors: wrong details, hallucinated information, inappropriate tone.','Too cautious. AI texts are not "always wrong," but they need a review. A colleague check is good for important documents but not necessary for every email.']}},
-        {sit:'A colleague shows you a Chrome plugin that summarizes any highlighted text using AI. He also uses it for internal documents and client emails.',q:'How do you evaluate this?',opts:['Practical, if it works. Such plugins save a lot of time in daily work.','Problematic: the plugin sends company data to an unknown server','No problem with short texts'],c:1,fb:{ok:'Correct. Browser plugins that send text to external servers are an often underestimated data protection risk.',m:'AI plugins are subject to the same rules as any other AI tool. When in doubt: ask IT.',no:['Caution. First clarify: Where is the server? Is there a DPA? Is data stored?','Text length is not decisive. Even a single sentence can contain sensitive information.']}}
+      title:'Rules for the Workplace', desc:'Act safely in concrete office situations',
+      intro:{ey:'Module 5 of 5',h:'Rules for the Workplace',t:'Now it gets concrete. Five typical situations from engineering offices. Decide how you proceed. No trick questions, just practice.'},
+      summary:'<h4>Five practical rules:</h4><p><strong>1. Postcard rule:</strong> Would I write this on a postcard? If not → only GDPR-compliant tool.</p><p><strong>2. AI is a draft.</strong> Everything leaving the office must be reviewed.</p><p><strong>3. Always verify standards in original.</strong></p><p><strong>4. Uncertainty → ask.</strong> Better one question too many.</p><p><strong>5. Document everything.</strong></p>',
+      scenarios:[
+        {sit:'New colleague, first week. A trainee asks: "Can I use AI tools for my work?"',q:'Your answer?',opts:['Yes, everything is allowed. Just try it out.','No, AI tools are completely banned here.','Depends. General questions yes, company data only in approved tools.'],fb:{ok:'Correct. Clear guidance instead of blanket ban or approval.',m:'Onboarding includes AI rules.',no:['Too broad. Without guidance, the trainee might enter client data into ChatGPT Free.','Too strict. AI tools are useful. A blanket ban prevents progress.']}},
+        {sit:'Deadline pressure. A colleague summarizes a building protocol with AI and sends it directly to the client.',q:'What is the problem?',opts:['No problem, saves time','Protocol must be reviewed before sending, AI can omit critical details','Only problematic if AI is not GDPR-compliant'],fb:{ok:'Correct. AI summaries can omit or distort details. Everything going to a client must be reviewed.',m:'Deadline pressure does not suspend the review obligation.',no:['Time saving isn\'t an argument if quality suffers. AI summaries can omit critical details.','GDPR is one aspect, but content must also be reviewed.']}},
+        {sit:'A protocol needs to be quickly summarized and sent.',q:'Safest tool?',opts:['ChatGPT Free, fastest and free','Copilot via company tenant or internal system','Any tool, protocol has no personal data'],fb:{ok:'Correct. Protocols typically contain project data, names, dates. Only GDPR-compliant systems.',no:['ChatGPT Free stores data on US servers without DPA. Protocols contain project data.','Even without obvious personal data, protocols include project references and decisions.']}},
+        {sit:'AI creates an email draft for a client. Text is good, ready to send.',q:'What do you do?',opts:['Send directly','Review all points, then send','Have a colleague also check, AI texts are always wrong'],fb:{ok:'Correct. AI drafts are starting points. Check: facts correct? Tone appropriate? Hallucinated details?',m:'Every document leaving the office carries your name, not the AI\'s.',no:['Risky. AI drafts can contain subtle errors.','Too cautious. AI texts aren\'t "always wrong" but need review.']}},
+        {sit:'A colleague shows you a Chrome plugin that summarizes highlighted text via AI. He uses it for internal documents and client emails.',q:'How do you evaluate this?',opts:['Practical, saves a lot of time.','Problematic: the plugin sends company data to an unknown server','No problem with short texts'],fb:{ok:'Correct. Browser plugins sending text to external servers are an often underestimated data protection risk.',m:'AI plugins follow the same rules as any other AI tool. When in doubt: ask IT.',no:['Caution. Where is the server? Is there a DPA? Is data stored?','Text length is not decisive. Even one sentence can contain sensitive info.']}}
       ]
     },
     m6: {
-      title: 'AI Governance for Decision-Makers',
-      desc: 'Liability, organizational duties, documentation',
-      intro: {ey:'Module 6 of 7', h:'AI Governance for Decision-Makers', t:'Anyone introducing AI in a company bears responsibility: for organization, documentation, and liability. In this module, you will learn what obligations exist at the management level and how to protect yourself.'},
-      summary: '<h4>Your governance checklist:</h4><p><strong>Documentation:</strong> Tool inventory, usage policy, training records, responsibilities.</p><p><strong>Before each tool introduction:</strong> Risk assessment, data protection check, usage rules, training.</p><p><strong>Liability:</strong> Without training and rules, organizational fault applies to AI-related damage.</p><p><strong>Regularly:</strong> Refresh training (at least annually), keep documentation current.</p>',
-      scenarios: [
-        {sit:'An employee publishes a ChatGPT-generated text with an incorrect standards reference. The client suffers a loss.',q:'Who is liable?',opts:['The employee alone, they made the mistake and should have checked','The company, because no rules and no training were in place','Only the AI provider, they delivered the wrong result'],c:1,fb:{ok:'Correct. Organizational fault. Without internal rules and training, the company is liable. Art. 4 EU AI Act requires employers to ensure AI competence.',m:'A court does not ask whether the AI was at fault. It asks: Were there training and rules?',no:['Shared responsibility is possible, but the primary liability lies with the organization that failed to establish rules and training.','AI providers are generally not liable for the output. The responsibility lies with the user and the organization.']}},
-        {sit:'As department head, you must document AI usage per EU AI Act.',q:'What do you need at minimum?',opts:['An up-to-date list of all AI tools used is sufficient as complete documentation','Training records, internal guidelines, tool inventory, and responsibilities','A signed declaration from each employee that they will use AI responsibly'],c:1,fb:{ok:'Correct. Documentation includes: Which tools are in use? What usage rules apply? Who was trained when? Who is responsible? This is verifiable evidence of compliance.',m:'Documentation is not bureaucracy, it is insurance. In case of an incident, it decides between "we did everything" and organizational fault.',no:['A tool list is a start but is not sufficient. Training records, usage rules, and responsibilities are also required.','A declaration is not a substitute for actual training and organizational measures. Documentation must be substantive, not just formal.']}},
-        {sit:'A new AI tool is to be introduced in the office.',q:'What needs to happen before employees may use it?',opts:['A risk assessment, usage rules, training for affected employees, and documentation','An external consultation by a certified AI expert who accompanies the introduction','Test it for two weeks and then decide based on feedback'],c:0,fb:{ok:'Correct. Before introduction: risk assessment (what data, what risk class?), define usage rules (what is allowed, what is not?), train employees, and document the entire process.',m:'No AI tool without prior risk assessment and documented rules.',no:['External consultation can be helpful but is not required by law. The company must be able to do this itself.','A test phase without prior risk assessment and rules can lead to data protection violations from day one.']}}
+      title:'AI Governance for Decision-Makers', desc:'Liability, organizational duties, documentation',
+      intro:{ey:'Module 6 of 7',h:'AI Governance for Decision-Makers',t:'Anyone introducing AI bears responsibility: for organization, documentation, and liability. In this module, you learn what obligations exist at management level.'},
+      summary:'<h4>Your governance checklist:</h4><p><strong>Documentation:</strong> Tool inventory, usage policy, training records, responsibilities.</p><p><strong>Before tool introduction:</strong> Risk assessment, data protection check, usage rules, training.</p><p><strong>Liability:</strong> Without training and rules, organizational fault applies.</p><p><strong>Regularly:</strong> Refresh training (at least annually), keep documentation current.</p>',
+      scenarios:[
+        {sit:'Employee publishes a ChatGPT text with an incorrect standards reference. Client suffers a loss.',q:'Who is liable?',opts:['The employee alone, they made the mistake','The company, because no rules and no training were in place','Only the AI provider'],fb:{ok:'Correct. Organizational fault. Without rules and training, the company is liable.',m:'A court doesn\'t ask if AI was at fault. It asks: Were there training and rules?',no:['Shared responsibility possible, but primary liability lies with the organization.','AI providers generally aren\'t liable for output. Responsibility lies with user and organization.']}},
+        {sit:'As department head, you must document AI usage per EU AI Act.',q:'What do you need at minimum?',opts:['A list of all AI tools used is sufficient','Training records, internal guidelines, tool inventory, and responsibilities','A signed declaration from each employee'],fb:{ok:'Correct. Documentation: Which tools? What rules? Who was trained when? Who is responsible?',m:'Documentation is insurance. In an incident, it decides between compliance and organizational fault.',no:['A tool list is a start but not sufficient. Training records, rules, and responsibilities also required.','A declaration doesn\'t substitute actual training and measures.']}},
+        {sit:'A new AI tool is to be introduced.',q:'What needs to happen before employees may use it?',opts:['Risk assessment, usage rules, training, and documentation','External consultation by a certified AI expert','Test for two weeks, then decide based on feedback'],fb:{ok:'Correct. Before introduction: risk assessment, usage rules, training, documentation.',m:'No AI tool without prior risk assessment and documented rules.',no:['External consultation can help but isn\'t legally required.','A test without prior assessment can cause data protection violations from day one.']}}
       ]
     },
     m7: {
-      title: 'Operating AI Systems Safely',
-      desc: 'Tool selection, data flows, monitoring',
-      intro: {ey:'Module 7 of 7', h:'Operating AI Systems Safely', t:'Anyone who selects, sets up, or administers AI tools must understand how data flows, what risks exist, and how to ensure safe operation. In this module, you will learn the technical and organizational basics.'},
-      summary: '<h4>Your operations checklist:</h4><p><strong>Tool selection:</strong> Data protection and compliance before features. Check server location, DPA, risk class.</p><p><strong>Approval process:</strong> No new AI tool without review and documented approval.</p><p><strong>Monitoring:</strong> Regularly check whether tools are being used as intended.</p><p><strong>Plugins/Extensions:</strong> Same rules as any other AI tool. When in doubt: review first, then approve.</p>',
-      scenarios: [
-        {sit:'Your office evaluates three AI tools for internal use: (A) a US cloud product with strong features, (B) an EU-hosted product with good data protection, (C) a self-hosted open-source solution.',q:'What criteria should guide the decision?',opts:['Features and price, data protection is ensured by the provider','Data protection (server location, DPA), risk class, integration, then features and price','Always the self-hosted solution, that\'s the only safe way'],c:1,fb:{ok:'Correct. The order is: Is it GDPR-compliant (server location, DPA)? What risk class applies? Can it integrate with existing systems? Only then: features and price.',m:'Data protection and compliance are prerequisites, not optional features.',no:['Features and price are important but secondary. Without GDPR compliance, the tool cannot be used for company data, regardless of features.','Self-hosting gives maximum control but is not always necessary and often more complex. An EU-hosted tool with DPA can be equally GDPR-compliant.']}},
-        {sit:'You introduced a new AI tool. After two weeks, some employees use it for purposes not intended, e.g., analyzing client data when it was only approved for internal text work.',q:'What do you do?',opts:['Tolerate it, as long as employees are more productive and no complaints arise','Immediately stop the misuse, clarify rules, restrict technically if needed','Shut down the tool completely until everything is regulated'],c:1,fb:{ok:'Correct. Misuse is a data protection risk. Clear communication of allowed usage, technical restrictions if needed (access rights, data filters), and documentation of the measure.',m:'AI tools need clear usage boundaries. What is not explicitly allowed should not be assumed.',no:['Productivity is not an argument when data protection rules are violated. Client data in a tool not approved for it is a GDPR violation.','Complete shutdown is an overreaction. Better: clarify rules, stop misuse, restrict technically if needed. The tool itself is not the problem.']}},
-        {sit:'An employee wants to install a free AI plugin in their browser that automatically translates texts. The plugin is from an unknown provider.',q:'How do you handle this?',opts:['Allow it, free tools save the office licensing costs and employees are happier','Before installation, verify: Who is the provider? Where is data processed? Is there a DPA? Only install after approval.','Generally ban all browser plugins, that\'s the only safe way with unknown providers'],c:1,fb:{ok:'Correct. Browser plugins that process text transmit data to external servers. Before installation: Who operates the server? In which country? Is there a DPA? Is text stored or used for training? Only approve after positive review.',iT:'Approval process for new AI tools',i:'<h4>Review steps:</h4><p>1. Identify provider (country, legal form, reputation)</p><p>2. Clarify data processing (server location, storage, training use)</p><p>3. Check DPA (Data Processing Agreement available?)</p><p>4. Determine risk class (for what data will it be used?)</p><p>5. Define and communicate usage rules</p><p>6. Document approval</p>',no:['Free often means: you pay with your data. Many free plugins transmit texts to servers in unknown countries, without DPA and without deletion guarantee.','A general plugin ban is hard to enforce and also prevents useful, safe tools. Better: an approval process that allows safe tools and blocks unsafe ones.']}},
-        {sit:'A colleague needs to search a standards database. She heard AI can automate this. She gives the AI the database link and her login credentials: "Search there for requirements for shallow foundations."',q:'What is the problem?',opts:['No problem, the AI can work more efficiently and find results faster','The login credentials were shared with an external service. Passwords never belong in an AI tool.','Only problematic if it\'s a US tool. With EU-hosted tools it would be fine.'],c:1,fb:{ok:'Correct. Passwords and access credentials never belong in any AI tool. The AI stores or processes the text, and potentially the credentials. This is a security risk regardless of server location.',m:'Passwords, API keys, and access credentials: never enter into any AI tool. Neither ChatGPT, nor Copilot, nor self-hosted systems.',no:['Login credentials in an AI tool are always a security risk. The data can be stored, logged, or processed in plain text.','Even with EU-hosted tools, no passwords may be entered. It is not about the server location, but that credentials never belong in text input fields.']}}
+      title:'Operating AI Systems Safely', desc:'Tool selection, data flows, monitoring',
+      intro:{ey:'Module 7 of 7',h:'Operating AI Systems Safely',t:'Anyone selecting, setting up, or administering AI tools must understand data flows, risks, and safe operation. In this module, you learn the technical and organizational basics.'},
+      summary:'<h4>Your operations checklist:</h4><p><strong>Tool selection:</strong> Data protection before features. Server location, DPA, risk class.</p><p><strong>Approval process:</strong> No new AI tool without review and documented approval.</p><p><strong>Monitoring:</strong> Regularly check tools are used as intended.</p><p><strong>Plugins:</strong> Same rules as any other AI tool.</p>',
+      scenarios:[
+        {sit:'Your office evaluates three AI tools: (A) US cloud with strong features, (B) EU-hosted with good privacy, (C) self-hosted open-source.',q:'What criteria should guide the decision?',opts:['Features and price, privacy is the provider\'s job','Data protection (server, DPA), risk class, integration, then features and price','Always self-hosted, only safe way'],fb:{ok:'Correct. Order: GDPR-compliant? Risk class? Integration? Then features and price.',m:'Data protection and compliance are prerequisites, not optional features.',no:['Features are important but secondary. Without GDPR compliance, the tool can\'t be used.','Self-hosting gives max control but isn\'t always necessary. EU-hosted with DPA can be equally compliant.']}},
+        {sit:'New AI tool introduced. After two weeks, employees use it for unintended purposes, e.g., analyzing client data when only approved for internal text.',q:'What do you do?',opts:['Tolerate it, employees are more productive','Immediately stop misuse, clarify rules, restrict technically if needed','Shut down the tool completely'],fb:{ok:'Correct. Misuse is a data protection risk. Clear communication, technical restrictions if needed, documentation.',m:'AI tools need clear usage boundaries.',no:['Productivity doesn\'t justify violating data protection. Client data in unapproved tools is a GDPR violation.','Complete shutdown is an overreaction. Better: clarify rules, stop misuse, restrict technically.']}},
+        {sit:'Employee wants to install a free browser AI translation plugin from an unknown provider.',q:'How do you handle this?',opts:['Allow it, free tools save licensing costs','Before installation: Who is the provider? Where is data processed? DPA? Only install after approval.','Ban all browser plugins entirely'],fb:{ok:'Correct. Browser plugins transmitting text need review before installation.',iT:'Approval process for new AI tools',i:'<h4>Review steps:</h4><p>1. Identify provider</p><p>2. Clarify data processing</p><p>3. Check DPA</p><p>4. Determine risk class</p><p>5. Define usage rules</p><p>6. Document approval</p>',no:['Free often means: you pay with your data.','A general ban is hard to enforce and prevents useful tools. Better: approval process.']}},
+        {sit:'Colleague gives AI her database link and login credentials to search for standards.',q:'What is the problem?',opts:['No problem, AI works more efficiently','Credentials were shared with external service. Passwords never belong in AI tools.','Only problematic with US tools. EU-hosted would be fine.'],fb:{ok:'Correct. Passwords never belong in any AI tool. Security risk regardless of server location.',m:'Passwords, API keys, credentials: never enter into any AI tool.',no:['Credentials in AI tools are always a security risk.','Even EU tools: no passwords. Not about location, but that credentials never belong in text inputs.']}}
       ]
     }
   }
 };
-
-
-let currentLang = 'de';
-
-// Translation helper: returns English version if available and lang is 'en'
-function tx(obj, field) {
-  if (currentLang === 'de' || !EN) return obj[field];
-  // Try to find English version
-  const modId = obj._modId || (obj.id || '');
-  const scIdx = obj._scIdx;
-  if (field === 'title' && EN.modules[modId]) return EN.modules[modId].title;
-  if (field === 'desc' && EN.modules[modId]) return EN.modules[modId].desc;
-  return obj[field]; // fallback to German
-}
-
-function tui(key) {
-  if (currentLang === 'en' && EN.ui[key]) return EN.ui[key];
-  return null; // will use German default
-}
-
-function getENScenario(modId, scIdx) {
-  if (currentLang !== 'en' || !EN.modules[modId]) return null;
-  const enMod = EN.modules[modId];
-  if (!enMod.scenarios || !enMod.scenarios[scIdx]) return null;
-  return enMod.scenarios[scIdx];
-}
-
-function getENModule(modId) {
-  if (currentLang !== 'en' || !EN.modules[modId]) return null;
-  return EN.modules[modId];
-}
-
-function getENRole(roleId) {
-  if (currentLang !== 'en' || !EN.roles[roleId]) return null;
-  return EN.roles[roleId];
-}
 
 function switchLang(lang) {
   currentLang = lang;
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
-  // Re-render current view
   go();
 }
+
+function _e(modId) { return (currentLang==='en' && EN.modules[modId]) ? EN.modules[modId] : null; }
+function _es(modId, si) { const m = _e(modId); return (m && m.scenarios && m.scenarios[si]) ? m.scenarios[si] : null; }
+function _er(roleId) { return (currentLang==='en' && EN.roles[roleId]) ? EN.roles[roleId] : null; }
+function _t(de, en) { return currentLang==='en' ? en : de; }
 
 let selectedRole = null;
 let activeModules = []; // filtered M based on role
@@ -485,7 +396,7 @@ function go(){
 }
 
 function rWelcome(){
-  const isEN = currentLang === 'en';
+  const L=currentLang==='en';
   sc.innerHTML=`
   <!-- HERO -->
   <div class="card-dk" style="position:relative;overflow:hidden;padding:40px 32px 36px">
@@ -506,19 +417,19 @@ function rWelcome(){
 
   <!-- WHAT HAPPENS -->
   <div class="card" style="border-left:3px solid #FF5100">
-    <h2 style="font-size:17px;margin-bottom:10px">${isEN ? 'What to expect?' : 'Was erwartet Sie?'}</h2>
-    <p style="font-size:14px;line-height:1.7">${isEN ? 'You will work through <strong>multiple modules with realistic scenarios</strong>' : 'Sie durchlaufen <strong>mehrere Module mit realitätsnahen Szenarien</strong>'} ${isEN ? 'from everyday engineering office work' : 'aus dem Arbeitsalltag von Ingenieurbüros'}. ${isEN ? 'In each scenario, you make a decision and receive immediate expert feedback.' : 'In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung.'} ${isEN ? 'At the end, you receive a <strong>participation certificate</strong> as compliance documentation per EU AI Act, Article 4.' : 'Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4.'}</p>
+    <h2 style="font-size:17px;margin-bottom:10px">${L?'What to expect?':'Was erwartet Sie?'}</h2>
+    <p style="font-size:14px;line-height:1.7">Sie durchlaufen <strong>mehrere Module mit realitätsnahen Szenarien</strong> aus dem Arbeitsalltag von Ingenieurbüros. In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung. Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4.</p>
     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
-      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-gamepad-line" style="color:#FF5100;font-size:15px"></i> ${isEN ? 'Scenario-based' : 'Szenariobasiert'}</div>
-      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-smartphone-line" style="color:#FF5100;font-size:15px"></i> ${isEN ? 'Mobile or desktop' : 'Am Handy oder PC'}</div>
-      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-file-shield-2-line" style="color:#FF5100;font-size:15px"></i> ${isEN ? 'Certificate incl.' : 'Zertifikat inkl.'}</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-gamepad-line" style="color:#FF5100;font-size:15px"></i> Szenariobasiert</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-smartphone-line" style="color:#FF5100;font-size:15px"></i> Am Handy oder PC</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-file-shield-2-line" style="color:#FF5100;font-size:15px"></i> Zertifikat inkl.</div>
     </div>
   </div>
 
   <!-- CTA + CODE GATE -->
   <div class="card" id="codeCard">
-    <h2 style="font-size:17px;margin-bottom:10px">${isEN ? 'Start training' : 'Schulung starten'}</h2>
-    <p style="font-size:14px;line-height:1.6;margin-bottom:16px">${isEN ? 'Enter your personal access code to start the training. You received your code from Braingineering or your employer.' : 'Geben Sie Ihren persönlichen Zugangscode ein, um die Schulung zu starten. Sie haben Ihren Code von Braingineering oder Ihrem Arbeitgeber erhalten.'}</p>
+    <h2 style="font-size:17px;margin-bottom:10px">${L?'Start training':'Schulung starten'}</h2>
+    <p style="font-size:14px;line-height:1.6;margin-bottom:16px">Geben Sie Ihren persönlichen Zugangscode ein, um die Schulung zu starten. Sie haben Ihren Code von Braingineering oder Ihrem Arbeitgeber erhalten.</p>
     <div style="display:flex;gap:8px;max-width:360px;margin:0 auto">
       <input type="text" id="codeInput" maxlength="6" placeholder="6-stelliger Code" style="flex:1;padding:12px 16px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;letter-spacing:.15em;text-align:center;color:#122D6E;background:white;text-transform:uppercase" onkeydown="if(event.key==='Enter')validateCode()">
       <button class="btn-p" onclick="validateCode()" id="codeBtn" style="padding:12px 20px;white-space:nowrap">
@@ -526,17 +437,17 @@ function rWelcome(){
       </button>
     </div>
     <div id="codeError" style="display:none;text-align:center;margin-top:10px;font-size:13px;color:#c0392b;font-weight:700"></div>
-    <div id="codeLoading" style="display:none;text-align:center;margin-top:10px;font-size:13px;color:#122D6E;opacity:.6">${isEN ? 'Verifying code...' : 'Code wird geprüft...'}</div>
+    <div id="codeLoading" style="display:none;text-align:center;margin-top:10px;font-size:13px;color:#122D6E;opacity:.6">${L?'Verifying code...':'Code wird geprüft...'}</div>
   </div>
-  <p style="text-align:center;font-size:12px;color:#122D6E;opacity:.35;margin-top:4px;padding-bottom:20px">${isEN ? 'Each code can only be used once.' : 'Jeder Code ist einmalig verwendbar.'}</p>`;
+  <p style="text-align:center;font-size:12px;color:#122D6E;opacity:.35;margin-top:4px;padding-bottom:20px">${L?'Each code can only be used once.':'Jeder Code ist einmalig verwendbar.'}</p>`;
 }
 
 function rRoleSelect(){
-  const isEN = currentLang === 'en';
+  const L=currentLang==='en';
   sc.innerHTML=`
   <div class="card-dk" style="text-align:center">
     <div style="font-size:36px;margin-bottom:8px"><i class="ri-user-line"></i></div>
-    <h1 style="font-size:22px">Welche Beschreibung passt am besten zu Ihnen?</h1>
+    <h1 style="font-size:22px">${L?'Which description fits you best?':'Welche Beschreibung passt am besten zu Ihnen?'}</h1>
     <p style="font-size:14px;opacity:.7">Basierend auf Ihrer Auswahl werden die Module zusammengestellt. Alle Rollen durchlaufen die Kernmodule 1-5. Zusätzliche Module werden je nach Verantwortungsbereich ergänzt.</p>
   </div>
   ${ROLES.map(r=>{
@@ -544,16 +455,16 @@ function rRoleSelect(){
     const scCount=mods.reduce((a,m)=>a+m.scenarios.length,0);
     return `
   <div class="card" style="cursor:pointer;border:1.5px solid rgba(18,45,110,.1);transition:all .15s" onclick="selectRole('${r.id}')" onmouseover="this.style.borderColor='#FF5100';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='rgba(18,45,110,.1)';this.style.transform='none'">
-    <h2 style="font-size:16px;margin-bottom:6px">${(getENRole(r.id)||{}).label || r.label}</h2>
-    <p style="font-size:14px;opacity:.7;margin-bottom:12px">${(getENRole(r.id)||{}).desc || r.desc}</p>
+    <h2 style="font-size:16px;margin-bottom:6px">${(_er(r.id)||{}).label || r.label}</h2>
+    <p style="font-size:14px;opacity:.7;margin-bottom:12px">${(_er(r.id)||{}).desc || r.desc}</p>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
-      ${mods.map(m=>`<span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#F0F2F8;color:#122D6E">${(getENModule(m.id)||{}).title || m.title}</span>`).join('')}
+      ${mods.map(m=>`<span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#F0F2F8;color:#122D6E">${(_e(m.id)||{}).title||m.title}</span>`).join('')}
     </div>
-    <div style="font-size:12px;color:#122D6E;opacity:.5;margin-top:10px">${mods.length}${isEN ? ' modules, ' : ' Module, '}${scCount}${isEN ? ' scenarios' : ' Szenarien'}</div>
+    <div style="font-size:12px;color:#122D6E;opacity:.5;margin-top:10px">${mods.length} Module, ${scCount} Szenarien</div>
   </div>`;
   }).join('')}
   <div style="text-align:center;margin-top:16px">
-    <button onclick="rWelcome()" style="background:none;border:1.5px solid rgba(18,45,110,.15);border-radius:10px;padding:10px 24px;font-size:14px;font-weight:600;color:#122D6E;cursor:pointer;font-family:inherit;opacity:.6">${isEN ? '← Back' : '← Zurück'}</button>
+    <button onclick="rWelcome()" style="background:none;border:1.5px solid rgba(18,45,110,.15);border-radius:10px;padding:10px 24px;font-size:14px;font-weight:600;color:#122D6E;cursor:pointer;font-family:inherit;opacity:.6">${L?'← Back':'← Zurück'}</button>
   </div>`;
 }
 
@@ -565,19 +476,25 @@ function selectRole(roleId){
 }
 
 function rIntro(m){
-  const isEN = currentLang === 'en';
-  const enMod = getENModule(m.id);
+  const L=currentLang==='en',em=_e(m.id);
   const modNum=cMod+1, modTotal=activeModules.length;
   sc.innerHTML=`<div class="card">
     <div class="badge"><i class="${m.icon}"></i> Modul ${modNum} von ${modTotal}</div>
-    <h1>${(enMod && enMod.intro.h) || m.intro.h}</h1>
-    <p>${(enMod && enMod.intro.t) || m.intro.t}</p>
+    <h1>${(em&&em.intro&&em.intro.h)||m.intro.h}</h1>
+    <p>${(em&&em.intro&&em.intro.t)||m.intro.t}</p>
     <div style="margin-top:20px"><button class="btn-p" onclick="cStep++;go()">Weiter <i class="ri-arrow-right-line"></i></button></div>
   </div>`;
 }
 
 function rScen(m,si){
+  const L=currentLang==='en',es=_es(m.id,si);
   const s=m.scenarios[si],key=m.id+'_'+si,wa=ans[key]!==undefined;
+  const _sit=(es&&es.sit)||s.sit, _q=(es&&es.q)||s.q, _opts=(es&&es.opts)||s.opts;
+  const _ai=(es&&es.ai)||s.ai, _sitA=(es&&es.sitA)||s.sitA;
+  const _fbok=(es&&es.fb&&es.fb.ok)||s.fb.ok;
+  const _fbm=(es&&es.fb&&es.fb.m)||(s.fb&&s.fb.m)||'';
+  const _fbi=(es&&es.fb&&es.fb.i)||(s.fb&&s.fb.i)||'';
+  const _fbiT=(es&&es.fb&&es.fb.iT)||(s.fb&&s.fb.iT)||'';
   // Scenario nav
   let nav='<div class="scn-nav">';
   m.scenarios.forEach((sc2,i)=>{
@@ -594,7 +511,7 @@ function rScen(m,si){
   if(s.ai)sitH+=`<div class="ai-out">${_ai}</div>`;
   if(s.sitA)sitH+=`<p>${_sitA}</p>`;
 
-  let optsH=s.opts.map((o,i)=>{
+  let optsH=_opts.map((o,i)=>{
     const lt=String.fromCharCode(65+i);
     let cl='ob';
     if(wa){cl+=' dis';if(i===s.c)cl+=' ok';else if(i===ans[key])cl+=' no';}
@@ -606,33 +523,34 @@ function rScen(m,si){
     const ok=ans[key]===s.c;
     let txt='';
     if(ok){
-      txt=`<p>${(enSc && enSc.fb && enSc.fb.ok) || s.fb.ok}</p>`;
-      if(s.fb.m)txt+=`<div class="merke">${(enSc && enSc.fb && enSc.fb.m) || s.fb.m}</div>`;
+      txt=`<p>${_fbok}</p>`;
+      if(s.fb.m)txt+=`<div class="merke">${_fbm}</div>`;
     }else{
       const wi=ans[key]<s.c?ans[key]:ans[key]-1;
-      txt=`<p>${s.fb.no[ans[key]]||s.fb.no[0]}</p><p style="margin-top:8px;font-weight:700">Richtige Antwort: ${String.fromCharCode(65+s.c)}</p>`;
-      if(s.fb.m)txt+=`<div class="merke">${(enSc && enSc.fb && enSc.fb.m) || s.fb.m}</div>`;
+      const _fbno=(es&&es.fb&&es.fb.no)||s.fb.no;
+      txt=`<p>${_fbno[ans[key]]||_fbno[0]}</p><p style="margin-top:8px;font-weight:700">${L?'Correct answer':'Richtige Antwort'}: ${String.fromCharCode(65+s.c)}</p>`;
+      if(s.fb.m)txt+=`<div class="merke">${_fbm}</div>`;
     }
     let infoH='';
-    if(s.fb.i)infoH=`<div class="ix"><button class="ix-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')"><i class="ri-arrow-down-s-line"></i> ${s.fb.iT||'Mehr erfahren'}</button><div class="ix-body">${(enSc && enSc.fb && enSc.fb.i) || s.fb.i}</div></div>`;
+    if(s.fb.i)infoH=`<div class="ix"><button class="ix-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')"><i class="ri-arrow-down-s-line"></i> ${_fbiT||(L?'Learn more':'Mehr erfahren')}</button><div class="ix-body">${_fbi}</div></div>`;
 
     // Next button logic
     let nextBtn='';
     const isLast=si===m.scenarios.length-1;
     if(isLast){
-      nextBtn=`<button class="btn-p" onclick="cStep++;go()">Zusammenfassung <i class="ri-arrow-right-line"></i></button>`;
+      nextBtn=`<button class="btn-p" onclick="cStep++;go()">${L?'Summary':'Zusammenfassung'} <i class="ri-arrow-right-line"></i></button>`;
     }else{
-      nextBtn=`<button class="btn-p" onclick="cStep++;go()">${isEN ? 'Next scenario' : 'Nächstes Szenario'} <i class="ri-arrow-right-line"></i></button>`;
+      nextBtn=`<button class="btn-p" onclick="cStep++;go()">${L?'Next scenario':'Nächstes Szenario'} <i class="ri-arrow-right-line"></i></button>`;
     }
 
-    fbH=`<div class="fb ${ok?'fb-ok':'fb-no'}"><div class="ft">${ok?'<i class="ri-check-line"></i> Richtig!':'<i class="ri-close-line"></i> Nicht ganz.'}</div>${txt}${infoH}</div>
+    fbH=`<div class="fb ${ok?'fb-ok':'fb-no'}"><div class="ft">${ok?`<i class="ri-check-line"></i> ${L?'Correct!':'Richtig!'}`:`<i class="ri-close-line"></i> ${L?'Not quite.':'Nicht ganz.'}`}</div>${txt}${infoH}</div>
     <div style="margin-top:16px;display:flex;justify-content:flex-end">${nextBtn}</div>`;
   }
 
   sc.innerHTML=`<div class="card">
     ${nav}
-    <div class="badge"><i class="${m.icon}"></i> Modul ${cMod+1} von ${activeModules.length} &mdash; Szenario ${si+1}/${m.scenarios.length}</div>
-    <div class="situ"><div class="lbl">Situation</div>${sitH}</div>
+    <div class="badge"><i class="${m.icon}"></i> ${L?'Module':'Modul'} ${cMod+1} ${L?'of':'von'} ${activeModules.length} &mdash; ${L?'Scenario':'Szenario'} ${si+1}/${m.scenarios.length}</div>
+    <div class="situ"><div class="lbl">${L?'Scenario':'Situation'}</div>${sitH}</div>
     <div class="q-text">${_q}</div>
     <div class="opts">${optsH}</div>
     ${fbH}
@@ -640,32 +558,34 @@ function rScen(m,si){
 }
 
 function rSum(m){
+  const L=currentLang==='en',em=_e(m.id);
   const isLastMod=cMod===activeModules.length-1;
   let nextBtn='';
   if(isLastMod){
     if(allAnswered()){
-      nextBtn=`<button class="btn-p" onclick="cMod++;go()">Zum Teilnahmezertifikat <i class="ri-arrow-right-line"></i></button>`;
+      nextBtn=`<button class="btn-p" onclick="cMod++;go()">${L?'To certificate':'Zum Teilnahmezertifikat'} <i class="ri-arrow-right-line"></i></button>`;
     }else{
-      nextBtn=`<button class="btn-p" disabled title="Bitte beantworten Sie zuerst alle Szenarien">Alle Szenarien beantworten <i class="ri-lock-line"></i></button>`;
+      nextBtn=`<button class="btn-p" disabled title="${L?'Please answer all scenarios first':'Bitte beantworten Sie zuerst alle Szenarien'}">${L?'Answer all scenarios':'Alle Szenarien beantworten'} <i class="ri-lock-line"></i></button>`;
     }
   }else{
-    nextBtn=`<button class="btn-p" onclick="cMod++;cStep=0;go()">Weiter zu Modul ${cMod+2} <i class="ri-arrow-right-line"></i></button>`;
+    nextBtn=`<button class="btn-p" onclick="cMod++;cStep=0;go()">${L?'Continue to module':'Weiter zu Modul'} ${cMod+2} <i class="ri-arrow-right-line"></i></button>`;
   }
   sc.innerHTML=`<div class="card">
-    <div class="badge"><i class="${m.icon}"></i> Modul ${cMod+1} von ${activeModules.length} &mdash; Zusammenfassung</div>
-    <h2>Das Wichtigste aus diesem Modul</h2>
-    <div class="wb">${(enMod && enMod.summary) || m.summary}</div>
+    <div class="badge"><i class="${m.icon}"></i> ${L?'Module':'Modul'} ${cMod+1} ${L?'of':'von'} ${activeModules.length} &mdash; ${L?'Summary':'Zusammenfassung'}</div>
+    <h2>${L?'Key takeaways from this module':'Das Wichtigste aus diesem Modul'}</h2>
+    <div class="wb">${(em&&em.summary)||m.summary}</div>
     <div style="margin-top:16px;display:flex;justify-content:flex-end">${nextBtn}</div>
   </div>`;
 }
 
 function rFinish(){
+  const L=currentLang==='en';
   if(!allAnswered()){cMod=activeModules.length-1;cStep=activeModules[cMod].scenarios.length+1;go();return;}
   const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
   const SIG='<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M15 48 C18 42,22 30,28 22 C34 14,38 12,36 18 C34 24,26 34,20 38 C14 42,18 36,24 30 C30 24,36 20,32 28 C28 36,22 42,18 44" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 38 C24 34,30 28,38 22 C46 16,54 10,60 8 C66 6,62 12,56 18 C50 24,42 32,48 28 C54 24,62 16,68 12" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M56 18 C52 24,46 32,40 38 C34 44,30 46,28 44" stroke="#122D6E" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.8"/><path d="M68 12 C72 10,78 14,82 18 C86 22,84 28,78 32 C72 36,66 34,68 28 C70 22,76 18,82 20" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M82 20 C86 22,90 18,94 14 C98 10,102 12,100 18 C98 24,92 30,88 34 C84 38,80 42,82 40 C84 38,90 32,96 28 C102 24,106 26,104 30" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 50 C44 48,62 44,80 42 C90 41,98 42,104 40" stroke="#122D6E" stroke-width="0.7" fill="none" stroke-linecap="round" opacity="0.25"/></svg>';
   const modDescs={
     m1:'Generative KI, analytische KI, regelbasierte Automatisierung. KI-Systeme im Arbeitsumfeld identifizieren.',
-    m2:'${isEN ? 'AI output' : 'KI-Output'}s kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.',
+    m2:'KI-Outputs kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.',
     m3:'Konsumenten- vs. Business-Lizenzen. DSGVO-konforme Tool-Auswahl. Umgang mit Firmen- und Kundendaten.',
     m4:'Verordnung (EU) 2024/1689. Risikoklassen. Art. 4 Pflichten. Dokumentationsanforderungen.',
     m5:'Onboarding, Zeitdruck, KI-Dokumente prüfen, Browser-Plugins bewerten, Verhalten bei Unsicherheit.',
@@ -674,25 +594,25 @@ function rFinish(){
   };
   const roleLbl=selectedRole?ROLES.find(r=>r.id===selectedRole).label:'KI-Anwender';
   const scCount=activeModules.reduce((a,m)=>a+m.scenarios.length,0);
-  const modsHtml=activeModules.map((m,i)=>`<li><span class="cm-n">${i+1}.</span><span><span class="cm-t">${(getENModule(m.id)||{}).title || m.title}</span>: ${modDescs[m.id]||m.desc}</span></li>`).join('');
+  const modsHtml=activeModules.map((m,i)=>`<li><span class="cm-n">${i+1}.</span><span><span class="cm-t">${(_e(m.id)||{}).title||m.title}</span>: ${modDescs[m.id]||m.desc}</span></li>`).join('');
   sc.innerHTML=`
   <div class="card-dk" style="text-align:center">
     <div style="font-size:40px;margin-bottom:10px"><i class="ri-trophy-line"></i></div>
-    <h1>Alle Module abgeschlossen!</h1>
-    <p>${isEN ? `You have successfully completed all ${activeModules.length} modules and ${scCount} scenarios.` : `Sie haben alle ${activeModules.length} Module und ${scCount} Szenarien erfolgreich durchgearbeitet.`}</p>
+    <h1>${L?'All modules completed!':'Alle Module abgeschlossen!'}</h1>
+    <p>Sie haben alle ${activeModules.length} Module und ${scCount} Szenarien erfolgreich durchgearbeitet.</p>
   </div>
   <div class="card">
-    <h2>Teilnahmezertifikat erstellen</h2>
+    <h2>${L?'Create participation certificate':'Teilnahmezertifikat erstellen'}</h2>
     <p style="margin-bottom:16px;font-size:14px">Geben Sie Ihre Daten ein. Ihr Teilnahmezertifikat wird als PDF erstellt und automatisch heruntergeladen.</p>
     <input type="text" id="cN" class="ci" placeholder="Vollständiger Name *">
     <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, GF)" value="${roleLbl}">
     <input type="text" id="cC" class="ci" placeholder="Unternehmen">
     <div style="text-align:center;margin-top:14px">
-      <button class="btn-p" onclick="genCert()" style="padding:14px 28px"><i class="ri-download-2-line"></i> ${isEN ? 'Download certificate as PDF' : 'Zertifikat als PDF herunterladen'}</button>
+      <button class="btn-p" onclick="genCert()" style="padding:14px 28px"><i class="ri-download-2-line"></i> ${L?'Download certificate as PDF':'Zertifikat als PDF herunterladen'}</button>
     </div>
   </div>
   <div class="cert-gate" id="cg">
-    <div class="ph no-print"><i class="ri-check-line" style="color:#0a8754"></i> ${isEN ? 'Your certificate has been downloaded as PDF. Below is a preview.' : 'Ihr Zertifikat wurde als PDF heruntergeladen. Unten sehen Sie eine Vorschau.'}</div>
+    <div class="ph no-print"><i class="ri-check-line" style="color:#0a8754"></i> Ihr Zertifikat wurde als PDF heruntergeladen. Unten sehen Sie eine Vorschau.</div>
     <div class="cert-doc" id="cdoc">
       <div class="c-hdr">
         <div class="c-hdr-logo">
@@ -720,7 +640,7 @@ function rFinish(){
         <div>• Kompetenzprofil: ${roleLbl}</div>
         </div>
       </div>
-      <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:10px 0 4px">Geschulte Inhalte (${activeModules.length}${isEN ? ' modules, ' : ' Module, '}${scCount} Szenarien)</div>
+      <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:10px 0 4px">Geschulte Inhalte (${activeModules.length} Module, ${scCount} Szenarien)</div>
       <ol class="c-mods">${modsHtml}</ol>
       <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#122D6E;opacity:.5;margin:8px 0 3px">Insbesondere wurde hingewiesen auf</div>
       <div style="font-size:9.5px;line-height:1.55;color:#122D6E;margin-bottom:8px">
@@ -737,13 +657,14 @@ function rFinish(){
           <div style="font-size:9.5px;color:#122D6E;line-height:1.4"><strong>Dragan Komsic</strong><br>Geschäftsführer, Braingineering GmbH</div>
         </div>
         <div class="c-foot-right">
+          <div style="margin-bottom:4px"><div title="Braingineering Logo" style="width:18px;height:18px;background:#FF5100;border-radius:4px;display:inline-flex;align-items:center;justify-content:center"><svg width="8" height="11" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div></div>
           Braingineering GmbH<br>FN 661950g | HG Wien<br>UID: ATU81137629<br>braingineering.at
         </div>
       </div>
       <div class="c-accent-line"></div>
     </div>
   </div>
-  <div style="text-align:center;margin:20px 0 40px;font-size:12px;opacity:.4" class="no-print">${isEN ? 'We recommend repeating this training annually.' : 'Wir empfehlen, diese Schulung jährlich zu wiederholen.'}</div>`;
+  <div style="text-align:center;margin:20px 0 40px;font-size:12px;opacity:.4" class="no-print">${L?'We recommend repeating this training annually.':'Wir empfehlen, diese Schulung jährlich zu wiederholen.'}</div>`;
 }
 
 function pick(key,i){
@@ -766,35 +687,48 @@ function genCert(){
 
   const btn=document.querySelector('.btn-p[onclick="genCert()"]');
   const origText=btn.innerHTML;
-  btn.innerHTML='<i class="ri-loader-4-line"></i> ${currentLang==='en' ? 'Creating PDF...' : 'PDF wird erstellt...'}';
+  btn.innerHTML='<i class="ri-loader-4-line"></i> PDF wird erstellt...';
   btn.disabled=true;
 
   const modDescsLocal={
     m1:'Generative KI, analytische KI, regelbasierte Automatisierung. KI-Systeme im Arbeitsumfeld identifizieren.',
-    m2:'${isEN ? 'AI output' : 'KI-Output'}s kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.',
+    m2:'KI-Outputs kritisch bewerten. Halluzinationen erkennen. Prüfpflicht vor Weitergabe.',
     m3:'Konsumenten- vs. Business-Lizenzen. DSGVO-konforme Tool-Auswahl. Umgang mit Firmen- und Kundendaten.',
     m4:'Verordnung (EU) 2024/1689. Risikoklassen. Art. 4 Pflichten. Dokumentationsanforderungen.',
     m5:'Onboarding, Zeitdruck, KI-Dokumente prüfen, Browser-Plugins bewerten, Verhalten bei Unsicherheit.',
     m6:'Organisationsverschulden, KI-Dokumentation, Haftung, Freigabeprozesse für neue KI-Tools.',
     m7:'Tool-Auswahl und Datenschutzprüfung, Datenflüsse, Monitoring, Freigabeprozess für Plugins und Erweiterungen.'
   };
-  const today=new Date().toLocaleDateString('de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const roleLbl=selectedRole?ROLES.find(rx=>rx.id===selectedRole).label:'KI-Anwender';
+  const modDescsEN={
+    m1:'Generative AI, analytical AI, rule-based automation. Identifying AI systems in the workplace.',
+    m2:'Critically evaluating AI outputs. Recognizing hallucinations. Verification before use.',
+    m3:'Consumer vs. business licenses. GDPR-compliant tool selection. Handling company and client data.',
+    m4:'Regulation (EU) 2024/1689. Risk classes. Art. 4 obligations. Documentation requirements.',
+    m5:'Onboarding, time pressure, reviewing AI documents, evaluating browser plugins, handling uncertainty.',
+    m6:'Organizational fault, AI documentation, liability, approval processes for new AI tools.',
+    m7:'Tool selection and data protection review, data flows, monitoring, approval process for plugins.'
+  };
+  const isEN=currentLang==='en';
+  const today=new Date().toLocaleDateString(isEN?'en-GB':'de-AT',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const roleLbl=selectedRole?((isEN&&_er(selectedRole))?_er(selectedRole).label:ROLES.find(rx=>rx.id===selectedRole).label):(isEN?'AI User':'KI-Anwender');
   const scCount=activeModules.reduce((a,m)=>a+m.scenarios.length,0);
-  const modulesData=activeModules.map(m=>({title:m.title,desc:modDescsLocal[m.id]||m.desc}));
+  const modulesData=activeModules.map(m=>{
+    const em=_e(m.id);
+    return{title:(isEN&&em)?em.title:m.title,desc:isEN?(modDescsEN[m.id]||modDescsLocal[m.id]):(modDescsLocal[m.id]||m.desc)};
+  });
 
   // Try server-side PDF first
   fetch('/api/certificate',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({name:n,role:r,company:c,date:today,modules:modulesData,scCount:scCount,roleLbl:roleLbl})
+    body:JSON.stringify({name:n,role:r,company:c,date:today,modules:modulesData,scCount:scCount,roleLbl:roleLbl,lang:currentLang})
   }).then(res=>{
     if(!res.ok)throw new Error('Server returned '+res.status);
     return res.blob();
   }).then(blob=>{
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
-    a.href=url;a.download='KI-Awareness-Zertifikat_'+n.replace(/[^a-zA-Z0-9]/g,'_')+'.pdf';
+    a.href=url;a.download=(isEN?'AI-Awareness-Certificate_':'KI-Awareness-Zertifikat_')+n.replace(/[^a-zA-Z0-9]/g,'_')+'.pdf';
     document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
     btn.innerHTML=origText;btn.disabled=false;
     setTimeout(()=>$('cg').scrollIntoView({behavior:'smooth',block:'start'}),100);
