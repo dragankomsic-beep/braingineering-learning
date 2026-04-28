@@ -22,8 +22,9 @@ module.exports = async (req, res) => {
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased;background:white;color:#122D6E}
-.cert{padding:36px 40px 30px;position:relative;width:210mm;min-height:297mm}
+@page{margin:0;size:A4}
+body{font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased;background:white;color:#122D6E;margin:0;padding:0}
+.cert{padding:36px 40px 30px;position:relative;width:210mm;min-height:297mm;margin:0}
 .c-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;padding-bottom:12px;border-bottom:2.5px solid #122D6E}
 .c-hdr-logo{display:flex;align-items:center;gap:8px}
 .c-hdr-logo .bolt{width:26px;height:26px;background:#FF5100;border-radius:6px;display:flex;align-items:center;justify-content:center}
@@ -107,7 +108,6 @@ body{font-family:'Manrope',sans-serif;-webkit-font-smoothing:antialiased;backgro
       <div style="font-size:10.5px;color:#122D6E;line-height:1.4"><strong>Dragan Komsic</strong><br>Geschäftsführer, Braingineering GmbH</div>
     </div>
     <div class="c-foot-right">
-      <div style="margin-bottom:5px"><div style="width:20px;height:20px;background:#FF5100;border-radius:5px;display:inline-flex;align-items:center;justify-content:center"><svg width="9" height="12" viewBox="0 0 14 18" fill="none"><path d="M8.5 1L1 10.5H7L5.5 17L13 7.5H7L8.5 1Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/></svg></div></div>
       Braingineering GmbH<br>FN 661950g | HG Wien<br>UID: ATU81137629<br>braingineering.at
     </div>
   </div>
