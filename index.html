@@ -409,29 +409,29 @@ function rWelcome(){
         </div>
         <span style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.7)">Braingineering E-Learning</span>
       </div>
-      <h1 style="font-size:26px;line-height:1.2;margin-bottom:10px">KI-Awareness Schulung</h1>
-      <p style="font-size:18px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:6px">KI-Kompetenz gemäß EU AI Act, Artikel 4</p>
-      <p style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:0">Interaktives E-Learning-Modul für Ingenieurbüros</p>
+      <h1 style="font-size:26px;line-height:1.2;margin-bottom:10px">${L?'AI Awareness Training':'KI-Awareness Schulung'}</h1>
+      <p style="font-size:18px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:6px">${L?'AI Competence per EU AI Act, Article 4':'KI-Kompetenz gemäß EU AI Act, Artikel 4'}</p>
+      <p style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:0">${L?'Interactive E-Learning module for engineering offices':'Interaktives E-Learning-Modul für Ingenieurbüros'}</p>
     </div>
   </div>
 
   <!-- WHAT HAPPENS -->
   <div class="card" style="border-left:3px solid #FF5100">
     <h2 style="font-size:17px;margin-bottom:10px">${L?'What to expect?':'Was erwartet Sie?'}</h2>
-    <p style="font-size:14px;line-height:1.7">Sie durchlaufen <strong>mehrere Module mit realitätsnahen Szenarien</strong> aus dem Arbeitsalltag von Ingenieurbüros. In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung. Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4.</p>
+    <p style="font-size:14px;line-height:1.7">${L?"You will work through <strong>multiple modules with realistic scenarios</strong> from everyday engineering office work. In each scenario, you make a decision and receive immediate expert feedback. At the end, you receive a <strong>participation certificate</strong> as compliance documentation per EU AI Act, Article 4.":"Sie durchlaufen <strong>mehrere Module mit realitätsnahen Szenarien</strong> aus dem Arbeitsalltag von Ingenieurbüros. In jedem Szenario treffen Sie eine Entscheidung und erhalten sofort eine fachliche Rückmeldung. Am Ende erhalten Sie ein <strong>Teilnahmezertifikat</strong> als Compliance-Nachweis gemäß EU AI Act, Artikel 4."}</p>
     <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px">
-      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-gamepad-line" style="color:#FF5100;font-size:15px"></i> Szenariobasiert</div>
-      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-smartphone-line" style="color:#FF5100;font-size:15px"></i> Am Handy oder PC</div>
-      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-file-shield-2-line" style="color:#FF5100;font-size:15px"></i> Zertifikat inkl.</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-gamepad-line" style="color:#FF5100;font-size:15px"></i> ${L?"Scenario-based":"Szenariobasiert"}</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-smartphone-line" style="color:#FF5100;font-size:15px"></i> ${L?"Mobile or desktop":"Am Handy oder PC"}</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:#F0F2F8;border-radius:8px;font-size:13px;font-weight:700;color:#122D6E"><i class="ri-file-shield-2-line" style="color:#FF5100;font-size:15px"></i> ${L?"Certificate incl.":"Zertifikat inkl."}</div>
     </div>
   </div>
 
   <!-- CTA + CODE GATE -->
   <div class="card" id="codeCard">
     <h2 style="font-size:17px;margin-bottom:10px">${L?'Start training':'Schulung starten'}</h2>
-    <p style="font-size:14px;line-height:1.6;margin-bottom:16px">Geben Sie Ihren persönlichen Zugangscode ein, um die Schulung zu starten. Sie haben Ihren Code von Braingineering oder Ihrem Arbeitgeber erhalten.</p>
+    <p style="font-size:14px;line-height:1.6;margin-bottom:16px">${L?"Enter your personal access code to start the training. You received your code from Braingineering or your employer.":"Geben Sie Ihren persönlichen Zugangscode ein, um die Schulung zu starten. Sie haben Ihren Code von Braingineering oder Ihrem Arbeitgeber erhalten."}</p>
     <div style="display:flex;gap:8px;max-width:360px;margin:0 auto">
-      <input type="text" id="codeInput" maxlength="6" placeholder="6-stelliger Code" style="flex:1;padding:12px 16px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;letter-spacing:.15em;text-align:center;color:#122D6E;background:white;text-transform:uppercase" onkeydown="if(event.key==='Enter')validateCode()">
+      <input type="text" id="codeInput" maxlength="6" placeholder="${L?'6-digit code':'6-stelliger Code'}" style="flex:1;padding:12px 16px;border-radius:8px;border:1.5px solid rgba(18,45,110,.18);font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;letter-spacing:.15em;text-align:center;color:#122D6E;background:white;text-transform:uppercase" onkeydown="if(event.key==='Enter')validateCode()">
       <button class="btn-p" onclick="validateCode()" id="codeBtn" style="padding:12px 20px;white-space:nowrap">
         <i class="ri-arrow-right-line"></i>
       </button>
@@ -448,7 +448,7 @@ function rRoleSelect(){
   <div class="card-dk" style="text-align:center">
     <div style="font-size:36px;margin-bottom:8px"><i class="ri-user-line"></i></div>
     <h1 style="font-size:22px">${L?'Which description fits you best?':'Welche Beschreibung passt am besten zu Ihnen?'}</h1>
-    <p style="font-size:14px;opacity:.7">Basierend auf Ihrer Auswahl werden die Module zusammengestellt. Alle Rollen durchlaufen die Kernmodule 1-5. Zusätzliche Module werden je nach Verantwortungsbereich ergänzt.</p>
+    <p style="font-size:14px;opacity:.7">${L?"Based on your selection, the modules will be assembled. All roles go through core modules 1-5. Additional modules are added depending on your area of responsibility.":"Basierend auf Ihrer Auswahl werden die Module zusammengestellt. Alle Rollen durchlaufen die Kernmodule 1-5. Zusätzliche Module werden je nach Verantwortungsbereich ergänzt."}</p>
   </div>
   ${ROLES.map(r=>{
     const mods=M.filter(m=>r.mods.includes(m.id));
@@ -460,7 +460,7 @@ function rRoleSelect(){
     <div style="display:flex;flex-wrap:wrap;gap:6px">
       ${mods.map(m=>`<span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;background:#F0F2F8;color:#122D6E">${(_e(m.id)||{}).title||m.title}</span>`).join('')}
     </div>
-    <div style="font-size:12px;color:#122D6E;opacity:.5;margin-top:10px">${mods.length} Module, ${scCount} Szenarien</div>
+    <div style="font-size:12px;color:#122D6E;opacity:.5;margin-top:10px">${mods.length} ${L?"modules":"Module"}, ${scCount} ${L?"scenarios":"Szenarien"}</div>
   </div>`;
   }).join('')}
   <div style="text-align:center;margin-top:16px">
@@ -479,7 +479,7 @@ function rIntro(m){
   const L=currentLang==='en',em=_e(m.id);
   const modNum=cMod+1, modTotal=activeModules.length;
   sc.innerHTML=`<div class="card">
-    <div class="badge"><i class="${m.icon}"></i> Modul ${modNum} von ${modTotal}</div>
+    <div class="badge"><i class="${m.icon}"></i> ${L?'Module':'Modul'} ${modNum} ${L?'of':'von'} ${modTotal}</div>
     <h1>${(em&&em.intro&&em.intro.h)||m.intro.h}</h1>
     <p>${(em&&em.intro&&em.intro.t)||m.intro.t}</p>
     <div style="margin-top:20px"><button class="btn-p" onclick="cStep++;go()">Weiter <i class="ri-arrow-right-line"></i></button></div>
@@ -524,12 +524,12 @@ function rScen(m,si){
     let txt='';
     if(ok){
       txt=`<p>${_fbok}</p>`;
-      if(s.fb.m)txt+=`<div class="merke">${_fbm}</div>`;
+      if(s.fb.m)txt+=`<div class="merke"><strong>${L?"Remember: ":"Merken: "}</strong>${_fbm}</div>`;
     }else{
       const wi=ans[key]<s.c?ans[key]:ans[key]-1;
       const _fbno=(es&&es.fb&&es.fb.no)||s.fb.no;
       txt=`<p>${_fbno[ans[key]]||_fbno[0]}</p><p style="margin-top:8px;font-weight:700">${L?'Correct answer':'Richtige Antwort'}: ${String.fromCharCode(65+s.c)}</p>`;
-      if(s.fb.m)txt+=`<div class="merke">${_fbm}</div>`;
+      if(s.fb.m)txt+=`<div class="merke"><strong>${L?"Remember: ":"Merken: "}</strong>${_fbm}</div>`;
     }
     let infoH='';
     if(s.fb.i)infoH=`<div class="ix"><button class="ix-btn" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')"><i class="ri-arrow-down-s-line"></i> ${_fbiT||(L?'Learn more':'Mehr erfahren')}</button><div class="ix-body">${_fbi}</div></div>`;
@@ -599,20 +599,20 @@ function rFinish(){
   <div class="card-dk" style="text-align:center">
     <div style="font-size:40px;margin-bottom:10px"><i class="ri-trophy-line"></i></div>
     <h1>${L?'All modules completed!':'Alle Module abgeschlossen!'}</h1>
-    <p>Sie haben alle ${activeModules.length} Module und ${scCount} Szenarien erfolgreich durchgearbeitet.</p>
+    <p>${L?`You have successfully completed all ${activeModules.length} modules and ${scCount} scenarios.`:`Sie haben alle ${activeModules.length} Module und ${scCount} Szenarien erfolgreich durchgearbeitet.`}</p>
   </div>
   <div class="card">
     <h2>${L?'Create participation certificate':'Teilnahmezertifikat erstellen'}</h2>
-    <p style="margin-bottom:16px;font-size:14px">Geben Sie Ihre Daten ein. Ihr Teilnahmezertifikat wird als PDF erstellt und automatisch heruntergeladen.</p>
-    <input type="text" id="cN" class="ci" placeholder="Vollständiger Name *">
-    <input type="text" id="cR" class="ci" placeholder="Rolle im Unternehmen (z.B. Projektleiter, GF)" value="${roleLbl}">
-    <input type="text" id="cC" class="ci" placeholder="Unternehmen">
+    <p style="margin-bottom:16px;font-size:14px">${L?'Enter your details. Your certificate will be created as PDF and downloaded automatically.':'Geben Sie Ihre Daten ein. Ihr Teilnahmezertifikat wird als PDF erstellt und automatisch heruntergeladen.'}</p>
+    <input type="text" id="cN" class="ci" placeholder="${L?'Full name *':'Vollständiger Name *'}">
+    <input type="text" id="cR" class="ci" placeholder="${L?'Role (e.g. Project Manager, CEO)':'Rolle im Unternehmen (z.B. Projektleiter, GF)'}" value="${roleLbl}">
+    <input type="text" id="cC" class="ci" placeholder="${L?'Company':'Unternehmen'}">
     <div style="text-align:center;margin-top:14px">
       <button class="btn-p" onclick="genCert()" style="padding:14px 28px"><i class="ri-download-2-line"></i> ${L?'Download certificate as PDF':'Zertifikat als PDF herunterladen'}</button>
     </div>
   </div>
   <div class="cert-gate" id="cg">
-    <div class="ph no-print"><i class="ri-check-line" style="color:#0a8754"></i> Ihr Zertifikat wurde als PDF heruntergeladen. Unten sehen Sie eine Vorschau.</div>
+    <div class="ph no-print"><i class="ri-check-line" style="color:#0a8754"></i> ${L?'Your certificate has been downloaded as PDF. Below is a preview.':'Ihr Zertifikat wurde als PDF heruntergeladen. Unten sehen Sie eine Vorschau.'}</div>
     <div class="cert-doc" id="cdoc">
       <div class="c-hdr">
         <div class="c-hdr-logo">
@@ -687,7 +687,7 @@ function genCert(){
 
   const btn=document.querySelector('.btn-p[onclick="genCert()"]');
   const origText=btn.innerHTML;
-  btn.innerHTML='<i class="ri-loader-4-line"></i> PDF wird erstellt...';
+  btn.innerHTML=`<i class='ri-loader-4-line'></i> ${currentLang==='en'?'Creating PDF...':'PDF wird erstellt...'}`;
   btn.disabled=true;
 
   const modDescsLocal={
