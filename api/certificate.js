@@ -6,17 +6,46 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "POST only" });
   }
 
-  const { name, role, company, date, modules, scCount, roleLbl } = req.body;
+  const { name, role, company, date, modules, scCount, roleLbl, lang } = req.body;
   if (!name) return res.status(400).json({ error: "Name required" });
+
+  const isEN = lang === "en";
+
+  const T = {
+    certTitle: isEN ? "Certificate of Participation" : "Teilnahmezertifikat",
+    certSub: isEN ? "AI Competence per Article 4, Regulation (EU) 2024/1689" : "KI-Kompetenz gem. Artikel 4, Verordnung (EU) 2024/1689",
+    issuedFor: isEN ? "Issued for" : "Ausgestellt für",
+    completedOn: isEN ? `has successfully completed the AI Competence E-Learning module by Braingineering GmbH on <strong>${date}</strong>.` : `hat am <strong>${date}</strong> das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.`,
+    formatTitle: isEN ? "Format and Methodology" : "Format und Methodik",
+    formatItems: isEN ? [
+      "Interactive, scenario-based E-Learning",
+      `${scCount} realistic decision scenarios from everyday engineering office work`,
+      "Independent decision-making with immediate expert feedback",
+      `Scenarios designed specifically for engineering offices${role ? ` and in the context of the role "${role}"` : ""}`,
+      `Competence profile: ${roleLbl || "AI User"}`
+    ] : [
+      "Interaktives, szenariobasiertes E-Learning",
+      `${scCount} realitätsnahe Entscheidungssituationen aus dem Ingenieurbüro-Alltag`,
+      "Eigenständige Entscheidungsfindung mit unmittelbarer fachlicher Rückmeldung",
+      `Szenarien branchenspezifisch für Ingenieurbüros${role ? ` und im Kontext der Rolle "${role}"` : ""} konzipiert`,
+      `Kompetenzprofil: ${roleLbl || "KI-Anwender"}`
+    ],
+    contentsTitle: isEN ? `Training Contents (${(modules || []).length} Modules, ${scCount} Scenarios)` : `Geschulte Inhalte (${(modules || []).length} Module, ${scCount} Szenarien)`,
+    notedTitle: isEN ? "In particular, attention was drawn to" : "Insbesondere wurde hingewiesen auf",
+    notedText: isEN ? "Obligation to verify AI-generated results before professional use. Exclusive use of GDPR-compliant systems for company data. Documentation obligation of the employer per EU AI Act. Individual responsibility of each employee when using AI tools." : "Prüfpflicht bei KI-generierten Ergebnissen vor beruflicher Verwendung. Ausschließliche Nutzung DSGVO-konformer Systeme für Firmendaten. Dokumentationspflicht des Arbeitgebers gem. EU AI Act. Eigenverantwortung jedes Mitarbeitenden im Umgang mit KI-Werkzeugen.",
+    legalTitle: isEN ? "Legal Basis" : "Rechtsgrundlage",
+    legalText: isEN ? "Art. 4 of Regulation (EU) 2024/1689 (EU AI Act), in force since 2.2.2025, obliges operators of AI systems to ensure, to the best of their abilities, that their personnel possess sufficient AI competence (best-effort obligation). This certificate documents the implementation of a corresponding measure." : "Art. 4 der Verordnung (EU) 2024/1689 (EU AI Act), in Kraft seit 2.2.2025, verpflichtet Betreiber von KI-Systemen, nach besten Kräften sicherzustellen, dass ihr Personal über ausreichende KI-Kompetenz verfügt (Bemühungspflicht). Dieses Zertifikat dokumentiert die Durchführung einer entsprechenden Maßnahme.",
+    vienna: isEN ? `Vienna, ${date}` : `Wien, ${date}`,
+    ceo: isEN ? "Managing Director, Braingineering GmbH" : "Geschäftsführer, Braingineering GmbH"
+  };
 
   const SIG = `<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 48 C18 42,22 30,28 22 C34 14,38 12,36 18 C34 24,26 34,20 38 C14 42,18 36,24 30 C30 24,36 20,32 28 C28 36,22 42,18 44" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 38 C24 34,30 28,38 22 C46 16,54 10,60 8 C66 6,62 12,56 18 C50 24,42 32,48 28 C54 24,62 16,68 12" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M56 18 C52 24,46 32,40 38 C34 44,30 46,28 44" stroke="#122D6E" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.8"/><path d="M68 12 C72 10,78 14,82 18 C86 22,84 28,78 32 C72 36,66 34,68 28 C70 22,76 18,82 20" stroke="#122D6E" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M82 20 C86 22,90 18,94 14 C98 10,102 12,100 18 C98 24,92 30,88 34 C84 38,80 42,82 40 C84 38,90 32,96 28 C102 24,106 26,104 30" stroke="#122D6E" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 50 C44 48,62 44,80 42 C90 41,98 42,104 40" stroke="#122D6E" stroke-width="0.7" fill="none" stroke-linecap="round" opacity="0.25"/></svg>`;
 
-  const modsHtml = (modules || [])
-    .map((m, i) => `<li><span class="cm-n">${i + 1}.</span><span><span class="cm-t">${m.title}</span>: ${m.desc}</span></li>`)
-    .join("");
+  const modsHtml = (modules || []).map((m, i) => `<li><span class="cm-n">${i + 1}.</span><span><span class="cm-t">${m.title}</span>: ${m.desc}</span></li>`).join("");
+  const formatHtml = T.formatItems.map((item) => `<li>${item}</li>`).join("");
 
   const html = `<!DOCTYPE html>
-<html lang="de">
+<html lang="${isEN ? "en" : "de"}">
 <head>
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
@@ -65,48 +94,32 @@ body { font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased; 
     </div>
     <div class="c-hdr-contact">Braingineering GmbH | Modecenterstraße 20/1/193, 1030 Wien<br>office@braingineering.at | +43 676 393 0094</div>
   </div>
-
-  <div class="c-title">Teilnahmezertifikat</div>
-  <div class="c-subtitle">KI-Kompetenz gem. Artikel 4, Verordnung (EU) 2024/1689</div>
-
+  <div class="c-title">${T.certTitle}</div>
+  <div class="c-subtitle">${T.certSub}</div>
   <div style="margin-bottom:12px">
-    <div class="c-to-lbl">Ausgestellt für</div>
+    <div class="c-to-lbl">${T.issuedFor}</div>
     <div class="c-name">${name}</div>
     ${role ? `<div class="c-role">${role}</div>` : ""}
     ${company ? `<div class="c-comp">${company}</div>` : ""}
   </div>
-
-  <div class="c-body">hat am <strong>${date}</strong> das E-Learning-Modul zur KI-Kompetenz der Braingineering GmbH vollständig absolviert.</div>
-
+  <div class="c-body">${T.completedOn}</div>
   <div class="c-box">
-    <div class="label">Format und Methodik</div>
-    <ul>
-      <li>Interaktives, szenariobasiertes E-Learning</li>
-      <li>${scCount} realitätsnahe Entscheidungssituationen aus dem Ingenieurbüro-Alltag</li>
-      <li>Eigenständige Entscheidungsfindung mit unmittelbarer fachlicher Rückmeldung</li>
-      <li>Szenarien branchenspezifisch für Ingenieurbüros${role ? ` und im Kontext der Rolle "${role}"` : ""} konzipiert</li>
-      <li>Kompetenzprofil: ${roleLbl || "KI-Anwender"}</li>
-    </ul>
+    <div class="label">${T.formatTitle}</div>
+    <ul>${formatHtml}</ul>
   </div>
-
-  <div class="c-section-title">Geschulte Inhalte (${(modules || []).length} Module, ${scCount} Szenarien)</div>
+  <div class="c-section-title">${T.contentsTitle}</div>
   <ol class="c-mods">${modsHtml}</ol>
-
-  <div class="c-section-title">Insbesondere wurde hingewiesen auf</div>
-  <div class="c-notes">
-    Prüfpflicht bei KI-generierten Ergebnissen vor beruflicher Verwendung. Ausschließliche Nutzung DSGVO-konformer Systeme für Firmendaten. Dokumentationspflicht des Arbeitgebers gem. EU AI Act. Eigenverantwortung jedes Mitarbeitenden im Umgang mit KI-Werkzeugen.
-  </div>
-
+  <div class="c-section-title">${T.notedTitle}</div>
+  <div class="c-notes">${T.notedText}</div>
   <div class="c-legal">
-    <div class="label">Rechtsgrundlage</div>
-    Art. 4 der Verordnung (EU) 2024/1689 (EU AI Act), in Kraft seit 2.2.2025, verpflichtet Betreiber von KI-Systemen, nach besten Kräften sicherzustellen, dass ihr Personal über ausreichende KI-Kompetenz verfügt (Bemühungspflicht). Dieses Zertifikat dokumentiert die Durchführung einer entsprechenden Maßnahme.
+    <div class="label">${T.legalTitle}</div>
+    ${T.legalText}
   </div>
-
   <div class="c-foot">
     <div class="c-foot-left">
-      <strong>Wien, ${date}</strong>
+      <strong>${T.vienna}</strong>
       <div style="margin:10px 0 4px">${SIG}</div>
-      <div style="font-size:10.5px;color:#122D6E;line-height:1.4"><strong>Dragan Komsic</strong><br>Geschäftsführer, Braingineering GmbH</div>
+      <div style="font-size:10.5px;color:#122D6E;line-height:1.4"><strong>Dragan Komsic</strong><br>${T.ceo}</div>
     </div>
     <div class="c-foot-right">
       Braingineering GmbH<br>FN 661950g | HG Wien<br>UID: ATU81137629<br>braingineering.at
@@ -124,24 +137,19 @@ body { font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased; 
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
-
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
     await page.evaluateHandle("document.fonts.ready");
-
     const pdf = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: { top: "0", right: "0", bottom: "0", left: "0" },
     });
-
     await browser.close();
 
+    const prefix = isEN ? "AI-Awareness-Certificate" : "KI-Awareness-Zertifikat";
     res.setHeader("Content-Type", "application/pdf");
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename="KI-Awareness-Zertifikat_${name.replace(/[^a-zA-Z0-9]/g, "_")}.pdf"`
-    );
+    res.setHeader("Content-Disposition", `attachment; filename="${prefix}_${name.replace(/[^a-zA-Z0-9]/g, "_")}.pdf"`);
     res.status(200).send(pdf);
   } catch (err) {
     console.error("PDF generation failed:", err);
